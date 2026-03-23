@@ -48,9 +48,16 @@ app.use('/api/publications', require('./routes/publicationRoutes'));
 app.use('/uploads', express.static('uploads'));
 
 
-app.get('/', (req, res) => {
-    res.send('ADTRS API is running...');
-});
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.send('ADTRS API is running in Development...');
+    });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {

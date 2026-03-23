@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: acetel-repository
+    env: node
+    rootDir: backend
+    buildCommand: npm install && cd ../frontend && npm install && npm run build
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Requires manual entry in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true
