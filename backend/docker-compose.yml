@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  adtrs_db:
+    container_name: adtrs_db_container
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: adtrs_admin
+      POSTGRES_PASSWORD: adtrs_password_secure
+      POSTGRES_DB: adtrs_data
+    ports:
+      - "5433:5432"
+    volumes:
+      - adtrs_pg_data:/var/lib/postgresql/data
+
+volumes:
+  adtrs_pg_data:

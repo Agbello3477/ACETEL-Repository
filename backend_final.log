@@ -1,0 +1,23 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server running on port 5001
+[2026-02-02T16:06:48.425Z] POST /api/auth/login
+Body: undefined
+Login attempt for: superadmin@acetel.noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'superadmin@acetel.noun.edu.ng' ]
+}
+Query error {
+  text: 'SELECT * FROM users WHERE email = $1',
+  error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+      at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:17:25)
+      at async login (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:91:28)
+}
+Login Error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:17:25)
+    at async login (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:91:28)

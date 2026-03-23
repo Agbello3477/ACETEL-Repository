@@ -1,0 +1,16 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (3) from backend/.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Dotenv loading from: /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/.env
+Dotenv parsed: [ 'PORT', 'DATABASE_URL', 'JWT_SECRET', 'NODE_ENV' ]
+DATABASE_URL is: DEFINED
+Server running on port 5001
+[2026-02-02T16:10:06.322Z] POST /api/auth/login
+Body: undefined
+Login attempt for: superadmin@acetel.noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'superadmin@acetel.noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 55, rows: 0 }
+User not found

@@ -1,0 +1,405 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+Dotenv loading from: /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/.env
+Dotenv parsed: [ 'PORT', 'DATABASE_URL', 'JWT_SECRET', 'NODE_ENV' ]
+DATABASE_URL is: DEFINED
+Server running on port 5001
+[2026-02-03T10:35:11.538Z] POST /api/auth/login
+Body: { email: 'admin@acetel.edu', password: 'adminpassword123' }
+Login attempt for: admin@acetel.edu
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'admin@acetel.edu' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 46, rows: 1 }
+Password match: true
+[2026-02-03T10:35:11.729Z] GET /api/theses/export?programme=&status=&year=
+Body: undefined
+Decoded Token: { user_id: 7, role: 'Centre Admin', iat: 1770114911, exp: 1772706911 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 7 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 7, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 7,
+  rows: 4
+}
+[2026-02-03T10:35:11.771Z] POST /api/auth/register
+Body: {
+  name: 'Test Admin',
+  email: 'testadmin_1770114911@acetel.edu',
+  password: 'password123',
+  role: 'centre_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'testadmin_1770114911@acetel.edu' ]
+}
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 2, rows: 0 }
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Test Admin',
+    'testadmin_1770114911@acetel.edu',
+    '$2b$10$oHEVQCk6Lp0OOfkGDHij../39rAyybIGpUgYVVABzqdjie7O.Q6nK',
+    'Centre Admin',
+    null,
+    null,
+    'MSc'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  duration: 4,
+  rows: 1
+}
+[2026-02-03T10:37:06.657Z] POST /api/auth/register
+Body: {
+  name: 'Abdulgaffar Bello',
+  email: 'agbello@noun.edu.ng',
+  password: '123456',
+  role: 'centre_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 21, rows: 0 }
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Abdulgaffar Bello',
+    'agbello@noun.edu.ng',
+    '$2b$10$PpIDIaVkfLzp7kEgGlJlQOUDLS03frYPx2cnP9acFORh8NL6qJY22',
+    'Centre Admin',
+    null,
+    null,
+    'MSc'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  duration: 3,
+  rows: 1
+}
+[2026-02-03T10:37:06.819Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 14, role: 'Centre Admin', iat: 1770115026, exp: 1772707026 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 14 ]
+}
+[2026-02-03T10:37:06.824Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 14, role: 'Centre Admin', iat: 1770115026, exp: 1772707026 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 5,
+  rows: 1
+}
+User found: { user_id: 14, role: 'Centre Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 0
+}
+[2026-02-03T10:37:06.832Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 14, role: 'Centre Admin', iat: 1770115026, exp: 1772707026 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 14, role: 'Centre Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 22,
+  rows: 1
+}
+User found: { user_id: 14, role: 'Centre Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 5,
+  rows: 0
+}
+[2026-02-03T10:37:06.855Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 14, role: 'Centre Admin', iat: 1770115026, exp: 1772707026 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 14, role: 'Centre Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 14 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 1,
+  rows: 0
+}
+[2026-02-03T10:37:44.306Z] POST /api/auth/register
+Body: {
+  name: 'Abdulgaffar Bello',
+  email: 'abdulgaffarbello3477@gmail.com',
+  password: '123456',
+  role: 'super_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'abdulgaffarbello3477@gmail.com' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 20, rows: 0 }
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Abdulgaffar Bello',
+    'abdulgaffarbello3477@gmail.com',
+    '$2b$10$hMQ3NxLr774dskfBHJAz3uy0elkxA53S6bBzR1Iz1qkC4AaTtNq9K',
+    'Super Admin',
+    null,
+    null,
+    'MSc'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  duration: 4,
+  rows: 1
+}
+[2026-02-03T10:37:44.452Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 0
+}
+[2026-02-03T10:37:44.478Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+[2026-02-03T10:37:44.480Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 4,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 2,
+  rows: 0
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 19,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 4,
+  rows: 0
+}
+[2026-02-03T10:37:44.506Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 1,
+  rows: 0
+}
+[2026-02-03T10:38:00.446Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+[2026-02-03T10:38:00.450Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 22,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 20,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 0
+}
+[2026-02-03T10:38:00.475Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 5,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 15 ]
+}
+[2026-02-03T10:38:00.478Z] GET /api/theses/my-theses
+Body: undefined
+Decoded Token: { user_id: 15, role: 'Super Admin', iat: 1770115064, exp: 1772707064 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 3,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 15, role: 'Super Admin', programme: null, degree: 'MSc' }
+Executing query: {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  params: [ 15 ]
+}
+Executed query {
+  text: 'SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC',
+  duration: 2,
+  rows: 0
+}

@@ -1,0 +1,2040 @@
+
+> backend@1.0.0 dev
+> nodemon server.js
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server running on port 5001
+Login attempt for: superadmin@acetel.noun.edu.ng
+Connected to the PostgreSQL database
+Password match: true
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769780891, exp: 1772372891 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769780891, exp: 1772372891 }
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769780891, exp: 1772372891 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Connected to the PostgreSQL database
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769780891, exp: 1772372891 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769779423, exp: 1772371423 }
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769779423, exp: 1772371423 }
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769779423, exp: 1772371423 }
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769779423, exp: 1772371423 }
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Login attempt for: sinan@noun.edu.ng
+Connected to the PostgreSQL database
+Password match: true
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+Connected to the PostgreSQL database
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+Connected to the PostgreSQL database
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+Connected to the PostgreSQL database
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Decoded Token: { user_id: 4, role: 'Student', iat: 1769781338, exp: 1772373338 }
+User found: {
+  user_id: 4,
+  role: 'Student',
+  programme: 'Cyber Security',
+  degree: 'PhD'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to the PostgreSQL database
+error: column "author_name" does not exist
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPublicTheses (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/thesisController.js:339:24) {
+  length: 111,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '49',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Login attempt for: admin@acetel.edu
+Connected to the PostgreSQL database
+Password match: true
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769781833, exp: 1772373833 }
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769781833, exp: 1772373833 }
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769781833, exp: 1772373833 }
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Connected to the PostgreSQL database
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 1, role: 'Centre Admin', iat: 1769781833, exp: 1772373833 }
+User found: { user_id: 1, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Login attempt for: superadmin@acetel.noun.edu.ng
+Connected to the PostgreSQL database
+Password match: true
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769782012, exp: 1772374012 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769782012, exp: 1772374012 }
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769782012, exp: 1772374012 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Connected to the PostgreSQL database
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Decoded Token: { user_id: 5, role: 'Super Admin', iat: 1769782012, exp: 1772374012 }
+User found: { user_id: 5, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🗂️ backup and recover secrets: https://dotenvx.com/ops
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server running on port 5001
+Connected to the PostgreSQL database
+Login attempt for: admin@acetel.edu.ng
+Connected to the PostgreSQL database
+User not found
+Connected to the PostgreSQL database
+error: invalid input value for enum programme_name: ""
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:61:25) {
+  length: 131,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: "unnamed portal parameter $6 = ''",
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'enum.c',
+  line: '129',
+  routine: 'enum_in'
+}
+Login attempt for: 
+Connected to the PostgreSQL database
+User not found
+Login attempt for: 
+Connected to the PostgreSQL database
+User not found
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[dotenv@17.2.3] injecting env (3) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server running on port 5001
+[32m[nodemon] clean exit - waiting for changes before restart[39m

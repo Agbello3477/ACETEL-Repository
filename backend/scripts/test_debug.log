@@ -1,0 +1,23 @@
+Logging in...
+Logged in. Token received.
+Uploading Thesis...
+Upload Success! 201
+Response: {
+  thesis_id: 4,
+  author_id: null,
+  title: 'API Test Unregistered Thesis',
+  abstract: 'This is a test abstract via API script.',
+  keywords: [ 'api', 'test', 'script' ],
+  supervisor_name: 'Dr. API Script',
+  programme: 'Artificial Intelligence',
+  degree: 'MSc',
+  graduation_year: 2025,
+  pdf_url: 'uploads/pdf-1769784865565.pdf',
+  file_hash: '26084f449206454b4070d1cb9033dac539e78e799c67833351876cab673ca26e',
+  status: 'Submitted',
+  is_legacy: false,
+  created_at: '2026-01-30T14:54:25.573Z',
+  updated_at: '2026-01-30T14:54:25.573Z',
+  author_name: 'API Test Student',
+  matric_number: 'TEST/API/001'
+}

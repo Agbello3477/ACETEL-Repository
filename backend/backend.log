@@ -1,0 +1,3351 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+Environment PGUSER: undefined
+Explicit DB Config Used: {
+  user: 'adtrs_admin',
+  password: '***',
+  host: 'localhost',
+  port: '5433',
+  database: 'adtrs_data',
+  connectionTimeoutMillis: 5000,
+  idleTimeoutMillis: 30000,
+  max: 10
+}
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Dotenv loading from: /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/.env
+Dotenv parsed: [ 'PORT', 'DATABASE_URL', 'JWT_SECRET', 'NODE_ENV' ]
+DATABASE_URL is: DEFINED
+Server running on port 5001
+[2026-03-23T06:28:40.306Z] GET /api/publications/public?q=&journal=&year=
+Body: undefined
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 30,
+  rows: 1
+}
+[2026-03-23T06:29:21.616Z] GET /api/publications/public?q=Visa+on+arrival&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on arrival' ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 25,
+  rows: 0
+}
+[2026-03-23T06:29:23.915Z] GET /api/publications/public?q=Visa+on+arriva&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on arriva' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:29:24.414Z] GET /api/publications/public?q=Visa+on+arriv&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on arriv' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:29:24.495Z] GET /api/publications/public?q=Visa+on+arri&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on arri' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:24.581Z] GET /api/publications/public?q=Visa+on+arr&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on arr' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:24.662Z] GET /api/publications/public?q=Visa+on+ar&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on ar' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:29:24.746Z] GET /api/publications/public?q=Visa+on+a&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on a' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:24.830Z] GET /api/publications/public?q=Visa+on+&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on ' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:24.914Z] GET /api/publications/public?q=Visa+on&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa on' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:24.997Z] GET /api/publications/public?q=Visa+o&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa o' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:29:25.082Z] GET /api/publications/public?q=Visa+&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa ' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:25.165Z] GET /api/publications/public?q=Visa&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Visa' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:25.248Z] GET /api/publications/public?q=Vis&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Vis' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:25.331Z] GET /api/publications/public?q=Vi&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'Vi' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:25.417Z] GET /api/publications/public?q=V&journal=&year=
+Body: undefined
+Executing query: {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  params: [ 'V' ]
+}
+Executed query {
+  text: "SELECT * FROM publications WHERE 1=1 AND (to_tsvector('english', title || ' ' || COALESCE(abstract, '') || ' ' || array_to_string(keywords, ' ') || ' ' || array_to_string(authors, ' ')) @@ plainto_tsquery('english', $1)) ORDER BY publication_date DESC, created_at DESC",
+  duration: 2,
+  rows: 0
+}
+[2026-03-23T06:29:25.501Z] GET /api/publications/public?q=&journal=&year=
+Body: undefined
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:29:30.595Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 6,
+  rows: 14
+}
+[2026-03-23T06:30:12.192Z] POST /api/auth/login
+Body: { email: 'agbello@noun.edu.ng', password: '123456' }
+Login attempt for: agbello@noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 15, rows: 1 }
+Password match: true
+[2026-03-23T06:30:12.319Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:30:12.328Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 4,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+[2026-03-23T06:30:12.332Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:30:12.334Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 8, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 8,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 5,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 3,
+  rows: 6
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+[2026-03-23T06:30:12.361Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 36,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 34,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 4,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 31,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 1, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 3,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 7,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 11,
+  rows: 1
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 6,
+  rows: 6
+}
+[2026-03-23T06:30:12.385Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 29,
+  rows: 14
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 8,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+[2026-03-23T06:30:12.398Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:30:12.402Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 8,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 7,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 13,
+  rows: 14
+}
+[2026-03-23T06:30:28.519Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:30:28.532Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 0,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:30:42.325Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:31:12.325Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:31:42.326Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:32:12.326Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:32:50.025Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:50.029Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:50.032Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:50.037Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 29,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 24,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 22,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 4, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 21,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 5,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 7,
+  rows: 14
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 5,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 5,
+  rows: 0
+}
+[2026-03-23T06:32:50.066Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:50.071Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 10,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 6,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+[2026-03-23T06:32:50.075Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 4,
+  rows: 6
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 6,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 5,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 6,
+  rows: 14
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 6,
+  rows: 0
+}
+[2026-03-23T06:32:50.088Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 4, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 3,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 4,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 2,
+  rows: 6
+}
+[2026-03-23T06:32:53.484Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 0,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:32:53.500Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 0, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 0,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:32:58.662Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:58.665Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 4,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+[2026-03-23T06:32:58.668Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 3, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 4,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+[2026-03-23T06:32:58.672Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 3,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 3,
+  rows: 14
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 6,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 3,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 3,
+  rows: 1
+}
+[2026-03-23T06:32:58.679Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 6,
+  rows: 6
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 7,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+[2026-03-23T06:32:58.687Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:32:58.690Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 5,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 10,
+  rows: 14
+}
+[2026-03-23T06:32:58.700Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 7,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 10,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 2, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 1,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:33:00.799Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 0,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:33:00.808Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 0,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:33:04.389Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 1, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 0,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 0,
+  rows: 6
+}
+[2026-03-23T06:33:04.399Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 0, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 1,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:33:16.133Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:33:16.143Z] GET /api/analytics/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM publications', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM publications', duration: 1, rows: 1 }
+Executing query: {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(DISTINCT journal_name) FROM publications',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT COUNT(*) FROM publications WHERE pdf_url IS NOT NULL',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT EXTRACT(YEAR FROM publication_date) as pub_year, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            WHERE publication_date IS NOT NULL\n' +
+    '            GROUP BY pub_year \n' +
+    '            ORDER BY pub_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT journal_name, COUNT(*) \n' +
+    '            FROM publications \n' +
+    '            GROUP BY journal_name \n' +
+    '            ORDER BY COUNT(*) DESC \n' +
+    '            LIMIT 5\n' +
+    '        ',
+  duration: 0,
+  rows: 1
+}
+[2026-03-23T06:33:28.660Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 0
+}
+[2026-03-23T06:33:33.471Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 0, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 7,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 11,
+  rows: 6
+}
+[2026-03-23T06:33:33.495Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 3, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 1,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:36:22.760Z] POST /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 15,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Student,Centre Admin,Super Admin
+Executing query: {
+  text: 'SELECT user_id, degree, full_name, matric_number FROM users WHERE matric_number = $1',
+  params: [ 'ACE12345679' ]
+}
+Executed query {
+  text: 'SELECT user_id, degree, full_name, matric_number FROM users WHERE matric_number = $1',
+  duration: 3,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+  params: [
+    'Research Repositoty',
+    'Research RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch RepositotyResearch Repositoty',
+    [ 'Research Repositoty', 'Research Repositoty' ],
+    4,
+    'Test102',
+    '',
+    [ 'Prof. Tony Ayeleso, Dr. Patrick Husaini' ],
+    'Artificial Intelligence',
+    'MSc',
+    '2025',
+    'uploads/pdf-1774247782792.pdf',
+    '501c1dc9c529179a710f9dd9e7e68daae9b54e2d77a51670f720589382fef1f0',
+    'Submitted'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+  duration: 9,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+  params: [ 11, 'THESIS_UPLOAD', 16, '::ffff:127.0.0.1' ]
+}
+Executed query {
+  text: 'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: "SELECT user_id FROM users WHERE role IN ('Super Admin', 'Centre Admin')",
+  params: undefined
+}
+Executed query {
+  text: "SELECT user_id FROM users WHERE role IN ('Super Admin', 'Centre Admin')",
+  duration: 3,
+  rows: 6
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    3,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    6,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    8,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    2,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    10,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    11,
+    'New Thesis Submitted: "Research Repositoty" by Test102 (ACE12345679)',
+    'info'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:36:24.871Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+[2026-03-23T06:36:24.885Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 31, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+[2026-03-23T06:36:24.909Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:36:24.912Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 13,
+  rows: 2
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 3,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 3,
+  rows: 6
+}
+[2026-03-23T06:36:24.929Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 1, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 30,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 2
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 2,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 2,
+  rows: 6
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 22,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 31,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 7,
+  rows: 15
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 5,
+  rows: 1
+}
+[2026-03-23T06:36:24.949Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:36:24.951Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+[2026-03-23T06:36:24.953Z] GET /api/publications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 5,
+  rows: 15
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 3,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 3,
+  rows: 1
+}
+[2026-03-23T06:36:34.692Z] PUT /api/theses/16/status
+Body: { status: 'Approved' }
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'UPDATE theses SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE thesis_id = $2 RETURNING *',
+  params: [ 'Approved', '16' ]
+}
+Executed query {
+  text: 'UPDATE theses SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE thesis_id = $2 RETURNING *',
+  duration: 8,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+  params: [ 11, 'THESIS_APPROVED', '16', '::ffff:127.0.0.1' ]
+}
+Executed query {
+  text: 'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  params: [
+    4,
+    'Your thesis "Research Repositoty" status has been updated to: Approved',
+    'success'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO notifications (user_id, message, type) VALUES ($1, $2, $3)',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:36:34.712Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 1,
+  rows: 15
+}
+[2026-03-23T06:36:45.506Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774247412, exp: 1776839412 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:36:48.616Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 34,
+  rows: 15
+}
+[2026-03-23T06:36:48.666Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 3,
+  rows: 15
+}
+[2026-03-23T06:37:08.396Z] GET /api/publications/public?q=&journal=&year=
+Body: undefined
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:37:15.974Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 1,
+  rows: 15
+}
+[2026-03-23T06:37:27.476Z] GET /api/publications/public?q=&journal=&year=
+Body: undefined
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:37:33.157Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 1,
+  rows: 15
+}
+[2026-03-23T06:37:39.255Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 3,
+  rows: 1
+}
+[2026-03-23T06:37:39.260Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:37:39.281Z] GET /uploads/pdf-1774247782792.pdf
+Body: undefined
+[2026-03-23T06:40:00.959Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 16,
+  rows: 1
+}
+[2026-03-23T06:40:00.985Z] GET /uploads/pdf-1774247782792.pdf
+Body: undefined
+[2026-03-23T06:40:25.784Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 4,
+  rows: 15
+}
+[2026-03-23T06:40:25.798Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 3,
+  rows: 15
+}
+[2026-03-23T06:40:36.333Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:40:36.337Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:40:36.358Z] GET /uploads/pdf-1774247782792.pdf
+Body: undefined
+[2026-03-23T06:41:57.837Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 24,
+  rows: 15
+}
+[2026-03-23T06:41:57.866Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 2,
+  rows: 15
+}
+[2026-03-23T06:42:18.400Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:42:18.405Z] GET /api/theses/public/16
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  params: [ '16' ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE thesis_id = $1 AND status = 'Approved'\n" +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+[2026-03-23T06:42:18.427Z] GET /uploads/pdf-1774247782792.pdf
+Body: undefined
+[2026-03-23T06:42:39.872Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 2,
+  rows: 15
+}
+[2026-03-23T06:42:39.879Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 2,
+  rows: 15
+}
+[2026-03-23T06:42:47.158Z] GET /api/publications/public?q=&journal=&year=
+Body: undefined
+Executing query: {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT * FROM publications WHERE 1=1 ORDER BY publication_date DESC, created_at DESC',
+  duration: 2,
+  rows: 1
+}
+[2026-03-23T06:42:50.169Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 1,
+  rows: 15
+}
+[2026-03-23T06:43:31.185Z] POST /api/auth/login
+Body: { email: 'agbello@noun.edu.ng', password: '123456' }
+Login attempt for: agbello@noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 17, rows: 1 }
+Password match: true
+[2026-03-23T06:43:31.347Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774248211, exp: 1776840211 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+[2026-03-23T06:43:31.349Z] GET /api/theses
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774248211, exp: 1776840211 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+[2026-03-23T06:43:31.351Z] GET /api/publications
+Body: undefined
+[2026-03-23T06:43:31.352Z] GET /api/notifications
+Body: undefined
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 2, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+[2026-03-23T06:43:31.355Z] GET /api/publications
+Body: undefined
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 3,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+[2026-03-23T06:43:31.359Z] GET /api/notifications
+Body: undefined
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 4,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:43:31.364Z] GET /api/analytics
+Body: undefined
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 17,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 5,
+  rows: 15
+}
+[2026-03-23T06:43:31.374Z] GET /api/theses
+Body: undefined
+[2026-03-23T06:43:39.045Z] GET /api/analytics/publications
+Body: undefined
+[2026-03-23T06:43:39.047Z] GET /api/analytics/publications
+Body: undefined
+[2026-03-23T06:43:42.229Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774248211, exp: 1776840211 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 2, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 3,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:43:42.244Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 11, role: 'Centre Admin', iat: 1774248211, exp: 1776840211 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 11 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 11, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 1, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 1,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 1,
+  rows: 6
+}
+[2026-03-23T06:47:33.065Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 25,
+  rows: 15
+}
+[2026-03-23T06:47:33.095Z] GET /api/theses/public?q=&programme=&year=
+Body: undefined
+Executing query: {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT thesis_id, title, abstract, author_name, \n' +
+    '                   programme, degree, graduation_year, keywords, pdf_url, supervisors\n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '         ORDER BY created_at DESC',
+  duration: 1,
+  rows: 15
+}

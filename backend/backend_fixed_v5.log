@@ -1,0 +1,810 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Dotenv loading from: /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/.env
+Dotenv parsed: [ 'PORT', 'DATABASE_URL', 'JWT_SECRET', 'NODE_ENV' ]
+DATABASE_URL is: DEFINED
+Server running on port 5001
+[2026-02-03T10:29:18.185Z] POST /api/auth/login
+Body: { email: 'admin@acetel.edu', password: 'adminpassword123' }
+Login attempt for: admin@acetel.edu
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'admin@acetel.edu' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 40, rows: 1 }
+Password match: true
+[2026-02-03T10:29:18.369Z] GET /api/theses/export?programme=&status=&year=
+Body: undefined
+Decoded Token: { user_id: 7, role: 'Centre Admin', iat: 1770114558, exp: 1772706558 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 7 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 7, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+---- DEBUG EXPORT ----
+Filters: {
+  programme: '',
+  year: '',
+  status: '',
+  q: undefined,
+  startDate: undefined,
+  endDate: undefined
+}
+Query: SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC
+Params: []
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 23,
+  rows: 4
+}
+Theses found: 4
+[2026-02-03T10:29:18.432Z] POST /api/auth/register
+Body: {
+  name: 'Test Admin',
+  email: 'testadmin_1770114558@acetel.edu',
+  password: 'password123',
+  role: 'centre_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'testadmin_1770114558@acetel.edu' ]
+}
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 1, rows: 0 }
+---- DEBUG REGISTER ----
+Input Role: centre_admin
+Input Programme: 
+DB Role: Centre Admin
+DB Programme: null
+DB Programme Type: object
+Final DB Programme: null
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Test Admin',
+    'testadmin_1770114558@acetel.edu',
+    '$2b$10$xI9Dl0RQKqEG2rD8K2x7je.HVWLI2Gl8oyFv6eyCCHt.uuV.VIl0m',
+    'Centre Admin',
+    '',
+    null,
+    'MSc'
+  ]
+}
+Executed query {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  duration: 4,
+  rows: 1
+}
+[2026-02-03T10:30:33.159Z] POST /api/auth/login
+Body: { email: 'superadmin@acetel.noun.edu.ng', password: 'uperAdmin2024!' }
+Login attempt for: superadmin@acetel.noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'superadmin@acetel.noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 21, rows: 1 }
+Password match: false
+Password mismatch
+[2026-02-03T10:30:57.168Z] POST /api/auth/login
+Body: { email: 'superadmin@acetel.noun.edu.ng', password: 'SuperAdmin2024!' }
+Login attempt for: superadmin@acetel.noun.edu.ng
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'superadmin@acetel.noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 19, rows: 1 }
+Password match: true
+[2026-02-03T10:30:57.330Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+[2026-02-03T10:30:57.333Z] GET /api/theses?
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+[2026-02-03T10:30:57.337Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 8,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 10, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+Connected to the PostgreSQL database
+Connected to the PostgreSQL database
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 5,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 24,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 21,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 1 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 4,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+[2026-02-03T10:30:57.365Z] GET /api/analytics
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 8,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 10,
+  rows: 4
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 3,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Executing query: { text: 'SELECT COUNT(*) FROM theses', params: undefined }
+[2026-02-03T10:30:57.371Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Executed query { text: 'SELECT COUNT(*) FROM theses', duration: 4, rows: 1 }
+Executing query: {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  params: undefined
+}
+[2026-02-03T10:30:57.375Z] GET /api/theses?
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Executed query {
+  text: '\n' +
+    '            SELECT status, COUNT(*) \n' +
+    '            FROM theses \n' +
+    '            GROUP BY status\n' +
+    '        ',
+  duration: 3,
+  rows: 3
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 5,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 2,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: '\n' +
+    '            SELECT programme, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved' \n" +
+    '            GROUP BY programme\n' +
+    '        ',
+  duration: 1,
+  rows: 1
+}
+Executing query: {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  params: undefined
+}
+Executed query {
+  text: '\n' +
+    '            SELECT graduation_year, COUNT(*) \n' +
+    '            FROM theses \n' +
+    "            WHERE status = 'Approved'\n" +
+    '            GROUP BY graduation_year \n' +
+    '            ORDER BY graduation_year ASC\n' +
+    '        ',
+  duration: 2,
+  rows: 1
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 0
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 6,
+  rows: 4
+}
+[2026-02-03T10:31:19.485Z] GET /api/theses/export?
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 16,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Checking Role: User=Super Admin, Required=Super Admin,Centre Admin
+---- DEBUG EXPORT ----
+Filters: {
+  programme: undefined,
+  year: undefined,
+  status: undefined,
+  q: undefined,
+  startDate: undefined,
+  endDate: undefined
+}
+Query: SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC
+Params: []
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 5,
+  rows: 4
+}
+Theses found: 4
+[2026-02-03T10:31:27.316Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 2,
+  rows: 0
+}
+[2026-02-03T10:31:57.319Z] GET /api/notifications
+Body: undefined
+Decoded Token: { user_id: 1, role: 'Super Admin', iat: 1770114657, exp: 1772706657 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 1 ]
+}
+Connected to the PostgreSQL database
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 17,
+  rows: 1
+}
+User found: { user_id: 1, role: 'Super Admin', programme: null, degree: null }
+Executing query: {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  params: [ 1 ]
+}
+Executed query {
+  text: 'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+  duration: 4,
+  rows: 0
+}
+[2026-02-03T10:32:26.153Z] POST /api/auth/register
+Body: {
+  name: 'Abdulgaffar Bello',
+  email: 'agbello@noun.edu.ng',
+  password: '123456',
+  role: 'centre_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 19, rows: 0 }
+---- DEBUG REGISTER ----
+Input Role: centre_admin
+Input Programme: 
+DB Role: Centre Admin
+DB Programme: null
+DB Programme Type: object
+Final DB Programme: null
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Abdulgaffar Bello',
+    'agbello@noun.edu.ng',
+    '$2b$10$uRudOMWKPhMAPAbakNN7QO4qUI5ZNx43XpKtIquhy1awpWd7clDue',
+    'Centre Admin',
+    '',
+    null,
+    'MSc'
+  ]
+}
+Query error {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  error: error: duplicate key value violates unique constraint "users_matric_number_key"
+      at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+      at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+    length: 216,
+    severity: 'ERROR',
+    code: '23505',
+    detail: 'Key (matric_number)=() already exists.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'users',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'users_matric_number_key',
+    file: 'nbtinsert.c',
+    line: '666',
+    routine: '_bt_check_unique'
+  }
+}
+error: duplicate key value violates unique constraint "users_matric_number_key"
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+    at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+  length: 216,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (matric_number)=() already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'users',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'users_matric_number_key',
+  file: 'nbtinsert.c',
+  line: '666',
+  routine: '_bt_check_unique'
+}
+[2026-02-03T10:32:40.169Z] POST /api/auth/register
+Body: {
+  name: 'Abdulgaffar Bello',
+  email: 'agbello@noun.edu.ng',
+  password: '123456',
+  role: 'super_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 19, rows: 0 }
+---- DEBUG REGISTER ----
+Input Role: super_admin
+Input Programme: 
+DB Role: Super Admin
+DB Programme: null
+DB Programme Type: object
+Final DB Programme: null
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Abdulgaffar Bello',
+    'agbello@noun.edu.ng',
+    '$2b$10$cjcChwI3FLgGvSkFcQcbieVCneJCM56Q/DQGXNV0K.nyBUo4Z9F.e',
+    'Super Admin',
+    '',
+    null,
+    'MSc'
+  ]
+}
+Query error {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  error: error: duplicate key value violates unique constraint "users_matric_number_key"
+      at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+      at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+    length: 216,
+    severity: 'ERROR',
+    code: '23505',
+    detail: 'Key (matric_number)=() already exists.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'users',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'users_matric_number_key',
+    file: 'nbtinsert.c',
+    line: '666',
+    routine: '_bt_check_unique'
+  }
+}
+error: duplicate key value violates unique constraint "users_matric_number_key"
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+    at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+  length: 216,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (matric_number)=() already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'users',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'users_matric_number_key',
+  file: 'nbtinsert.c',
+  line: '666',
+  routine: '_bt_check_unique'
+}
+[2026-02-03T10:33:05.687Z] POST /api/auth/register
+Body: {
+  name: 'Abdulgaffar Bello',
+  email: 'agbello@noun.edu.ng',
+  password: '123456',
+  role: 'super_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'agbello@noun.edu.ng' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 19, rows: 0 }
+---- DEBUG REGISTER ----
+Input Role: super_admin
+Input Programme: 
+DB Role: Super Admin
+DB Programme: null
+DB Programme Type: object
+Final DB Programme: null
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Abdulgaffar Bello',
+    'agbello@noun.edu.ng',
+    '$2b$10$yreAJ9360/9nLfzEQqD3MuzY3P4NfsqUeXpRvXpma0fTDYUfLUlKG',
+    'Super Admin',
+    '',
+    null,
+    'MSc'
+  ]
+}
+Query error {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  error: error: duplicate key value violates unique constraint "users_matric_number_key"
+      at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+      at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+    length: 216,
+    severity: 'ERROR',
+    code: '23505',
+    detail: 'Key (matric_number)=() already exists.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'users',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'users_matric_number_key',
+    file: 'nbtinsert.c',
+    line: '666',
+    routine: '_bt_check_unique'
+  }
+}
+error: duplicate key value violates unique constraint "users_matric_number_key"
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+    at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+  length: 216,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (matric_number)=() already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'users',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'users_matric_number_key',
+  file: 'nbtinsert.c',
+  line: '666',
+  routine: '_bt_check_unique'
+}
+[2026-02-03T10:34:57.857Z] POST /api/auth/login
+Body: { email: 'admin@acetel.edu', password: 'adminpassword123' }
+Login attempt for: admin@acetel.edu
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'admin@acetel.edu' ]
+}
+Connected to the PostgreSQL database
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 22, rows: 1 }
+Password match: true
+[2026-02-03T10:34:58.008Z] GET /api/theses/export?programme=&status=&year=
+Body: undefined
+Decoded Token: { user_id: 7, role: 'Centre Admin', iat: 1770114897, exp: 1772706897 }
+Executing query: {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  params: [ 7 ]
+}
+Executed query {
+  text: 'SELECT user_id, role, programme, degree FROM users WHERE user_id = $1',
+  duration: 1,
+  rows: 1
+}
+User found: { user_id: 7, role: 'Centre Admin', programme: null, degree: null }
+Checking Role: User=Centre Admin, Required=Super Admin,Centre Admin
+---- DEBUG EXPORT ----
+Filters: {
+  programme: '',
+  year: '',
+  status: '',
+  q: undefined,
+  startDate: undefined,
+  endDate: undefined
+}
+Query: SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC
+Params: []
+Executing query: {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  params: []
+}
+Executed query {
+  text: 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1 ORDER BY t.created_at DESC',
+  duration: 6,
+  rows: 4
+}
+Theses found: 4
+[2026-02-03T10:34:58.048Z] POST /api/auth/register
+Body: {
+  name: 'Test Admin',
+  email: 'testadmin_1770114898@acetel.edu',
+  password: 'password123',
+  role: 'centre_admin',
+  matric_no: '',
+  programme: '',
+  degree_type: 'MSc'
+}
+Executing query: {
+  text: 'SELECT * FROM users WHERE email = $1',
+  params: [ 'testadmin_1770114898@acetel.edu' ]
+}
+Executed query { text: 'SELECT * FROM users WHERE email = $1', duration: 1, rows: 0 }
+---- DEBUG REGISTER ----
+Input Role: centre_admin
+Input Programme: 
+DB Role: Centre Admin
+DB Programme: null
+DB Programme Type: object
+Final DB Programme: null
+Executing query: {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  params: [
+    'Test Admin',
+    'testadmin_1770114898@acetel.edu',
+    '$2b$10$shaB2CCZ15CRd/XHD2KdKOsnWkxQt.9kJPCBoVYemDa.recrjicqW',
+    'Centre Admin',
+    '',
+    null,
+    'MSc'
+  ]
+}
+Query error {
+  text: 'INSERT INTO users (full_name, email, password_hash, role, matric_number, programme, degree) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+  error: error: duplicate key value violates unique constraint "users_matric_number_key"
+      at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+      at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+    length: 216,
+    severity: 'ERROR',
+    code: '23505',
+    detail: 'Key (matric_number)=() already exists.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'users',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'users_matric_number_key',
+    file: 'nbtinsert.c',
+    line: '666',
+    routine: '_bt_check_unique'
+  }
+}
+error: duplicate key value violates unique constraint "users_matric_number_key"
+    at /Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/config/db.js:18:25)
+    at async register (/Users/abdulgaffarbello/ACETEL Digital Thesis Repository System (ADTRS)/backend/controllers/authController.js:77:25) {
+  length: 216,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (matric_number)=() already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'users',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'users_matric_number_key',
+  file: 'nbtinsert.c',
+  line: '666',
+  routine: '_bt_check_unique'
+}
