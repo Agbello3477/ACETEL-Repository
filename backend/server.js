@@ -50,9 +50,6 @@ app.use('/uploads', express.static('uploads'));
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
-    app.get('(.*)', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
-    });
 } else {
     app.get('/', (req, res) => {
         res.send('ADTRS API is running in Development...');
@@ -63,6 +60,15 @@ if (process.env.NODE_ENV === 'production') {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Internal Server Error' });
+});
+
+// SPA Catch-all middleware (Must be last)
+app.use((req, res) => {
+    if (process.env.NODE_ENV === 'production') {
+        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    } else {
+        res.status(404).json({ message: 'Not Found' });
+    }
 });
 
 app.listen(PORT, () => {
