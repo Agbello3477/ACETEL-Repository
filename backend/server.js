@@ -12,7 +12,11 @@ if (result.error) {
 } else {
     console.log('Dotenv parsed:', Object.keys(result.parsed || {}));
 }
+console.log('NODE_ENV is:', process.env.NODE_ENV);
 console.log('DATABASE_URL is:', process.env.DATABASE_URL ? 'DEFINED' : 'UNDEFINED');
+
+const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
+console.log('Is Production Mode:', isProduction);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -48,11 +52,11 @@ app.use('/api/publications', require('./routes/publicationRoutes'));
 app.use('/uploads', express.static('uploads'));
 
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
 } else {
     app.get('/', (req, res) => {
-        res.send('ADTRS API is running in Development...');
+        res.send(`ADTRS API is running in Development mode. (NODE_ENV: "${process.env.NODE_ENV}")`);
     });
 }
 
@@ -64,7 +68,7 @@ app.use((err, req, res, next) => {
 
 // SPA Catch-all middleware (Must be last)
 app.use((req, res) => {
-    if (process.env.NODE_ENV === 'production') {
+    if (isProduction) {
         res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
     } else {
         res.status(404).json({ message: 'Not Found' });
