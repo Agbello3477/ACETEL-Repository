@@ -11,7 +11,8 @@ if (result.error) {
     console.error('Dotenv error:', result.error);
 } else {
     console.log('NODE_ENV is:', process.env.NODE_ENV);
-console.log('DATABASE_URL is:', process.env.DATABASE_URL ? 'DEFINED' : 'UNDEFINED');
+    console.log('DATABASE_URL is:', process.env.DATABASE_URL ? 'DEFINED' : 'UNDEFINED');
+}
 
 const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
 console.log('Is Production Mode:', isProduction);
