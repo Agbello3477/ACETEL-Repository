@@ -10,13 +10,22 @@ console.log('Dotenv loading from:', envPath);
 if (result.error) {
     console.error('Dotenv error:', result.error);
 } else {
-    console.log('Dotenv parsed:', Object.keys(result.parsed || {}));
-}
-console.log('NODE_ENV is:', process.env.NODE_ENV);
+    console.log('NODE_ENV is:', process.env.NODE_ENV);
 console.log('DATABASE_URL is:', process.env.DATABASE_URL ? 'DEFINED' : 'UNDEFINED');
 
 const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
 console.log('Is Production Mode:', isProduction);
+
+// DEBUG PATHS ON RENDER
+const { execSync } = require('child_process');
+try {
+    console.log('Current Dir:', __dirname);
+    console.log('Files in current dir:', execSync('ls -F').toString());
+    console.log('Files in parent dir:', execSync('ls -F ..').toString());
+    console.log('Checking for frontend/dist:', execSync('ls -d ../frontend/dist 2>&1 || echo "Not Found"').toString());
+} catch (e) {
+    console.log('Path debug error:', e.message);
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
