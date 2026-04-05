@@ -103,8 +103,16 @@ if (isProduction) {
         });
     }
 } else {
-    app.get('/', (req, res) => {
-        res.send(`ADTRS API is running in Development mode. (NODE_ENV: "${process.env.NODE_ENV}")`);
+    // Development Catch-all
+    app.use((req, res) => {
+        res.send(`
+            <h1>ADTRS API - Development Mode</h1>
+            <p>If you see this, the website is NOT in production mode.</p>
+            <p><b>Current NODE_ENV:</b> "${process.env.NODE_ENV}"</p>
+            <p><b>Expected:</b> "production"</p>
+            <hr>
+            <p>Please check your Render Environment settings for typos or extra spaces.</p>
+        `);
     });
 }
 
