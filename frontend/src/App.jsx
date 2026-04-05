@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
   const location = useLocation();
 
   if (!user) {
-    return <Navigate to="/" state={{ from: location, openLogin: true }} replace />;
+    return <Navigate to="/" replace />;
   }
   // If a legacy student session somehow exists, block them
   if (user.role === 'Student' || user.role === 'student') {
