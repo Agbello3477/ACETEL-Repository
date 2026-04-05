@@ -63,36 +63,50 @@ app.use('/uploads', express.static('uploads'));
 
 
 if (isProduction) {
-    const staticPath = path.join(process.cwd(), 'frontend', 'dist');
-    console.log('Serving static files from:', staticPath);
-    app.use(express.static(staticPath));
+    const fs = require('fs');
+    // Try two possible locations for the frontend folder
+    const pathsToTry = [
+        path.join(process.cwd(), 'frontend', 'dist'),          // Root-First
+        path.join(process.cwd(), '..', 'frontend', 'dist'),     // Backend-First (Relative)
+        path.join(__dirname, '..', 'frontend', 'dist')          // Legacy Relative
+    ];
+
+    let staticPath = null;
+    for (const p of pathsToTry) {
+        console.log('Checking static path:', p);
+        if (fs.existsSync(p)) {
+            staticPath = p;
+            console.log('✅ FOUND static files at:', staticPath);
+            break;
+        }
+    }
+
+    if (staticPath) {
+        app.use(express.static(staticPath));
+        
+        // SPA Catch-all middleware
+        app.use((req, res) => {
+            const indexPath = path.join(staticPath, 'index.html');
+            res.sendFile(indexPath, (err) => {
+                if (err) {
+                    console.error('Error sending index.html:', err.message);
+                    res.status(500).send('Found the folder, but index.html is missing. Check build logs.');
+                }
+            });
+        });
+    } else {
+        app.use((req, res) => {
+            console.error('❌ CRITICAL: Could not find frontend/dist in any expected location.');
+            console.log('Working Directory:', process.cwd());
+            console.log('Directory Content:', fs.readdirSync(process.cwd()));
+            res.status(500).send('Cloud Error: Website files not found. Our diagnostics are running in your Render logs.');
+        });
+    }
 } else {
     app.get('/', (req, res) => {
         res.send(`ADTRS API is running in Development mode. (NODE_ENV: "${process.env.NODE_ENV}")`);
     });
 }
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('SERVER ERROR:', err.stack);
-    res.status(500).json({ message: 'Internal Server Error' });
-});
-
-// SPA Catch-all middleware (Must be last)
-app.use((req, res) => {
-    if (isProduction) {
-        const indexPath = path.join(process.cwd(), 'frontend', 'dist', 'index.html');
-        console.log('SPA Routing - Sending:', indexPath);
-        res.sendFile(indexPath, (err) => {
-            if (err) {
-                console.error('Error sending index.html:', err.message);
-                res.status(500).send('Website files not found on server. Please check build logs.');
-            }
-        });
-    } else {
-        res.status(404).json({ message: 'Not Found' });
-    }
-});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
