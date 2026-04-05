@@ -1,10 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogoFlipper from '../components/LogoFlipper';
+import { useAuth } from '../context/AuthContext';
 
 const LandingPage = () => {
     const [activeTab, setActiveTab] = useState('theses'); // 'theses' or 'publications'
+    const navigate = useNavigate();
+    const { login } = useAuth();
     
+    // Auth Modal State
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
+    const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+    const [authError, setAuthError] = useState('');
+    const [authSuccess, setAuthSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    // Login State
+    const [loginData, setLoginData] = useState({ email: '', password: '', secretCode: '' });
+    
+    // Register State
+    const [registerData, setRegisterData] = useState({ name: '', email: '', password: '', staffId: '' });
+
     // Theses State
     const [theses, setTheses] = useState([]);
     const [thesisFilters, setThesisFilters] = useState({ q: '', programme: '', year: '' });
@@ -51,8 +67,84 @@ const LandingPage = () => {
     const handleThesisFilterChange = (e) => setThesisFilters({ ...thesisFilters, [e.target.name]: e.target.value });
     const handlePubFilterChange = (e) => setPubFilters({ ...pubFilters, [e.target.name]: e.target.value });
 
+    // Login Handle
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setAuthError('');
+        setLoading(true);
+
+        if (loginData.secretCode !== 'ACE2019') {
+            setAuthError("Security Error: Invalid Secret Code.");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const result = await login(loginData.email, loginData.password);
+            if (result.success) {
+                if (result.data.role === 'Centre Admin' || result.data.role === 'Super Admin') {
+                    navigate('/admin-dashboard');
+                } else {
+                    navigate('/dashboard');
+                }
+            } else {
+                setAuthError(result.message);
+            }
+        } catch (err) {
+            setAuthError("Unexpected error during login.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Register Handle
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setAuthError('');
+        setLoading(true);
+
+        if (!registerData.email.endsWith('@noun.edu.ng')) {
+            setAuthError('Email must be @noun.edu.ng');
+            setLoading(false);
+            return;
+        }
+
+        if (!/^\d{5}$/.test(registerData.staffId)) {
+            setAuthError('Staff ID must be exactly 5 digits');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: registerData.name,
+                    email: registerData.email,
+                    password: registerData.password,
+                    role: 'centre_admin',
+                    staff_id: registerData.staffId
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setAuthSuccess('Registration successful! Switch to Login to continue.');
+                setAuthMode('login');
+                setTimeout(() => setAuthSuccess(''), 5000);
+            } else {
+                setAuthError(data.message || 'Registration failed');
+            }
+        } catch (err) {
+            setAuthError('System error during registration.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <div className="min-h-screen bg-gray-50 flex flex-col relative">
             {/* Header / Nav */}
             <header className="bg-white shadow-sm z-10 sticky top-0">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -61,7 +153,12 @@ const LandingPage = () => {
                         <h1 className="text-2xl font-bold text-primary md:text-xl lg:text-2xl truncate max-w-[250px] md:max-w-none">ACETEL Thesis and Publication Repository System</h1>
                     </div>
                     <nav className="space-x-4">
-                        <Link to="/login" className="text-gray-600 hover:text-primary font-medium">Admin Login</Link>
+                        <button 
+                            onClick={() => { setAuthMode('login'); setIsAuthOpen(true); }}
+                            className="text-gray-600 hover:text-primary font-medium transition-colors"
+                        >
+                            Admin Login
+                        </button>
                     </nav>
                 </div>
             </header>
@@ -86,6 +183,121 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Auth Modal Overlay */}
+            {isAuthOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white/95 backdrop-blur-md w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-white/20 relative animate-in zoom-in-95 duration-300">
+                        {/* Close button */}
+                        <button 
+                            onClick={() => setIsAuthOpen(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+
+                        <div className="p-8">
+                            <div className="flex justify-center mb-6">
+                                <LogoFlipper />
+                            </div>
+                            <h2 className="text-2xl font-bold text-center text-primary mb-2">
+                                {authMode === 'login' ? 'Welcome Back' : 'Join ATPRS'}
+                            </h2>
+                            <p className="text-center text-gray-500 mb-8 text-sm">
+                                {authMode === 'login' ? 'Please log in to manage records.' : 'Create an administrator account.'}
+                            </p>
+
+                            {authError && <div className="mb-6 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 animate-pulse">{authError}</div>}
+                            {authSuccess && <div className="mb-6 p-3 bg-green-50 text-green-700 text-sm rounded-lg border border-green-100">{authSuccess}</div>}
+
+                            <form onSubmit={authMode === 'login' ? handleLogin : handleRegister} className="space-y-4">
+                                {authMode === 'register' && (
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Full Name</label>
+                                        <input
+                                            type="text"
+                                            value={registerData.name}
+                                            onChange={(e) => setRegisterData({...registerData, name: e.target.value})}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                            placeholder="Adebayo Ogunlesi"
+                                            required
+                                        />
+                                    </div>
+                                )}
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">NOUN Email</label>
+                                    <input
+                                        type="email"
+                                        value={authMode === 'login' ? loginData.email : registerData.email}
+                                        onChange={(e) => authMode === 'login' ? setLoginData({...loginData, email: e.target.value}) : setRegisterData({...registerData, email: e.target.value})}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                        placeholder="user@noun.edu.ng"
+                                        required
+                                    />
+                                </div>
+                                {authMode === 'register' && (
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Staff ID (5 Digits)</label>
+                                        <input
+                                            type="text"
+                                            value={registerData.staffId}
+                                            onChange={(e) => setRegisterData({...registerData, staffId: e.target.value})}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                            placeholder="12345"
+                                            maxLength="5"
+                                            required
+                                        />
+                                    </div>
+                                )}
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Password</label>
+                                    <input
+                                        type="password"
+                                        value={authMode === 'login' ? loginData.password : registerData.password}
+                                        onChange={(e) => authMode === 'login' ? setLoginData({...loginData, password: e.target.value}) : setRegisterData({...registerData, password: e.target.value})}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                </div>
+                                {authMode === 'login' && (
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Secret security Code</label>
+                                        <input
+                                            type="password"
+                                            value={loginData.secretCode}
+                                            onChange={(e) => setLoginData({...loginData, secretCode: e.target.value})}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                            placeholder="Enter security code"
+                                            required
+                                        />
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full py-4 bg-gradient-to-r from-primary to-green-700 text-white rounded-xl font-bold shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all active:scale-95 disabled:opacity-50"
+                                >
+                                    {loading ? 'Processing...' : (authMode === 'login' ? 'Sign In' : 'Register Admin')}
+                                </button>
+                            </form>
+
+                            <div className="mt-8 text-center">
+                                <button 
+                                    onClick={() => { setAuthMode(authMode === 'login' ? 'register' : 'login'); setAuthError(''); }}
+                                    className="text-primary hover:text-green-800 font-semibold text-sm transition-colors"
+                                >
+                                    {authMode === 'login' ? "New here? Create account" : "Have an account? Sign in"}
+                                </button>
+                                <div className="mt-4 flex items-center justify-center space-x-1 opacity-60">
+                                    <span className="text-[10px] uppercase tracking-widest text-gray-400">Secure access by MaSha Tech</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Tabs */}
             <div className="max-w-7xl mx-auto px-4 mt-8 border-b border-gray-200 w-full">
