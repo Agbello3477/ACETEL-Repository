@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import LogoFlipper from '../components/LogoFlipper';
 import { useAuth } from '../context/AuthContext';
 
 const LandingPage = () => {
     const [activeTab, setActiveTab] = useState('theses'); // 'theses' or 'publications'
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
     
     // Auth Modal State
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+    
+    useEffect(() => {
+        if (location.state?.openLogin) {
+            setAuthMode('login');
+            setIsAuthOpen(true);
+            // Clear state to prevent re-opening on manual refresh
+            navigate(location.pathname, { replace: true, state: {} });
+        } else if (location.state?.openRegister) {
+            setAuthMode('register');
+            setIsAuthOpen(true);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
     const [authError, setAuthError] = useState('');
     const [authSuccess, setAuthSuccess] = useState('');
     const [loading, setLoading] = useState(false);

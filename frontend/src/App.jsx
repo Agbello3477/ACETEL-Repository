@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
   const location = useLocation();
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location, openLogin: true }} replace />;
   }
   // If a legacy student session somehow exists, block them
   if (user.role === 'Student' || user.role === 'student') {
@@ -27,8 +27,8 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin-register" element={<AdminRegister />} />
+          <Route path="/login" element={<Navigate to="/" state={{ openLogin: true }} replace />} />
+          <Route path="/admin-register" element={<Navigate to="/" state={{ openRegister: true }} replace />} />
           
           <Route path="/admin-dashboard" element={
             <AdminRoute>
@@ -53,7 +53,7 @@ function App() {
           
           {/* Fallback for removed student routes */}
           <Route path="/dashboard" element={<Navigate to="/admin-dashboard" replace />} />
-          <Route path="/register" element={<Navigate to="/login" replace />} />
+          <Route path="/register" element={<Navigate to="/" state={{ openRegister: true }} replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
