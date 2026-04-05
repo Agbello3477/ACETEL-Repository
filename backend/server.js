@@ -63,7 +63,9 @@ app.use('/uploads', express.static('uploads'));
 
 
 if (isProduction) {
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    const staticPath = path.join(process.cwd(), 'frontend', 'dist');
+    console.log('Serving static files from:', staticPath);
+    app.use(express.static(staticPath));
 } else {
     app.get('/', (req, res) => {
         res.send(`ADTRS API is running in Development mode. (NODE_ENV: "${process.env.NODE_ENV}")`);
@@ -72,14 +74,21 @@ if (isProduction) {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error('SERVER ERROR:', err.stack);
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
 // SPA Catch-all middleware (Must be last)
 app.use((req, res) => {
     if (isProduction) {
-        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+        const indexPath = path.join(process.cwd(), 'frontend', 'dist', 'index.html');
+        console.log('SPA Routing - Sending:', indexPath);
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                console.error('Error sending index.html:', err.message);
+                res.status(500).send('Website files not found on server. Please check build logs.');
+            }
+        });
     } else {
         res.status(404).json({ message: 'Not Found' });
     }
