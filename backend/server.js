@@ -9,6 +9,10 @@ const result = dotenv.config({ path: envPath });
 console.log('Dotenv loading from:', envPath);
 if (result.error) {
     console.error('Dotenv error:', result.error);
+}
+
+const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
