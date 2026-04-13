@@ -153,6 +153,9 @@ const login = async (req, res) => {
         console.log(`Password match: ${isMatch}`);
 
         if (user && isMatch) {
+            if (user.is_active === false) {
+                return res.status(403).json({ message: 'Your account has been blocked. Please contact the administrator.' });
+            }
             res.json({
                 user_id: user.user_id,
                 full_name: user.full_name,
@@ -200,9 +203,73 @@ const getUsers = async (req, res) => {
     }
 };
 
+// @desc    Toggle User Status (Block/Unblock)
+// @route   PUT /api/auth/users/:id/status
+// @access  Private (Restricted Super Admin)
+const toggleUserStatus = async (req, res) => {
+    const { id } = req.params;
+    const { is_active } = req.body;
+
+    // Strict exclusive restriction
+    if (req.user.email !== 'agbello@noun.edu.ng') {
+        return res.status(403).json({ message: 'Access denied: Only the system owner can manage account statuses.' });
+    }
+
+    try {
+        const result = await db.query(
+            'UPDATE users SET is_active = $1 WHERE user_id = $2 RETURNING user_id, full_name, is_active',
+            [is_active, id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Delete User
+// @route   DELETE /api/auth/users/:id
+// @access  Private (Restricted Super Admin)
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    // Strict exclusive restriction
+    if (req.user.email !== 'agbello@noun.edu.ng') {
+        return res.status(403).json({ message: 'Access denied: Only the system owner can delete accounts.' });
+    }
+
+    try {
+        // Handle dependencies (theses, notifications, etc.)
+        // For theses, we might want to keep them but set author_id to null or a ghost user?
+        // But requested is DELETE, so we'll delete the user records (notifications cascade, theses might need special care).
+        // Let's check if we should delete or just block. User said "Delete", so we delete.
+        
+        await db.query('DELETE FROM notifications WHERE user_id = $1', [id]);
+        await db.query('UPDATE theses SET author_id = NULL WHERE author_id = $1', [id]);
+        
+        const result = await db.query('DELETE FROM users WHERE user_id = $1 RETURNING *', [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User account deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     register,
     login,
     getMe,
-    getUsers
+    getUsers,
+    toggleUserStatus,
+    deleteUser
 };

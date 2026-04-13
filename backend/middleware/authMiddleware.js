@@ -17,7 +17,7 @@ const protect = async (req, res, next) => {
             console.log('Decoded Token:', decoded);
 
             // Get user from the token. Decoded has user_id !!!
-            const userResult = await db.query('SELECT user_id, role, programme, degree FROM users WHERE user_id = $1', [decoded.user_id]);
+            const userResult = await db.query('SELECT user_id, email, role, programme, degree FROM users WHERE user_id = $1', [decoded.user_id]);
             req.user = userResult.rows[0];
 
             console.log('User found:', req.user);

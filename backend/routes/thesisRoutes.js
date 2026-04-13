@@ -15,6 +15,7 @@ router.get('/my-theses', protect, getMyTheses);
 router.get('/export', protect, authorize('Super Admin', 'Centre Admin'), exportTheses); // New Export Route
 router.get('/', protect, authorize('Super Admin', 'Centre Admin'), getAllTheses);
 router.put('/:id/status', protect, authorize('Super Admin', 'Centre Admin'), updateThesisStatus);
+router.delete('/:id', protect, authorize('Super Admin', 'Centre Admin'), deleteThesis);
 // Update thesis (Student only for own draft)
 router.put('/:id', protect, authorize('Student'), upload.single('pdf'), updateThesis);
 

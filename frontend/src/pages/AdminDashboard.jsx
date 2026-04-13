@@ -147,6 +147,59 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     };
 
+    const deleteThesis = async (id) => {
+        if (!window.confirm('Are you sure you want to permanently delete this thesis record? This cannot be undone.')) return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/theses/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                fetchTheses();
+            } else {
+                const err = await response.json();
+                alert(`Error: ${err.message || 'Failed to delete thesis'}`);
+            }
+        } catch (err) { console.error(err); }
+    };
+
+    const toggleUserStatus = async (id, currentStatus) => {
+        const action = currentStatus ? 'Block' : 'Unblock';
+        if (!window.confirm(`Are you sure you want to ${action} this user account?`)) return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/auth/users/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ is_active: !currentStatus })
+            });
+            if (response.ok) {
+                fetchUsers();
+            } else {
+                const err = await response.json();
+                alert(`Error: ${err.message || 'Action failed'}`);
+            }
+        } catch (err) { console.error(err); }
+    };
+
+    const deleteUser = async (id) => {
+        if (!window.confirm('CRITICAL: Delete this user account and all associated personal data? This action is permanent.')) return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/auth/users/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                fetchUsers();
+            } else {
+                const err = await response.json();
+                alert(`Error: ${err.message || 'Failed to delete user'}`);
+            }
+        } catch (err) { console.error(err); }
+    };
+
 
 
     const markNotifRead = async (id) => {
@@ -378,10 +431,31 @@ const AdminDashboard = () => {
                                                     </>
                                                 )}
                                                 <div className="flex justify-between items-center px-3 py-1">
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase">Joined</span>
-                                                    <span className="text-[10px] font-bold text-slate-600">{new Date(u.created_at).toLocaleDateString()}</span>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase">Status</span>
+                                                    <span className={`text-[10px] font-black uppercase ${u.is_active ? 'text-emerald-500' : 'text-rose-500'}`}>{u.is_active ? 'Active' : 'Blocked'}</span>
                                                 </div>
                                             </div>
+
+                                            {/* Restricted Master Admin Actions */}
+                                            {user?.email === 'agbello@noun.edu.ng' && (
+                                                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                                                    <button 
+                                                        onClick={() => toggleUserStatus(u.user_id, u.is_active)}
+                                                        className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                                            u.is_active ? 'bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white'
+                                                        }`}
+                                                    >
+                                                        {u.is_active ? 'Block Account' : 'Unblock Account'}
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => deleteUser(u.user_id)}
+                                                        className="p-2 bg-slate-50 text-slate-400 hover:bg-rose-600 hover:text-white rounded-xl transition-all"
+                                                        title="Delete User Permanently"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
@@ -510,6 +584,13 @@ const AdminDashboard = () => {
                                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
                                                             </button>
                                                         )}
+                                                        <button 
+                                                            onClick={() => deleteThesis(t.thesis_id)}
+                                                            className="p-2.5 rounded-xl bg-rose-50 text-rose-400 hover:bg-rose-600 hover:text-white transition-all shadow-sm ring-1 ring-rose-100"
+                                                            title="Delete Record"
+                                                        >
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}

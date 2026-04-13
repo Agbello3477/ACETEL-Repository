@@ -579,6 +579,36 @@ const getPublicThesisById = async (req, res) => {
     }
 };
 
+// @desc    Delete Thesis
+// @route   DELETE /api/theses/:id
+// @access  Private (Admin only)
+const deleteThesis = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // First delete audit logs for this thesis to avoid FK issues if any
+        await db.query('DELETE FROM audit_logs WHERE target_id = $1 AND action LIKE $2', [id, 'THESIS_%']);
+        
+        const result = await db.query('DELETE FROM theses WHERE thesis_id = $1 RETURNING *', [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Thesis not found' });
+        }
+
+        // Audit Log for deletion
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        await db.query(
+            'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+            [req.user.user_id, 'THESIS_DELETED', id, ip]
+        );
+
+        res.status(200).json({ message: 'Thesis deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createThesis,
     getMyTheses,
@@ -587,5 +617,6 @@ module.exports = {
     updateThesisStatus,
     getPublicTheses,
     getPublicThesisById,
-    exportTheses
+    exportTheses,
+    deleteThesis
 };
