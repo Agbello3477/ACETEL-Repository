@@ -203,7 +203,7 @@ const ThesisDetails = () => {
                         )}
                     </div>
                 </div>
-            </aside>
+            </main>
 
             {/* Injected Styles */}
             <style jsx global>{`
