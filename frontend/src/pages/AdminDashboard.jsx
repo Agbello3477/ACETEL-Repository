@@ -431,6 +431,7 @@ const AdminDashboard = () => {
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title / Abstract</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Programme</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisors</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -443,6 +444,10 @@ const AdminDashboard = () => {
                                             <td className="px-6 py-4">
                                                 <div className="font-medium text-gray-900 mb-1">{thesis.title}</div>
                                                 <div className="text-xs text-gray-500 line-clamp-2 max-w-sm">{thesis.abstract}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <div className="font-medium">{thesis.author_name || thesis.author_account_name || 'Legacy Account'}</div>
+                                                <div className="text-xs text-gray-500">{thesis.matric_number || thesis.author_account_matric || '-'}</div>
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500">
                                                 <span className="font-medium block">{thesis.programme}</span>

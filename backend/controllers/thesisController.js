@@ -512,25 +512,25 @@ const updateThesisStatus = async (req, res) => {
 const getPublicTheses = async (req, res) => {
     try {
         const { q, programme, year } = req.query;
+        const params = [];
         let query = `
             SELECT thesis_id, title, abstract, author_name, 
                    programme, degree, graduation_year, keywords, pdf_url, supervisors
             FROM theses 
             WHERE status = 'Approved'
         `;
-        const params = [];
 
-        if (q) {
-            params.push(`%${q}%`);
-            query += ` AND (title ILIKE $${params.length} OR abstract ILIKE $${params.length})`;
+        if (q && q.trim() !== '') {
+            params.push(`%${q.trim()}%`);
+            query += ` AND (title ILIKE $${params.length} OR abstract ILIKE $${params.length} OR author_name ILIKE $${params.length})`;
         }
-        if (programme) {
-            params.push(programme);
+        if (programme && programme.trim() !== '') {
+            params.push(programme.trim());
             query += ` AND programme = $${params.length}`;
         }
-        if (year) {
-            params.push(year);
-            query += ` AND graduation_year = $${params.length}`;
+        if (year && year.trim() !== '') {
+            params.push(year.trim());
+            query += ` AND graduation_year::text = $${params.length}`;
         }
 
         query += ` ORDER BY created_at DESC`;
