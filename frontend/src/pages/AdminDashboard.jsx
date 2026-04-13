@@ -5,6 +5,7 @@ import AnalyticsCharts from '../components/AnalyticsCharts';
 import PublicationAnalytics from '../components/PublicationAnalytics';
 import LogoFlipper from '../components/LogoFlipper';
 import SubmitThesisForm from '../components/SubmitThesisForm';
+import SubmitPublicationForm from '../components/SubmitPublicationForm';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -95,19 +96,24 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     }, []);
 
-    // Initial Load
+    // Initial Load & Session Guard
     useEffect(() => {
-        if (user) {
-            fetchTheses();
-            fetchPublications();
-            fetchLogs();
-            fetchNotifications();
-            if (user.role === 'Super Admin') fetchUsers();
-            
-            const interval = setInterval(fetchNotifications, 30000);
-            return () => clearInterval(interval);
+        // Only redirect if absolutely no user in local state
+        const savedUser = localStorage.getItem('user');
+        if (!user && !savedUser) {
+            navigate('/', { replace: true });
+            return;
         }
-    }, [user, fetchTheses, fetchPublications, fetchLogs, fetchNotifications, fetchUsers]);
+
+        fetchTheses();
+        fetchPublications();
+        fetchLogs();
+        fetchNotifications();
+        if (user?.role === 'Super Admin') fetchUsers();
+        
+        const interval = setInterval(fetchNotifications, 30000);
+        return () => clearInterval(interval);
+    }, [user, navigate, fetchTheses, fetchPublications, fetchLogs, fetchNotifications, fetchUsers]);
 
     // Handle Actions
     const updateThesisStatus = async (id, newStatus) => {
@@ -118,9 +124,19 @@ const AdminDashboard = () => {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ status: newStatus })
             });
-            if (response.ok) fetchTheses();
+            if (response.ok) {
+                fetchTheses();
+            } else if (response.status === 401) {
+                console.warn("Session expired during update.");
+                logout(); // From useAuth
+            } else {
+                const err = await response.json();
+                alert(`Error: ${err.message || 'Failed to update status'}`);
+            }
         } catch (err) { console.error(err); }
     };
+
+
 
     const markNotifRead = async (id) => {
         try {
@@ -140,7 +156,8 @@ const AdminDashboard = () => {
     const navItems = [
         { id: 'theses', label: 'Theses', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
         { id: 'publications', label: 'Publications', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14' },
-        { id: 'upload', label: 'Upload Center', icon: 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v8' },
+        { id: 'upload', label: 'Upload Thesis', icon: 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v8' },
+        { id: 'upload-pub', label: 'Publish Article', icon: 'M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2' },
         { id: 'logs', label: 'Activity Logs', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
     ];
 
@@ -594,6 +611,20 @@ const AdminDashboard = () => {
                                     )}
                                 </div>
                             </div>
+                        </div>
+                    )}
+
+                    {/* View: Upload Center (Thesis) */}
+                    {activeTab === 'upload' && (
+                        <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+                             <SubmitThesisForm onComplete={() => setActiveTab('theses')} />
+                        </div>
+                    )}
+
+                    {/* View: Publish Center (Publications) */}
+                    {activeTab === 'upload-pub' && (
+                        <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+                             <SubmitPublicationForm onComplete={() => setActiveTab('publications')} />
                         </div>
                     )}
 

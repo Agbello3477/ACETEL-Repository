@@ -40,9 +40,8 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        window.location.href = '/';
+        localStorage.clear();
+        window.location.replace('/'); // Strong redirect to prevent back-stepping
     };
 
     // Session Timeout Logic

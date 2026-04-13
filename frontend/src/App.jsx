@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminSubmitPublication from './pages/AdminSubmitPublication';
 import LandingPage from './pages/LandingPage';
 import ThesisDetails from './pages/ThesisDetails';
 
@@ -23,29 +22,15 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Navigate to="/" state={{ openLogin: true }} replace />} />
-          <Route path="/admin-register" element={<Navigate to="/" state={{ openRegister: true }} replace />} />
-          
           <Route path="/admin-dashboard" element={
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
           } />
           
-
-          
-          <Route path="/admin/submit-publication" element={
-            <AdminRoute>
-              <AdminSubmitPublication />
-            </AdminRoute>
-          } />
-
           <Route path="/thesis/:id" element={<ThesisDetails />} />
           <Route path="/" element={<LandingPage />} />
           
-          {/* Fallback for removed student routes */}
-          <Route path="/dashboard" element={<Navigate to="/admin-dashboard" replace />} />
-          <Route path="/register" element={<Navigate to="/" state={{ openRegister: true }} replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
