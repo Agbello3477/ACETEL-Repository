@@ -4,11 +4,13 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 
+const fs = require('fs');
 const envPath = path.join(__dirname, '.env');
-const result = dotenv.config({ path: envPath });
-console.log('Dotenv loading from:', envPath);
-if (result.error) {
-    console.error('Dotenv error:', result.error);
+if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    console.log('Dotenv loading from:', envPath);
+} else {
+    console.log('No .env file found; assuming environment variables are provided by the platform (e.g., Render).');
 }
 
 const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
