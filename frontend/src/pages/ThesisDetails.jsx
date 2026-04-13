@@ -187,10 +187,19 @@ const ThesisDetails = () => {
                                     src={`/${thesis.pdf_url?.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=1`}
                                     className="w-full h-full border-none"
                                     title="Thesis Document Viewer"
+                                    onLoad={() => {
+                                        // Simple check: if iframe loads a small HTML (like our 404 or index) it might be an error
+                                        console.log("Iframe loaded");
+                                    }}
                                     onContextMenu={(e) => e.preventDefault()}
                                 >
-                                    <p className="text-white p-10 text-center">Your browser does not support embedded PDFs. Please view in a compatible browser.</p>
+                                    <p className="text-white p-10 text-center">
+                                        Your browser does not support embedded PDFs. 
+                                        If you see the homepage here, the file may have been lost during redeployment. 
+                                        Please try re-uploading the thesis.
+                                    </p>
                                 </iframe>
+
                             </>
                         ) : (
                             <div className="h-full flex flex-col items-center justify-center text-center p-10">

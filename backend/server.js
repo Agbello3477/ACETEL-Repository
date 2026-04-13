@@ -48,6 +48,30 @@ app.use('/api/publications', require('./routes/publicationRoutes'));
 // Make uploads folder static
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
+// 404 handler for uploads to prevent SPA catch-all from masking missing files
+app.use('/uploads', (req, res) => {
+    res.status(404).json({ message: 'File not found on server. Please check if the upload exists.' });
+});
+
+// Diagnostics Route (Dev/Debug only or keep simple for admin)
+app.get('/api/debug/files', async (req, res) => {
+    const fs = require('fs');
+    const rootUploads = path.join(__dirname, '..', 'uploads');
+    
+    const getContents = (dir) => {
+        try {
+            return fs.existsSync(dir) ? fs.readdirSync(dir) : ['Directory Missing'];
+        } catch (e) { return [e.message]; }
+    };
+
+    res.json({
+        root: rootUploads,
+        exists: fs.existsSync(rootUploads),
+        theses: getContents(path.join(rootUploads, 'theses')),
+        publications: getContents(path.join(rootUploads, 'publications'))
+    });
+});
+
 
 if (isProduction) {
     const fs = require('fs');
