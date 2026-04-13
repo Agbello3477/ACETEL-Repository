@@ -1,5 +1,5 @@
 const express = require('express');
-const { createThesis, getMyTheses, getAllTheses, updateThesisStatus, updateThesis, getPublicTheses, getPublicThesisById, exportTheses } = require('../controllers/thesisController');
+const { createThesis, getMyTheses, getAllTheses, updateThesisStatus, updateThesis, getPublicTheses, getPublicThesisById, exportTheses, deleteThesis } = require('../controllers/thesisController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
