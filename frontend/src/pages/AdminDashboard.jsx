@@ -432,6 +432,7 @@ const AdminDashboard = () => {
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title / Abstract</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Programme</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisors</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
@@ -446,6 +447,17 @@ const AdminDashboard = () => {
                                             <td className="px-6 py-4 text-sm text-gray-500">
                                                 <span className="font-medium block">{thesis.programme}</span>
                                                 <span className="text-xs">{thesis.degree}</span>
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-500">
+                                                <div className="flex flex-wrap gap-1 max-w-[200px]">
+                                                    {Array.isArray(thesis.supervisors) ? (
+                                                        thesis.supervisors.map((s, i) => (
+                                                            <span key={i} className="bg-gray-50 px-2 py-0.5 rounded border border-gray-100 text-[11px] font-medium">{s}</span>
+                                                        ))
+                                                    ) : (
+                                                        <span className="text-xs italic">{thesis.supervisors || 'Not assigned'}</span>
+                                                    )}
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100">{thesis.status}</span>
