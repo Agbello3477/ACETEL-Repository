@@ -2,9 +2,9 @@ services:
   - type: web
     name: acetel-repository
     env: node
-    rootDir: backend
-    buildCommand: npm install && cd ../frontend && npm install && npm run build
-    startCommand: node server.js
+    rootDir: ./
+    buildCommand: npm install && cd frontend && npm install && npm run build
+    startCommand: node backend/server.js
     envVars:
       - key: NODE_ENV
         value: production

@@ -47,7 +47,7 @@ const ThesisDetails = () => {
     if (loading) return (
         <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
             <div className="flex flex-col items-center">
-                <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
                 <p className="mt-4 text-slate-500 font-bold animate-pulse">Initializing Document Viewer...</p>
             </div>
         </div>
@@ -60,7 +60,7 @@ const ThesisDetails = () => {
             </div>
             <h2 className="text-3xl font-black text-slate-800 mb-2">Access Restricted</h2>
             <p className="text-slate-500 max-w-md mb-8 leading-relaxed">{error}</p>
-            <Link to="/" className="px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all flex items-center group">
+            <Link to="/" className="px-8 py-3 bg-emerald-600 text-white rounded-2xl font-bold shadow-xl shadow-emerald-100 hover:bg-emerald-700 transition-all flex items-center group">
                 <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 Return to Repository
             </Link>
@@ -72,16 +72,16 @@ const ThesisDetails = () => {
             {/* Left Sidebar: Metadata & Abstract */}
             <aside className="w-full lg:w-[400px] xl:w-[450px] h-full bg-white border-r border-slate-200 flex flex-col shadow-2xl relative z-20">
                 {/* Header Section */}
-                <div className="p-6 sm:p-8 bg-gradient-to-br from-indigo-50 to-white border-b border-slate-100">
-                    <Link to="/" className="inline-flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest mb-6 hover:text-indigo-700 transition-colors group">
+                <div className="p-6 sm:p-8 bg-gradient-to-br from-emerald-50 to-white border-b border-slate-100">
+                    <Link to="/" className="inline-flex items-center text-xs font-black text-emerald-600 uppercase tracking-widest mb-6 hover:text-emerald-700 transition-colors group">
                         <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                         Back to Search
                     </Link>
                     
                     <div className="space-y-3">
                         <div className="flex flex-wrap gap-2">
-                             <span className="px-3 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{thesis.degree}</span>
-                             <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-indigo-100">{thesis.programme}</span>
+                             <span className="px-3 py-1 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{thesis.degree}</span>
+                             <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">{thesis.programme}</span>
                         </div>
                         <h1 className="text-2xl font-black text-slate-800 leading-tight">{thesis.title}</h1>
                         <div className="flex items-center space-x-3 text-sm pt-2">
@@ -105,8 +105,8 @@ const ThesisDetails = () => {
                             Abstract
                          </h3>
                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 relative group overflow-hidden">
-                             <div className="absolute top-0 right-0 w-16 h-16 bg-indigo-100 rounded-bl-full opacity-30 group-hover:scale-110 transition-transform"></div>
-                             <p className="text-sm text-slate-600 leading-[1.8] font-medium selection:bg-indigo-100 selection:text-indigo-800 text-justify">
+                             <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-100 rounded-bl-full opacity-30 group-hover:scale-110 transition-transform"></div>
+                             <p className="text-sm text-slate-600 leading-[1.8] font-medium selection:bg-emerald-100 selection:text-emerald-800 text-justify">
                                 {thesis.abstract}
                              </p>
                          </div>
@@ -121,8 +121,8 @@ const ThesisDetails = () => {
                          <div className="grid grid-cols-1 gap-3">
                              {Array.isArray(thesis.supervisors) ? (
                                 thesis.supervisors.map((s, i) => (
-                                    <div key={i} className="flex items-center space-x-3 p-3 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-indigo-200 transition-colors">
-                                        <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-xs">
+                                    <div key={i} className="flex items-center space-x-3 p-3 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-emerald-200 transition-colors">
+                                        <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-xs">
                                             {s.charAt(0)}
                                         </div>
                                         <span className="text-xs font-black text-slate-700">{s}</span>
@@ -161,7 +161,7 @@ const ThesisDetails = () => {
             {/* Right Side: PDF Viewer */}
             <main className="flex-1 bg-slate-800 relative flex flex-col">
                 <div className="absolute inset-0 z-0 opacity-10 pointer-events-none overflow-hidden">
-                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500 rounded-full blur-[100px]"></div>
+                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500 rounded-full blur-[100px]"></div>
                     <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500 rounded-full blur-[100px]"></div>
                 </div>
 
@@ -169,7 +169,7 @@ const ThesisDetails = () => {
                     {/* Viewer Header */}
                     <div className="h-14 bg-slate-900/50 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6">
                         <div className="flex items-center space-x-2">
-                             <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                             <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
                              <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">Official Document Preview</span>
                         </div>
                         <div className="flex items-center space-x-4">
