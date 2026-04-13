@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import AnalyticsCharts from '../components/AnalyticsCharts';
@@ -10,99 +10,65 @@ import autoTable from 'jspdf-autotable';
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('theses'); // 'theses' or 'publications'
+    const [activeTab, setActiveTab] = useState('theses'); // 'theses', 'publications', 'logs', 'users'
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    // Theses State
+    // Data State
     const [theses, setTheses] = useState([]);
+    const [publications, setPublications] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [activityLogs, setActivityLogs] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [showNotifDropdown, setShowNotifDropdown] = useState(false);
+
+    // Filters
     const [thesisFilters, setThesisFilters] = useState({
         programme: '', status: '', year: '', startDate: '', endDate: '', q: ''
     });
-
-    // Publications State
-    const [publications, setPublications] = useState([]);
     const [pubFilters, setPubFilters] = useState({
         journal: '', year: '', q: ''
     });
 
-    // Logs State
-    const [activityLogs, setActivityLogs] = useState([]);
-
-    const [showNotifications, setShowNotifications] = useState(false);
-    const [notifications, setNotifications] = useState([]);
-    const [unreadCount, setUnreadCount] = useState(0);
-
-    useEffect(() => {
-        if ('Notification' in window && Notification.permission !== 'granted') {
-            Notification.requestPermission();
-        }
-    }, []);
-
-    const lastNotifiedIdRef = useRef(null);
-
-    useEffect(() => {
-        const unread = notifications.filter(n => !n.is_read);
-        if (unread.length > 0) {
-            const latest = unread[0];
-            if (latest.id !== lastNotifiedIdRef.current) {
-                lastNotifiedIdRef.current = latest.id;
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    new Notification('ATPRS Admin Update', { body: latest.message, icon: '/favicon.ico' });
-                } else if ('Notification' in window && Notification.permission !== 'denied') {
-                    Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                            new Notification('ATPRS Admin Update', { body: latest.message, icon: '/favicon.ico' });
-                        }
-                    });
-                }
-            }
-        }
-    }, [notifications]);
-
-    const requestNotificationPermission = () => {
-        if ('Notification' in window) {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') alert('Notifications enabled!');
-            });
-        }
-    };
-
+    // Fetching Functions
     const fetchTheses = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             const activeFilters = Object.fromEntries(
-                Object.entries(thesisFilters).filter(([, value]) => value !== '' && value !== null && value !== undefined)
+                Object.entries(thesisFilters).filter(([, value]) => value !== '')
             );
             const queryParams = new URLSearchParams(activeFilters).toString();
             const response = await fetch(`/api/theses?${queryParams}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (response.ok) {
-                const data = await response.json();
-                setTheses(data);
-            }
-        } catch (error) {
-            console.error("Failed to fetch theses", error);
-        }
+            if (response.ok) setTheses(await response.json());
+        } catch (error) { console.error("Fetch Theses Error:", error); }
     }, [thesisFilters]);
 
     const fetchPublications = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             const activeFilters = Object.fromEntries(
-                Object.entries(pubFilters).filter(([, value]) => value !== '' && value !== null && value !== undefined)
+                Object.entries(pubFilters).filter(([, value]) => value !== '')
             );
             const queryParams = new URLSearchParams(activeFilters).toString();
             const response = await fetch(`/api/publications?${queryParams}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (response.ok) {
-                const data = await response.json();
-                setPublications(data);
-            }
-        } catch (error) {
-            console.error("Failed to fetch publications", error);
-        }
+            if (response.ok) setPublications(await response.json());
+        } catch (error) { console.error("Fetch Pubs Error:", error); }
     }, [pubFilters]);
+
+    const fetchUsers = useCallback(async () => {
+        if (user?.role !== 'Super Admin') return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/auth/users', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) setUsers(await response.json());
+        } catch (error) { console.error("Fetch Users Error:", error); }
+    }, [user]);
 
     const fetchLogs = useCallback(async () => {
         try {
@@ -110,129 +76,9 @@ const AdminDashboard = () => {
             const response = await fetch('/api/analytics/logs', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (response.ok) {
-                const data = await response.json();
-                setActivityLogs(data);
-            }
-        } catch (error) {
-            console.error("Failed to fetch logs", error);
-        }
+            if (response.ok) setActivityLogs(await response.json());
+        } catch (error) { console.error("Fetch Logs Error:", error); }
     }, []);
-
-    const handleExportTheses = async () => {
-        try {
-            const logoBase64 = await new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = '/assets/acetel_logo.png';
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.globalAlpha = 0.1;
-                    ctx.drawImage(img, 0, 0);
-                    resolve(canvas.toDataURL('image/png'));
-                };
-                img.onerror = reject;
-            });
-
-            const doc = new jsPDF('landscape');
-            doc.setFontSize(18);
-            doc.text("ACETEL Thesis Repository Export", 14, 22);
-
-            const headers = ['S/N', 'Title', 'Student', 'Matric Number', 'Programme', 'Status', 'Date'];
-            const rows = theses.map((t, index) => [
-                index + 1,
-                t.title,
-                t.author_name || t.author_account_name || '-',
-                t.matric_number || t.author_account_matric || '-',
-                t.programme,
-                t.status,
-                t.created_at ? new Date(t.created_at).toISOString().split('T')[0] : '-'
-            ]);
-
-            autoTable(doc, {
-                startY: 30,
-                head: [headers],
-                body: rows,
-                didDrawPage: () => {
-                    const pageWidth = doc.internal.pageSize.getWidth();
-                    const pageHeight = doc.internal.pageSize.getHeight();
-                    const imgWidth = 100;
-                    const imgHeight = 100;
-                    const x = (pageWidth - imgWidth) / 2;
-                    const y = (pageHeight - imgHeight) / 2;
-                    doc.addImage(logoBase64, 'PNG', x, y, imgWidth, imgHeight);
-                }
-            });
-
-            doc.save(`theses_export_${new Date().toISOString().split('T')[0]}.pdf`);
-        } catch (err) {
-            console.error("Error generating theses PDF:", err);
-            alert("An error occurred during export.");
-        }
-    };
-
-    const handleExportPublications = async () => {
-        try {
-            const logoBase64 = await new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = '/assets/acetel_logo.png';
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.globalAlpha = 0.1;
-                    ctx.drawImage(img, 0, 0);
-                    resolve(canvas.toDataURL('image/png'));
-                };
-                img.onerror = reject;
-            });
-
-            const doc = new jsPDF('landscape');
-            doc.setFontSize(18);
-            doc.text("ACETEL Publications Repository Export", 14, 22);
-
-            const headers = ['S/N', 'Title', 'Authors', 'Journal', 'DOI', 'Date'];
-            const rows = publications.map((p, index) => [
-                index + 1,
-                p.title,
-                Array.isArray(p.authors) ? p.authors.join(', ') : p.authors || '',
-                p.journal_name,
-                p.doi || '',
-                p.publication_date ? new Date(p.publication_date).toISOString().split('T')[0] : ''
-            ]);
-
-            autoTable(doc, {
-                startY: 30,
-                head: [headers],
-                body: rows,
-                didDrawPage: () => {
-                    const pageWidth = doc.internal.pageSize.getWidth();
-                    const pageHeight = doc.internal.pageSize.getHeight();
-                    const imgWidth = 100;
-                    const imgHeight = 100;
-                    const x = (pageWidth - imgWidth) / 2;
-                    const y = (pageHeight - imgHeight) / 2;
-                    doc.addImage(logoBase64, 'PNG', x, y, imgWidth, imgHeight);
-                }
-            });
-
-            doc.save(`publications_export_${new Date().toISOString().split('T')[0]}.pdf`);
-        } catch (err) {
-            console.error("Error generating publications PDF:", err);
-            alert("An error occurred during publication export.");
-        }
-    };
-
-    const clearFilters = () => {
-        if (activeTab === 'theses') {
-            setThesisFilters({ programme: '', status: '', year: '', startDate: '', endDate: '', q: '' });
-        } else {
-            setPubFilters({ journal: '', year: '', q: '' });
-        }
-    };
 
     const fetchNotifications = useCallback(async () => {
         try {
@@ -248,7 +94,34 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     }, []);
 
-    const markAsRead = async (id) => {
+    // Initial Load
+    useEffect(() => {
+        if (user) {
+            fetchTheses();
+            fetchPublications();
+            fetchLogs();
+            fetchNotifications();
+            if (user.role === 'Super Admin') fetchUsers();
+            
+            const interval = setInterval(fetchNotifications, 30000);
+            return () => clearInterval(interval);
+        }
+    }, [user, fetchTheses, fetchPublications, fetchLogs, fetchNotifications, fetchUsers]);
+
+    // Handle Actions
+    const updateThesisStatus = async (id, newStatus) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/theses/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ status: newStatus })
+            });
+            if (response.ok) fetchTheses();
+        } catch (err) { console.error(err); }
+    };
+
+    const markNotifRead = async (id) => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`/api/notifications/${id}/read`, {
@@ -262,360 +135,554 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     };
 
-    const updateStatus = async (id, newStatus) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`/api/theses/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (response.ok) fetchTheses();
-        } catch (err) { console.error(err); }
-    };
+    // Navigation Items
+    const navItems = [
+        { id: 'theses', label: 'Theses', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+        { id: 'publications', label: 'Publications', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14' },
+        { id: 'logs', label: 'Activity Logs', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
+    ];
 
-    const deletePublication = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this publication?')) return;
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`/api/publications/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.ok) fetchPublications();
-        } catch (err) { console.error(err); }
-    };
-
-    const handleThesisFilterChange = (e) => setThesisFilters({ ...thesisFilters, [e.target.name]: e.target.value });
-    const handlePubFilterChange = (e) => setPubFilters({ ...pubFilters, [e.target.name]: e.target.value });
-
-    useEffect(() => {
-        if (user) {
-            fetchTheses();
-            fetchPublications();
-            fetchLogs();
-            fetchNotifications();
-            const interval = setInterval(fetchNotifications, 30000);
-            return () => clearInterval(interval);
-        }
-    }, [user, fetchTheses, fetchPublications, fetchLogs, fetchNotifications]);
+    if (user?.role === 'Super Admin') {
+        navItems.push({ id: 'users', label: 'User Management', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' });
+    }
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-            {/* Top Navigation */}
-            <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
-                <div className="w-full max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16 items-center">
-                        <div className="flex items-center">
-                            <LogoFlipper />
-                            <Link to="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 truncate max-w-[250px] md:max-w-none">
-                                ACETEL Thesis and Publication Repository System <span className="text-gray-400 font-light text-xl">| Admin</span>
-                            </Link>
+        <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-700">
+            {/* Sidebar Overlay (Mobile) */}
+            {isSidebarOpen && (
+                <div 
+                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden transition-opacity"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
+            {/* Sidebar */}
+            <aside className={`
+                fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+                <div className="flex flex-col h-full">
+                    {/* Sidebar Header */}
+                    <div className="p-6 flex items-center space-x-3 border-b border-white/10">
+                        <div className="bg-white p-1.5 rounded-xl shadow-lg shadow-black/20">
+                            <LogoFlipper className="w-8 h-8" />
                         </div>
-                        <div className="flex items-center space-x-4">
-                            {/* Notification Bell */}
-                            <div className="relative mr-4">
-                                <button onClick={() => setShowNotifications(!showNotifications)} className="p-1 rounded-full text-gray-600 hover:bg-gray-100 relative">
-                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                    {unreadCount > 0 && <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>}
-                                </button>
-                                {showNotifications && (
-                                    <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5 max-h-96 overflow-y-auto">
-                                        <div className="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
-                                            <h3 className="text-sm font-semibold text-gray-700">Notifications</h3>
-                                            <button onClick={fetchNotifications} className="text-xs text-indigo-600">Refresh</button>
-                                        </div>
-                                        {/* Permission Helper */}
-                                        {'Notification' in window && Notification.permission !== 'granted' && (
-                                            <div className="bg-yellow-50 px-4 py-2 text-xs text-yellow-700 flex justify-between items-center">
-                                                <span>Enable desktop alerts?</span>
-                                                <button onClick={requestNotificationPermission} className="underline font-bold">Enable</button>
-                                            </div>
-                                        )}
-                                        {notifications.length === 0 ? (
-                                            <div className="px-4 py-3 text-sm text-gray-500">No notifications</div>
-                                        ) : (
-                                            notifications.map(notification => (
-                                                <div key={notification.id} className={`px-4 py-3 border-b hover:bg-gray-50 ${!notification.is_read ? 'bg-blue-50' : ''}`} onClick={() => !notification.is_read && markAsRead(notification.id)}>
-                                                    <p className="text-sm text-gray-800">{notification.message}</p>
-                                                    <p className="text-xs text-gray-400 mt-1">{new Date(notification.created_at).toLocaleString()}</p>
-                                                </div>
-                                            ))
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="hidden md:flex flex-col items-end">
-                                <span className="text-sm font-medium text-gray-900">{user?.full_name}</span>
-                                <span className="text-xs text-gray-500 uppercase tracking-wider">{user?.role}</span>
-                            </div>
-                            <button onClick={logout} className="px-4 py-2 border border-gray-200 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 transition-colors">Sign Out</button>
+                        <div>
+                            <h2 className="font-bold text-lg tracking-tight">ATPRS Admin</h2>
+                            <p className="text-white/50 text-[10px] uppercase tracking-widest font-semibold">Repository System</p>
                         </div>
                     </div>
-                </div>
-            </nav>
 
-            <main className="w-full max-w-[95%] mx-auto py-8 px-4 sm:px-6 lg:px-8">
-                <div className="mb-10">
-                    {activeTab === 'theses' ? <AnalyticsCharts /> : <PublicationAnalytics />}
-                </div>
-
-                {/* Tabs */}
-                <div className="border-b border-gray-200 mb-8">
-                    <nav className="-mb-px flex space-x-8">
-                        <button
-                            onClick={() => setActiveTab('theses')}
-                            className={`${activeTab === 'theses' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors`}
-                        >
-                            Theses Repository
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('publications')}
-                            className={`${activeTab === 'publications' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors`}
-                        >
-                            Publications Repository
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('logs')}
-                            className={`${activeTab === 'logs' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors`}
-                        >
-                            Activity Logs
-                        </button>
-                    </nav>
-                </div>
-
-                {/* Theses View */}
-                {activeTab === 'theses' && (
-                    <>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-900">Theses</h2>
-                                <p className="text-sm text-gray-500">Manage student submissions and legacy uploads.</p>
-                            </div>
-                            <button onClick={() => navigate('/admin/submit-thesis')} className="mt-4 sm:mt-0 px-5 py-2.5 bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-700">
-                                Upload Legacy Thesis
-                            </button>
-                        </div>
-                        
-                        {/* Thesis Filters */}
-                        <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-8">
-                            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-                                <input name="q" type="text" placeholder="Search title, abstract..." value={thesisFilters.q} onChange={handleThesisFilterChange} className="md:col-span-2 p-2.5 w-full rounded-md border-gray-300 border" />
-                                <select name="programme" value={thesisFilters.programme} onChange={handleThesisFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border bg-white">
-                                    <option value="">All Programmes</option>
-                                    <option value="Artificial Intelligence">Artificial Intelligence</option>
-                                    <option value="Cyber Security">Cyber Security</option>
-                                    <option value="Management Information System">Management Information System</option>
-                                </select>
-                                <select name="status" value={thesisFilters.status} onChange={handleThesisFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border bg-white">
-                                    <option value="">All Statuses</option>
-                                    <option value="Submitted">Submitted</option><option value="Approved">Approved</option>
-                                    <option value="Locked">Locked</option><option value="Draft">Draft</option>
-                                </select>
-                                <input name="startDate" type="date" value={thesisFilters.startDate} onChange={handleThesisFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border" />
-                                <input name="endDate" type="date" value={thesisFilters.endDate} onChange={handleThesisFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border" />
-                            </div>
-                            <div className="mt-4 flex justify-end space-x-3 no-print">
-                                <button onClick={clearFilters} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md">Clear</button>
-                                <button onClick={handleExportTheses} className="px-4 py-2 bg-indigo-600 text-white rounded-md flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                    Export PDF
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title / Abstract</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Programme</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisors</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {theses.map((thesis) => (
-                                        <tr key={thesis.thesis_id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900 mb-1">{thesis.title}</div>
-                                                <div className="text-xs text-gray-500 line-clamp-2 max-w-sm">{thesis.abstract}</div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <div className="font-medium">{thesis.author_name || thesis.author_account_name || 'Legacy Account'}</div>
-                                                <div className="text-xs text-gray-500">{thesis.matric_number || thesis.author_account_matric || '-'}</div>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                <span className="font-medium block">{thesis.programme}</span>
-                                                <span className="text-xs">{thesis.degree}</span>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                <div className="flex flex-wrap gap-1 max-w-[200px]">
-                                                    {Array.isArray(thesis.supervisors) ? (
-                                                        thesis.supervisors.map((s, i) => (
-                                                            <span key={i} className="bg-gray-50 px-2 py-0.5 rounded border border-gray-100 text-[11px] font-medium">{s}</span>
-                                                        ))
-                                                    ) : (
-                                                        <span className="text-xs italic">{thesis.supervisors || 'Not assigned'}</span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100">{thesis.status}</span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                                <a href={`/${thesis.pdf_url}`} target="_blank" className="text-indigo-600 bg-indigo-50 px-3 py-1 rounded">View</a>
-                                                {thesis.status !== 'Approved' && <button onClick={() => updateStatus(thesis.thesis_id, 'Approved')} className="text-green-600 bg-green-50 px-3 py-1 rounded">Approve</button>}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </>
-                )}
-
-                {/* Publications View */}
-                {activeTab === 'publications' && (
-                    <>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-900">Publications</h2>
-                                <p className="text-sm text-gray-500">Manage academic journals, conferences, and publications.</p>
-                            </div>
-                            <button onClick={() => navigate('/admin/submit-publication')} className="mt-4 sm:mt-0 px-5 py-2.5 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700">
-                                Upload Publication
-                            </button>
-                        </div>
-                        
-                        {/* Pub Filters */}
-                        <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-8">
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                <input name="q" type="text" placeholder="Search title, abstract, authors..." value={pubFilters.q} onChange={handlePubFilterChange} className="md:col-span-2 p-2.5 w-full rounded-md border-gray-300 border" />
-                                <input name="journal" type="text" placeholder="Journal/Conference" value={pubFilters.journal} onChange={handlePubFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border" />
-                                <input name="year" type="number" placeholder="Year" value={pubFilters.year} onChange={handlePubFilterChange} className="p-2.5 w-full rounded-md border-gray-300 border" />
-                            </div>
-                            <div className="mt-4 flex justify-end space-x-3 no-print">
-                                <button onClick={clearFilters} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md">Clear</button>
-                                <button onClick={handleExportPublications} className="px-4 py-2 bg-indigo-600 text-white rounded-md flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                    Export PDF
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title / Authors</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Journal & Date</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Identifiers</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {publications.map((pub) => (
-                                        <tr key={pub.publication_id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900 mb-1">{pub.title}</div>
-                                                <div className="text-xs text-gray-500">
-                                                    By: {Array.isArray(pub.authors) ? pub.authors.join(', ') : 'Unknown'}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                <span className="font-medium block">{pub.journal_name}</span>
-                                                <span className="text-xs">{pub.publication_date ? new Date(pub.publication_date).toLocaleDateString() : 'N/A'}</span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {pub.doi && <div className="block">DOI: {pub.doi}</div>}
-                                                {(pub.volume || pub.issue) && <div className="text-xs">Vol {pub.volume || '-'} / Iss {pub.issue || '-'}</div>}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                                {pub.pdf_url && <a href={`/${pub.pdf_url}`} target="_blank" className="text-indigo-600 bg-indigo-50 px-3 py-1 rounded">PDF</a>}
-                                                {pub.external_link && <a href={pub.external_link} target="_blank" rel="noreferrer" className="text-blue-600 bg-blue-50 px-3 py-1 rounded">Link</a>}
-                                                <button onClick={() => deletePublication(pub.publication_id)} className="text-red-600 bg-red-50 px-3 py-1 rounded">Delete</button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            {publications.length === 0 && (
-                                <div className="p-8 text-center text-gray-500">No publications found.</div>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                {/* Logs View */}
-                {activeTab === 'logs' && (
-                    <>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-900">System Activity Logs</h2>
-                                <p className="text-sm text-gray-500">Monitor administrative actions and user events across the system.</p>
-                            </div>
-                            <button onClick={fetchLogs} className="mt-4 sm:mt-0 p-2 text-gray-500 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    {/* Nav Links */}
+                    <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
+                        {navItems.map((item) => (
+                            <button
+                                key={item.id}
+                                onClick={() => { setActiveTab(item.id); setIsSidebarOpen(false); }}
+                                className={`
+                                    w-full flex items-center space-x-3 px-4 py-3.5 rounded-2xl transition-all duration-200 group
+                                    ${activeTab === item.id 
+                                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/40 ring-1 ring-white/20 font-semibold' 
+                                        : 'text-white/60 hover:text-white hover:bg-white/5'}
+                                `}
+                            >
+                                <svg className={`w-5 h-5 transition-colors ${activeTab === item.id ? 'text-white' : 'text-white/40 group-hover:text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
                                 </svg>
+                                <span>{item.label}</span>
                             </button>
-                        </div>
+                        ))}
+                    </nav>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Admin / User</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target ID</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {activityLogs.map((log) => (
-                                        <tr key={log.log_id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {new Date(log.timestamp).toLocaleString()}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900">{log.user_name || 'System / Auto'}</div>
-                                                <div className="text-xs text-gray-500">{log.user_role || ''} {log.staff_id ? `(${log.staff_id})` : ''}</div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-200">{log.action}</span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {log.target_id || '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-400 font-mono">
-                                                {log.ip_address || '-'}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            {activityLogs.length === 0 && (
-                                <div className="p-8 text-center text-gray-500">No activity logs recorded.</div>
+                    {/* Sidebar Footer */}
+                    <div className="p-6 border-t border-white/10 mx-2 mb-2 bg-white/5 rounded-3xl">
+                        <div className="flex items-center space-x-3 mb-4">
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold shadow-lg ring-2 ring-white/10">
+                                {user?.full_name?.charAt(0)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-bold truncate">{user?.full_name}</p>
+                                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">{user?.role}</p>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={logout}
+                            className="w-full py-2.5 bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white rounded-xl text-sm font-bold transition-all border border-rose-500/20 active:scale-95"
+                        >
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            {/* Main Content Area */}
+            <main className="flex-1 flex flex-col min-w-0 bg-[#f1f5f9] overflow-hidden relative">
+                {/* Header */}
+                <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-6 sm:px-8 flex justify-between items-center transition-all bg-opacity-70">
+                    <div className="flex items-center space-x-4">
+                        <button 
+                            onClick={() => setIsSidebarOpen(true)}
+                            className="p-2.5 rounded-xl bg-slate-100 text-slate-600 lg:hidden hover:bg-slate-200 transition-colors"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        </button>
+                        <h1 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
+                            {navItems.find(i => i.id === activeTab)?.label || 'Dashboard'}
+                        </h1>
+                    </div>
+
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                        {/* Notification Dropdown */}
+                        <div className="relative">
+                            <button 
+                                onClick={() => setShowNotifDropdown(!showNotifDropdown)}
+                                className={`p-2.5 rounded-2xl transition-all relative group ${showNotifDropdown ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                                {unreadCount > 0 && (
+                                    <span className="absolute top-2 right-2 w-3.5 h-3.5 bg-rose-500 rounded-full border-2 border-white flex items-center justify-center text-[8px] text-white font-bold animate-pulse">
+                                        {unreadCount}
+                                    </span>
+                                )}
+                            </button>
+
+                            {showNotifDropdown && (
+                                <>
+                                    <div className="fixed inset-0 z-40" onClick={() => setShowNotifDropdown(false)} />
+                                    <div className="absolute right-0 mt-4 w-80 bg-white rounded-3xl shadow-2xl shadow-slate-300 ring-1 ring-black/5 overflow-hidden z-50 animate-in fade-in slide-in-from-top-4 duration-300">
+                                        <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                            <h3 className="font-bold text-slate-800">Alerts</h3>
+                                            <button onClick={fetchNotifications} className="text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-widest px-3 py-1 rounded-full bg-indigo-50">Sync</button>
+                                        </div>
+                                        <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                                            {notifications.length === 0 ? (
+                                                <div className="p-10 text-center">
+                                                    <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                                        <svg className="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                                                    </div>
+                                                    <p className="text-sm text-slate-400 font-medium italic">No notifications yet</p>
+                                                </div>
+                                            ) : (
+                                                notifications.map(n => (
+                                                    <div key={n.id} 
+                                                        onClick={() => !n.is_read && markNotifRead(n.id)}
+                                                        className={`p-4 border-b border-slate-50 cursor-pointer transition-colors ${!n.is_read ? 'bg-indigo-50/50 hover:bg-indigo-50' : 'hover:bg-slate-50'}`}
+                                                    >
+                                                        <p className="text-sm text-slate-700 leading-relaxed">{n.message}</p>
+                                                        <div className="flex items-center mt-2 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                                            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                            {new Date(n.created_at).toLocaleString()}
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                </>
                             )}
                         </div>
-                    </>
-                )}
+
+                        <div className="w-px h-8 bg-slate-200 hidden sm:block mx-1"></div>
+
+                        <Link 
+                            to="/" 
+                            className="px-5 py-2.5 bg-slate-800 text-white rounded-2xl text-sm font-bold shadow-lg shadow-slate-300 hover:shadow-indigo-200 hover:bg-indigo-600 transition-all active:scale-95 flex items-center group"
+                        >
+                            <svg className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                            Portal
+                        </Link>
+                    </div>
+                </header>
+
+                {/* Dashboard Scroll View */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar p-6 sm:p-8">
+                    {/* Page Loader / Top Analytics (Only for Theses and Pubs) */}
+                    {(activeTab === 'theses' || activeTab === 'publications') && (
+                        <div className="mb-8">
+                             {activeTab === 'theses' ? <AnalyticsCharts /> : <PublicationAnalytics />}
+                        </div>
+                    )}
+
+                    {/* View: User Management */}
+                    {activeTab === 'users' && user?.role === 'Super Admin' && (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                             <div className="flex justify-between items-center mb-6">
+                                <div>
+                                    <p className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-1">Administrative Access</p>
+                                    <h2 className="text-2xl font-black text-slate-800">User Management</h2>
+                                </div>
+                                <div className="text-xs bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full font-black border border-indigo-200">
+                                    {users.length} TOTAL USERS
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {users.map(u => (
+                                    <div key={u.user_id} className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-indigo-100 transition-all border-b-4 border-b-slate-100 group hover:border-b-indigo-500 relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -mr-8 -mt-8 group-hover:bg-indigo-600 transition-colors duration-300 -z-0 opacity-20"></div>
+                                        <div className="relative z-10">
+                                            <div className="flex items-start justify-between mb-4">
+                                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${u.role === 'Super Admin' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}`}>
+                                                    {u.full_name?.charAt(0)}
+                                                </div>
+                                                <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full ring-1 ring-inset ${u.role === 'Super Admin' ? 'bg-amber-50 text-amber-700 ring-amber-200' : 'bg-blue-50 text-blue-700 ring-blue-200'}`}>
+                                                    {u.role}
+                                                </span>
+                                            </div>
+                                            <h3 className="font-bold text-slate-800 leading-tight mb-1">{u.full_name}</h3>
+                                            <p className="text-xs text-slate-400 font-medium mb-4">{u.email}</p>
+                                            
+                                            <div className="space-y-2 border-t border-slate-50 pt-4">
+                                                {u.role !== 'Student' ? (
+                                                    <div className="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl">
+                                                        <span className="text-[10px] font-bold text-slate-400 uppercase">Staff ID</span>
+                                                        <span className="text-xs font-black text-slate-700">{u.staff_id || 'N/A'}</span>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl">
+                                                            <span className="text-[10px] font-bold text-slate-400 uppercase">Matric</span>
+                                                            <span className="text-xs font-black text-slate-700">{u.matric_number || '-'}</span>
+                                                        </div>
+                                                        <p className="text-[10px] font-bold text-slate-400 mt-2 px-3">{u.programme}</p>
+                                                    </>
+                                                )}
+                                                <div className="flex justify-between items-center px-3 py-1">
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase">Joined</span>
+                                                    <span className="text-[10px] font-bold text-slate-600">{new Date(u.created_at).toLocaleDateString()}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* View: Theses (Main List) */}
+                    {activeTab === 'theses' && (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                                <div>
+                                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">Thesis Submissions</h2>
+                                    <p className="text-slate-500 text-sm font-medium">Review, approve, and manage the student research repository.</p>
+                                </div>
+                                <button onClick={() => navigate('/admin/submit-thesis')} className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center shadow-xl shadow-indigo-100 hover:shadow-indigo-300 hover:bg-indigo-700 transition-all active:scale-95 self-start">
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                                    Archive Legacy
+                                </button>
+                            </div>
+
+                            {/* Thesis Filters Grid */}
+                            <div className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] border border-white/50 shadow-2xl shadow-slate-200/50 mb-10 overflow-hidden relative group">
+                                <div className="absolute top-0 left-0 w-2 h-full bg-indigo-600/10 group-hover:bg-indigo-600 transition-colors"></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Search Database</label>
+                                        <div className="relative">
+                                            <input name="q" value={thesisFilters.q} onChange={(e) => setThesisFilters({...thesisFilters, q: e.target.value})} placeholder="Title, Abstract, Keyword..." className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all" />
+                                            <svg className="w-5 h-5 absolute right-4 top-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Programme</label>
+                                        <select name="programme" value={thesisFilters.programme} onChange={(e) => setThesisFilters({...thesisFilters, programme: e.target.value})} className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all ring-inset">
+                                            <option value="">All Streams</option>
+                                            <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                            <option value="Cyber Security">Cyber Security</option>
+                                            <option value="Management Information System">Management Information System</option>
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Curatorial Status</label>
+                                        <select name="status" value={thesisFilters.status} onChange={(e) => setThesisFilters({...thesisFilters, status: e.target.value})} className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                                            <option value="">Status (All)</option>
+                                            <option value="Submitted">Submitted</option>
+                                            <option value="Approved">Approved</option>
+                                            <option value="Locked">Locked</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="mt-8 flex justify-end space-x-3 pt-6 border-t border-slate-100">
+                                    <button onClick={() => setThesisFilters({ programme: '', status: '', year: '', startDate: '', endDate: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
+                                    <button 
+                                        onClick={() => {
+                                            const headers = [['Title', 'Student', 'Programme', 'Status', 'Date']];
+                                            const data = theses.map(t => [t.title, t.author_name || t.author_account_name, t.programme, t.status, new Date(t.created_at).toLocaleDateString()]);
+                                            const doc = new jsPDF('l');
+                                            doc.text("ATPRS Thesis Export", 14, 15);
+                                            autoTable(doc, { head: headers, body: data, startY: 20 });
+                                            doc.save('atprs_theses.pdf');
+                                        }}
+                                        className="px-6 py-3 bg-slate-100 text-slate-700 rounded-2xl text-sm font-bold hover:bg-slate-200 transition-all flex items-center"
+                                    >
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                        Export PDF
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Table Container */}
+                            <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                                <div className="overflow-x-auto custom-scrollbar">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="bg-slate-50/50 border-b border-slate-100">
+                                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Title & Student</th>
+                                                <th className="px-6 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Programme Info</th>
+                                                <th className="px-6 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">Supervisory Team</th>
+                                                <th className="px-6 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-50">
+                                            {theses.map(t => (
+                                                <tr key={t.thesis_id} className="group hover:bg-indigo-50/30 transition-colors">
+                                                    <td className="px-8 py-7">
+                                                        <div className="max-w-md">
+                                                            <div className="font-bold text-slate-800 mb-1.5 group-hover:text-indigo-700 transition-colors line-clamp-2">{t.title}</div>
+                                                            <div className="flex items-center space-x-2">
+                                                                <div className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                                                                    { (t.author_name || t.author_account_name)?.charAt(0) }
+                                                                </div>
+                                                                <span className="text-xs font-bold text-slate-500">{t.author_name || t.author_account_name || 'Legacy Author'}</span>
+                                                                <span className="text-[10px] text-slate-300 font-bold tracking-widest">{t.matric_number || t.author_account_matric}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-7">
+                                                        <div className="text-xs font-black text-slate-700 mb-1">{t.programme}</div>
+                                                        <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest bg-indigo-50 inline-block px-2 py-0.5 rounded-full">{t.degree}</div>
+                                                    </td>
+                                                    <td className="px-6 py-7">
+                                                        <div className="flex flex-wrap gap-1.5 max-w-[220px]">
+                                                            {Array.isArray(t.supervisors) ? t.supervisors.map((s, i) => (
+                                                                <span key={i} className="text-[9px] font-black bg-white ring-1 ring-slate-100 text-slate-500 px-2 py-1 rounded-lg uppercase tracking-tight">{s}</span>
+                                                            )) : <span className="text-[10px] italic text-slate-400 font-medium">{t.supervisors || 'Unassigned'}</span>}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-7">
+                                                        <span className={`px-4 py-1.5 rounded-2xl text-[10px] font-black uppercase tracking-widest inline-block ring-1 ring-inset ${
+                                                            t.status === 'Approved' ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' :
+                                                            t.status === 'Submitted' ? 'bg-indigo-50 text-indigo-700 ring-indigo-200' :
+                                                            'bg-slate-100 text-slate-600 ring-slate-200'
+                                                        }`}>
+                                                            {t.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-8 py-7 text-right space-x-2 whitespace-nowrap">
+                                                        <a href={`/${t.pdf_url}`} target="_blank" className="p-2.5 rounded-xl bg-slate-100 text-slate-500 hover:bg-slate-800 hover:text-white transition-all inline-block shadow-sm">
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                                        </a>
+                                                        {t.status !== 'Approved' && (
+                                                            <button 
+                                                                onClick={() => updateThesisStatus(t.thesis_id, 'Approved')}
+                                                                className="p-2.5 rounded-xl bg-emerald-100 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all shadow-sm ring-1 ring-emerald-200"
+                                                                title="Approve Submission"
+                                                            >
+                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                                            </button>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    {theses.length === 0 && (
+                                        <div className="p-20 text-center">
+                                            <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                                                <svg className="w-10 h-10 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                                            </div>
+                                            <p className="text-slate-400 font-bold text-lg">No Thesis Records Found</p>
+                                            <p className="text-slate-300 text-sm">Try adjusting your curatorial filters above.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* View: Publications */}
+                    {activeTab === 'publications' && (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                                <div>
+                                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">Academic Publications</h2>
+                                    <p className="text-slate-500 text-sm font-medium">Manage faculty research, journals, and conference papers.</p>
+                                </div>
+                                <button onClick={() => navigate('/admin/submit-publication')} className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center shadow-xl shadow-blue-100 hover:shadow-blue-300 hover:bg-blue-700 transition-all active:scale-95 self-start">
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                                    Add New Work
+                                </button>
+                            </div>
+
+                             <div className="bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] border border-white/50 shadow-2xl shadow-slate-200/50 mb-10 overflow-hidden relative group">
+                                <div className="absolute top-0 left-0 w-2 h-full bg-blue-600/10 group-hover:bg-blue-600 transition-colors"></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Search Publications</label>
+                                        <div className="relative">
+                                            <input name="q" value={pubFilters.q} onChange={(e) => setPubFilters({...pubFilters, q: e.target.value})} placeholder="Title, Authors, Keywords..." className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 transition-all" />
+                                            <svg className="w-5 h-5 absolute right-4 top-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Journal / Issue</label>
+                                        <input name="journal" value={pubFilters.journal} onChange={(e) => setPubFilters({...pubFilters, journal: e.target.value})} placeholder="Filtering by Journal..." className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 transition-all" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Year</label>
+                                        <input name="year" type="number" value={pubFilters.year} onChange={(e) => setPubFilters({...pubFilters, year: e.target.value})} placeholder="YYYY" className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 transition-all" />
+                                    </div>
+                                </div>
+                                <div className="mt-8 flex justify-end space-x-3 pt-6 border-t border-slate-100">
+                                    <button onClick={() => setPubFilters({ journal: '', year: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
+                                </div>
+                            </div>
+
+                             <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                                <div className="overflow-x-auto custom-scrollbar">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="bg-slate-50/50 border-b border-slate-100">
+                                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Title & Content</th>
+                                                <th className="px-6 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Collaborators</th>
+                                                <th className="px-6 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Journal Info</th>
+                                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Access</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-50">
+                                            {publications.map(p => (
+                                                <tr key={p.publication_id} className="hover:bg-blue-50/20 transition-colors">
+                                                    <td className="px-8 py-7">
+                                                        <div className="font-bold text-slate-800 mb-2 line-clamp-1">{p.title}</div>
+                                                        <div className="text-[10px] text-slate-400 font-bold">DATE: {p.publication_date ? new Date(p.publication_date).toLocaleDateString() : 'N/A'}</div>
+                                                    </td>
+                                                    <td className="px-6 py-7">
+                                                        <div className="flex flex-wrap gap-1.5 max-w-[200px]">
+                                                            {Array.isArray(p.authors) ? p.authors.map((a, i) => (
+                                                                <span key={i} className="text-[9px] font-black bg-white ring-1 ring-slate-100 text-slate-500 px-2 py-1 rounded-lg uppercase tracking-tight">{a}</span>
+                                                            )) : <span className="text-[10px] text-slate-400">No Authors listed</span>}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-7">
+                                                        <div className="text-xs font-black text-slate-700">{p.journal_name}</div>
+                                                        {p.doi && <div className="text-[10px] font-bold text-blue-500 mt-1 uppercase tracking-widest">{p.doi}</div>}
+                                                    </td>
+                                                    <td className="px-8 py-7 text-right space-x-2 whitespace-nowrap">
+                                                        {p.pdf_url && (
+                                                            <a href={`/${p.pdf_url}`} target="_blank" className="p-2.5 rounded-xl bg-slate-800 text-white hover:bg-black transition-all inline-block text-xs font-bold uppercase tracking-widest">
+                                                                PDF
+                                                            </a>
+                                                        )}
+                                                        {p.external_link && (
+                                                            <a href={p.external_link} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all inline-block text-xs font-bold uppercase tracking-widest">
+                                                                External
+                                                            </a>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    {publications.length === 0 && (
+                                        <div className="p-20 text-center">
+                                            <p className="text-slate-400 font-bold">No publication records found.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* View: Logs */}
+                    {activeTab === 'logs' && (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <div className="flex justify-between items-center mb-8">
+                                <div>
+                                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">Security Audit Logs</h2>
+                                    <p className="text-slate-500 text-sm font-medium italic">Tracing administrative footprints across the ATPRS network.</p>
+                                </div>
+                                <button onClick={fetchLogs} className="p-3 bg-white rounded-2xl shadow-sm border border-slate-100 hover:bg-slate-50 transition-colors">
+                                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                                </button>
+                            </div>
+
+                            <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                                <div className="overflow-x-auto custom-scrollbar">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="bg-slate-50/50 border-b border-slate-100 uppercase text-[10px] font-black tracking-widest text-slate-400">
+                                                <th className="px-8 py-6">Identity</th>
+                                                <th className="px-6 py-6">Event Type</th>
+                                                <th className="px-6 py-6">Target Record</th>
+                                                <th className="px-6 py-6">Digital Signature (IP)</th>
+                                                <th className="px-8 py-6 text-right">Timestamp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-50">
+                                            {activityLogs.map(log => (
+                                                <tr key={log.log_id} className="hover:bg-slate-50/50 transition-colors">
+                                                    <td className="px-8 py-5">
+                                                        <div className="font-bold text-slate-800 text-sm">{log.user_name || 'Automated System'}</div>
+                                                        <div className="text-[10px] text-slate-400 font-bold tracking-wider">{log.user_role} {log.staff_id && `[SID: ${log.staff_id}]`}</div>
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-[10px] font-black uppercase tracking-widest ring-1 ring-slate-200">
+                                                            {log.action}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-5 font-mono text-xs text-slate-400">ID# {log.target_id || 'System'}</td>
+                                                    <td className="px-6 py-5 font-mono text-[10px] text-slate-400 tracking-tighter">{log.ip_address}</td>
+                                                    <td className="px-8 py-5 text-right text-[11px] font-bold text-slate-500 whitespace-nowrap">
+                                                        {new Date(log.timestamp).toLocaleString()}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </main>
 
-            {/* Footer */}
-            <footer className="bg-transparent text-gray-500 py-6 text-center border-t border-gray-200 mt-auto">
-                <p className="text-xs">&copy; {new Date().getFullYear()} ACETEL Thesis and Publication Repository System.</p>
-                <p className="mt-1 text-xs font-semibold tracking-wide text-gray-500">
-                    <span>Powered by: </span>
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-600">MaSha Secure Tech</span>
-                </p>
-            </footer>
+            {/* Injected Styles for animations and scrollbars */}
+            <style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+                @keyframes fade-in {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes slide-in-from-bottom {
+                    from { transform: translateY(1rem); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                .animate-in {
+                    animation-fill-mode: both;
+                    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .slide-in-from-bottom-4 {
+                    animation-name: slide-in-from-bottom;
+                }
+                .fade-in {
+                    animation-name: fade-in;
+                }
+            `}</style>
         </div>
     );
 };

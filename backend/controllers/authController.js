@@ -187,8 +187,22 @@ const getMe = async (req, res) => {
     }
 };
 
+// @desc    Get all users (Super Admin only)
+// @route   GET /api/auth/users
+// @access  Private (Super Admin)
+const getUsers = async (req, res) => {
+    try {
+        const users = await db.query('SELECT user_id, full_name, email, role, staff_id, matric_number, programme, degree, created_at FROM users ORDER BY created_at DESC');
+        res.status(200).json(users.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     register,
     login,
     getMe,
+    getUsers
 };

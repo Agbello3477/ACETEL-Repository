@@ -1,16 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminSubmitThesis from './pages/AdminSubmitThesis';
 import AdminSubmitPublication from './pages/AdminSubmitPublication';
-import AdminRegister from './pages/AdminRegister';
 import LandingPage from './pages/LandingPage';
 import ThesisDetails from './pages/ThesisDetails';
 
 const AdminRoute = ({ children }) => {
   const { user } = useAuth();
-  const location = useLocation();
 
   if (!user) {
     return <Navigate to="/" replace />;
