@@ -181,7 +181,7 @@ const LandingPage = () => {
             <section className="bg-primary text-white py-20 px-4">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">ACETEL Research Repository</h2>
-                    <p className="text-lg md:text-xl text-blue-100 mb-8">Access the latest research, theses, and academic publications from the Africa Centre of Excellence on Technology Enhanced Learning.</p>
+                    <p className="text-lg md:text-xl text-emerald-100 mb-8">Access the latest research, theses, and academic publications from the Africa Centre of Excellence on Technology Enhanced Learning.</p>
 
                     {/* Search Bar in Hero */}
                     <div className="bg-white p-2 rounded-lg shadow-lg flex flex-col md:flex-row gap-2 max-w-2xl mx-auto">

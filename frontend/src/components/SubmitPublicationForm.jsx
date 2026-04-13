@@ -77,11 +77,11 @@ const SubmitPublicationForm = ({ onComplete }) => {
 
     return (
         <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 p-8 sm:p-10 mb-10 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
             
             <div className="relative z-10">
                 <div className="flex items-center space-x-4 mb-8">
-                    <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-200">
+                    <div className="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-emerald-200">
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14" /></svg>
                     </div>
                     <div>
@@ -107,39 +107,39 @@ const SubmitPublicationForm = ({ onComplete }) => {
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center">
-                            <span className="w-6 h-px bg-indigo-200 mr-3"></span>
+                        <h3 className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] flex items-center">
+                            <span className="w-6 h-px bg-emerald-200 mr-3"></span>
                             Reference Details
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                             <div className="space-y-1.5 md:col-span-2">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Publication Title</label>
                                 <input name="title" type="text" placeholder="The title of the paper or article" onChange={handleChange} required 
-                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none" />
+                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Authors (Comma Separated)</label>
                                 <input name="authors" type="text" placeholder="Dr. Adamu, Prof. Musa, etc." onChange={handleChange} required 
-                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none" />
+                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Journal / Conference Name</label>
                                 <input name="journal_name" type="text" placeholder="e.g. IEEE Access" onChange={handleChange} required 
-                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none" />
+                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                         <h3 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center">
-                            <span className="w-6 h-px bg-indigo-200 mr-3"></span>
+                         <h3 className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] flex items-center">
+                            <span className="w-6 h-px bg-emerald-200 mr-3"></span>
                             Content & Identifiers
                         </h3>
                         <div className="space-y-6">
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Abstract Highlights</label>
                                 <textarea name="abstract" rows="4" placeholder="Brief summary of the publication..." onChange={handleChange} required 
-                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-medium leading-relaxed text-slate-600 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none resize-none"></textarea>
+                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-medium leading-relaxed text-slate-600 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none resize-none"></textarea>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div className="space-y-1.5">
@@ -170,18 +170,18 @@ const SubmitPublicationForm = ({ onComplete }) => {
                         <div className="space-y-1.5 focus-within:translate-x-1 transition-transform">
                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Publication Date</label>
                             <input name="publication_date" type="date" value={formData.publication_date} onChange={handleChange} required 
-                                className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none" />
+                                className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                         </div>
                         
                         <div className="space-y-2">
                              <div className="flex items-center justify-between mb-1">
-                                <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Document Attachment</label>
+                                <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Document Attachment</label>
                                 <span className="text-[10px] font-bold text-slate-400">PDF ONLY</span>
                              </div>
                              <div className="relative group">
                                  <input type="file" accept="application/pdf" onChange={handleFileChange} required 
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
-                                 <div className={`w-full border-2 border-dashed rounded-2xl p-4 flex items-center justify-center space-x-3 transition-all ${file ? 'bg-indigo-50 border-indigo-300 text-indigo-600' : 'bg-slate-50 border-slate-200 text-slate-400 group-hover:border-indigo-300 group-hover:bg-indigo-50/50'}`}>
+                                 <div className={`w-full border-2 border-dashed rounded-2xl p-4 flex items-center justify-center space-x-3 transition-all ${file ? 'bg-emerald-50 border-emerald-300 text-emerald-600' : 'bg-slate-50 border-slate-200 text-slate-400 group-hover:border-emerald-300 group-hover:bg-emerald-50/50'}`}>
                                     {file ? (
                                         <>
                                             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -205,7 +205,7 @@ const SubmitPublicationForm = ({ onComplete }) => {
                         </div>
                         <button type="submit" disabled={loading}
                              className={`group relative overflow-hidden px-10 py-4 rounded-2xl font-black text-white text-sm tracking-widest uppercase transition-all shadow-2xl ${
-                                loading ? 'bg-slate-400 cursor-not-allowed' : 'bg-indigo-600 shadow-indigo-200/50 hover:bg-indigo-700 hover:-translate-y-1 active:scale-95'
+                                loading ? 'bg-slate-400 cursor-not-allowed' : 'bg-emerald-600 shadow-emerald-200/50 hover:bg-emerald-700 hover:-translate-y-1 active:scale-95'
                              }`}>
                             {loading ? (
                                 <div className="flex items-center space-x-2">
