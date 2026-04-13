@@ -145,6 +145,11 @@ const SubmitThesisForm = ({ onComplete }) => {
                                 <textarea name="abstract" rows="5" placeholder="Summary of research methodology and findings..." onChange={handleChange} required 
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-medium leading-relaxed text-slate-600 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all outline-none resize-none"></textarea>
                             </div>
+                            <div className="space-y-1.5 focus-within:translate-x-1 transition-transform">
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Keywords (Comma Separated)</label>
+                                <input name="keywords" type="text" placeholder="e.g. Artificial Intelligence, Blockchain, Education" onChange={handleChange} required 
+                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all outline-none" />
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Academic Programme</label>

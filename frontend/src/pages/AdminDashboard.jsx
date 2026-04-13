@@ -105,6 +105,14 @@ const AdminDashboard = () => {
             return;
         }
 
+        // BFCache Protection: Force re-validation when page is shown
+        const handlePageShow = (event) => {
+            if (event.persisted && !localStorage.getItem('user')) {
+                window.location.replace('/');
+            }
+        };
+        window.addEventListener('pageshow', handlePageShow);
+
         fetchTheses();
         fetchPublications();
         fetchLogs();
@@ -112,7 +120,10 @@ const AdminDashboard = () => {
         if (user?.role === 'Super Admin') fetchUsers();
         
         const interval = setInterval(fetchNotifications, 30000);
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('pageshow', handlePageShow);
+        };
     }, [user, navigate, fetchTheses, fetchPublications, fetchLogs, fetchNotifications, fetchUsers]);
 
     // Handle Actions
@@ -386,10 +397,7 @@ const AdminDashboard = () => {
                                     <h2 className="text-2xl font-black text-slate-800 tracking-tight">Thesis Submissions</h2>
                                     <p className="text-slate-500 text-sm font-medium">Review, approve, and manage the student research repository.</p>
                                 </div>
-                                <button onClick={() => navigate('/admin/submit-thesis')} className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center shadow-xl shadow-indigo-100 hover:shadow-indigo-300 hover:bg-indigo-700 transition-all active:scale-95 self-start">
-                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                                    Archive Legacy
-                                </button>
+
                             </div>
 
                             {/* Thesis Filters Grid */}
