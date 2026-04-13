@@ -106,7 +106,7 @@ const ThesisDetails = () => {
                          </h3>
                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 relative group overflow-hidden">
                              <div className="absolute top-0 right-0 w-16 h-16 bg-indigo-100 rounded-bl-full opacity-30 group-hover:scale-110 transition-transform"></div>
-                             <p className="text-sm text-slate-600 leading-[1.8] font-medium selection:bg-indigo-100 selection:text-indigo-800">
+                             <p className="text-sm text-slate-600 leading-[1.8] font-medium selection:bg-indigo-100 selection:text-indigo-800 text-justify">
                                 {thesis.abstract}
                              </p>
                          </div>
@@ -184,7 +184,7 @@ const ThesisDetails = () => {
                                 {/* Overlay to block context menu in some browsers */}
                                 <div className="absolute inset-0 z-10 pointer-events-none"></div> 
                                 <iframe
-                                    src={`/${thesis.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`}
+                                    src={`/${thesis.pdf_url?.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=1`}
                                     className="w-full h-full border-none"
                                     title="Thesis Document Viewer"
                                     onContextMenu={(e) => e.preventDefault()}
