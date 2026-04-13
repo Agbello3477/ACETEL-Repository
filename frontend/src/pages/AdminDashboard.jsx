@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import AnalyticsCharts from '../components/AnalyticsCharts';
 import PublicationAnalytics from '../components/PublicationAnalytics';
 import LogoFlipper from '../components/LogoFlipper';
+import SubmitThesisForm from '../components/SubmitThesisForm';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -139,6 +140,7 @@ const AdminDashboard = () => {
     const navItems = [
         { id: 'theses', label: 'Theses', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
         { id: 'publications', label: 'Publications', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14' },
+        { id: 'upload', label: 'Upload Center', icon: 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v8' },
         { id: 'logs', label: 'Activity Logs', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
     ];
 

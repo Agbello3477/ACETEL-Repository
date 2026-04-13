@@ -1,12 +1,17 @@
 const db = require('../config/db');
 const fs = require('fs');
 const crypto = require('crypto');
+const path = require('path');
 
 // Helper to calculate file hash
 const getFileHash = (filePath) => {
     return new Promise((resolve, reject) => {
         const hash = crypto.createHash('sha256');
-        const stream = fs.createReadStream(filePath);
+        const absolutePath = path.resolve(filePath);
+        if (!fs.existsSync(absolutePath)) {
+            return reject(new Error(`File not found at path: ${absolutePath}`));
+        }
+        const stream = fs.createReadStream(absolutePath);
         stream.on('data', (data) => hash.update(data));
         stream.on('end', () => resolve(hash.digest('hex')));
         stream.on('error', reject);
@@ -63,21 +68,22 @@ const createThesis = async (req, res) => {
         return res.status(400).json({ message: 'Please add all required fields' });
     }
 
-    // Parse Supervisors (expecting JSON string array or simple string)
+    // Parse Supervisors (expecting string, array, or JSON string)
     let supervisorsArray = [];
     try {
         if (supervisors) {
-            // Check if it looks like a JSON array
-            if (supervisors.trim().startsWith('[')) {
+            if (Array.isArray(supervisors)) {
+                supervisorsArray = supervisors;
+            } else if (typeof supervisors === 'string' && supervisors.trim().startsWith('[')) {
                 supervisorsArray = JSON.parse(supervisors);
-            } else {
-                // Legacy fallback or single value
-                supervisorsArray = [supervisors];
+            } else if (typeof supervisors === 'string') {
+                // Handle as comma-separated or single value
+                supervisorsArray = supervisors.split(',').map(s => s.trim()).filter(Boolean);
             }
         }
     } catch (e) {
         console.error("Error parsing supervisors:", e);
-        supervisorsArray = [supervisors]; // Fallback to raw string
+        supervisorsArray = typeof supervisors === 'string' ? [supervisors] : [];
     }
 
     // Determine Author
@@ -180,8 +186,14 @@ const createThesis = async (req, res) => {
 
         res.status(201).json(newThesis.rows[0]);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error: ' + error.message });
+        console.error('CRITICAL THESIS UPLOAD ERROR:', error);
+        
+        // Return detailed error if in dev or helpful message
+        res.status(500).json({ 
+            message: 'Thesis upload failed on server', 
+            details: error.message,
+            hint: 'Please ensure the PDF is valid and all required fields are filled correctly.'
+        });
     }
 };
 

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminSubmitThesis from './pages/AdminSubmitThesis';
 import AdminSubmitPublication from './pages/AdminSubmitPublication';
 import LandingPage from './pages/LandingPage';
 import ThesisDetails from './pages/ThesisDetails';
@@ -33,11 +32,7 @@ function App() {
             </AdminRoute>
           } />
           
-          <Route path="/admin/submit-thesis" element={
-            <AdminRoute>
-              <AdminSubmitThesis />
-            </AdminRoute>
-          } />
+
           
           <Route path="/admin/submit-publication" element={
             <AdminRoute>
