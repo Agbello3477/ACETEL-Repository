@@ -20,10 +20,11 @@ const streamUpload = (req, folder) => {
         const stream = cloudinary.uploader.upload_stream(
             {
                 folder: `ADTRS/${folder}`,
-                upload_preset: 'adtrs_preset',   // Use the public unsigned preset we created
-                resource_type: 'auto',          // Let Cloudinary detect
-                access_mode: 'public',          // Double safety: force public
-                type: 'upload',                 // Double safety: force public upload
+                upload_preset: 'adtrs_preset',   
+                resource_type: 'image',         // Using 'image' for PDFs (required for public delivery)
+                format: 'pdf',                  // Explicitly specifying PDF format
+                access_mode: 'public',          
+                type: 'upload',                 
                 public_id: `file-${Date.now()}`
             },
             (error, result) => {
