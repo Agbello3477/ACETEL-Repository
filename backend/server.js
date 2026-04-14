@@ -71,7 +71,7 @@ app.use('/uploads', (req, res) => {
     });
 });
 
-// Diagnostics Route
+// Diagnostics Route: File System
 app.get('/api/debug/files', async (req, res) => {
     const fs = require('fs');
     const rootUploads = path.join(process.cwd(), 'uploads');
@@ -94,6 +94,51 @@ app.get('/api/debug/files', async (req, res) => {
             publications: getContents(path.join(rootUploads, 'publications'))
         }
     });
+});
+
+// Diagnostics Route: Cloudinary Test
+app.get('/api/debug/cloudinary-test', async (req, res) => {
+    const cloudinary = require('cloudinary').v2;
+    try {
+        const streamifier = require('streamifier');
+        // A tiny 1-pixel PDF dummy buffer
+        const dummyBuffer = Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Page /Parent 2 0 R /Resources << >> /Contents 3 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [1 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Length 0 >>\nstream\nendstream\nendobj\ntrailer\n<< /Size 4 /Root 2 0 R >>\n%%EOF');
+        
+        const uploadResponse = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'ADTRS/debug',
+                    upload_preset: 'adtrs_preset',
+                    resource_type: 'auto',
+                    access_mode: 'public',
+                    type: 'upload',
+                    public_id: `debug-${Date.now()}`
+                },
+                (error, result) => {
+                    if (result) resolve(result);
+                    else reject(error);
+                }
+            );
+            streamifier.createReadStream(dummyBuffer).pipe(stream);
+        });
+
+        res.json({
+            status: 'Success',
+            message: 'Trial upload completed. Check the fields below for "access_mode" and "type".',
+            cloudinary_response: uploadResponse
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 'Error',
+            error: err.message,
+            stack: err.stack,
+            env_check: {
+                cloud_name: !!process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: !!process.env.CLOUDINARY_API_KEY,
+                api_secret: !!process.env.CLOUDINARY_API_SECRET
+            }
+        });
+    }
 });
 
 
