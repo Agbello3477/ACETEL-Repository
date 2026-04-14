@@ -14,11 +14,10 @@ const streamUpload = (req, folder) => {
         const stream = cloudinary.uploader.upload_stream(
             {
                 folder: `ADTRS/${folder}`,
-                resource_type: 'raw',
-                access_mode: 'public',
-                type: 'upload',
-                format: 'pdf',
-                public_id: `file-${Date.now()}`
+                resource_type: 'auto',          // Let Cloudinary detect (best for public PDFs)
+                access_mode: 'public',          // Explicitly force public and anonymous access
+                type: 'upload',                 // Ensure it is a standard public upload
+                public_id: `file-${Date.now()}` // Removed .pdf extension from ID (Cloudinary adds it via format)
             },
             (error, result) => {
                 if (result) resolve(result);
