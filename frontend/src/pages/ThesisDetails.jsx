@@ -184,7 +184,10 @@ const ThesisDetails = () => {
                                 {/* Overlay to block context menu in some browsers */}
                                 <div className="absolute inset-0 z-10 pointer-events-none"></div> 
                                 <iframe
-                                    src={`/${thesis.pdf_url?.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=1`}
+                                    src={thesis.pdf_url?.startsWith('http') 
+                                        ? `${thesis.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`
+                                        : `/${thesis.pdf_url?.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=1`
+                                    }
                                     className="w-full h-full border-none"
                                     title="Thesis Document Viewer"
                                     onLoad={() => {

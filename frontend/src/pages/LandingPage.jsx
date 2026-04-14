@@ -417,7 +417,7 @@ const LandingPage = () => {
                                                     <div className="flex flex-wrap gap-2 mb-4">
                                                         {pub.doi && <span className="bg-indigo-50 text-indigo-700 text-xs px-2 py-1 rounded">DOI: {pub.doi}</span>}
                                                         {(pub.pdf_url || pub.external_link) && (
-                                                            <a href={pub.external_link || `/${pub.pdf_url}`} target="_blank" rel="noreferrer" className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded hover:underline">Access Publication</a>
+                                                            <a href={pub.external_link || (pub.pdf_url?.startsWith('http') ? pub.pdf_url : `/${pub.pdf_url}`)} target="_blank" rel="noreferrer" className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded hover:underline">Access Publication</a>
                                                         )}
                                                     </div>
                                                 </div>

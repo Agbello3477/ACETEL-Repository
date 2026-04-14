@@ -10,7 +10,11 @@ const createPublication = async (req, res) => {
     let pdf_url = null;
 
     if (req.file) {
-        pdf_url = path.relative(process.cwd(), req.file.path);
+        if (req.file.path.startsWith('http')) {
+            pdf_url = req.file.path;
+        } else {
+            pdf_url = path.relative(process.cwd(), req.file.path);
+        }
     }
 
     if (!title || !journal_name) {

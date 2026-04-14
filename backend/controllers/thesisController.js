@@ -5,11 +5,17 @@ const path = require('path');
 
 // Helper to calculate file hash
 const getFileHash = (filePath) => {
+    // Skip hashing for Cloudinary URLs
+    if (filePath && (filePath.startsWith('http://') || filePath.startsWith('https://'))) {
+        return Promise.resolve(null);
+    }
     return new Promise((resolve, reject) => {
         const hash = crypto.createHash('sha256');
         const absolutePath = path.resolve(filePath);
         if (!fs.existsSync(absolutePath)) {
-            return reject(new Error(`File not found at path: ${absolutePath}`));
+            // Log but don't fail for missing files during hashing (especially if cloud-bound)
+            console.warn(`File hash skipped: Missing local file at ${absolutePath}`);
+            return resolve(null);
         }
         const stream = fs.createReadStream(absolutePath);
         stream.on('data', (data) => hash.update(data));
@@ -53,8 +59,13 @@ const createThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        // Normalize path to be relative to process root for DB storage
-        pdf_url = path.relative(process.cwd(), req.file.path);
+        // Handle Cloudinary (full URL) vs Local (path)
+        if (req.file.path.startsWith('http')) {
+            pdf_url = req.file.path;
+        } else {
+            pdf_url = path.relative(process.cwd(), req.file.path);
+        }
+        
         try {
             fileHash = await getFileHash(req.file.path);
         } catch (err) {
@@ -392,7 +403,11 @@ const updateThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        pdf_url = req.file.path;
+        if (req.file.path.startsWith('http')) {
+            pdf_url = req.file.path;
+        } else {
+            pdf_url = path.relative(process.cwd(), req.file.path);
+        }
         try {
             fileHash = await getFileHash(req.file.path);
         } catch (err) {
