@@ -5,7 +5,7 @@ require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 console.log("Environment PGUSER:", process.env.PGUSER); // Debug pollution
 
 // Fallback parsing just in case
-const match = process.env.DATABASE_URL ? process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/) : null;
+const match = process.env.DATABASE_URL ? process.env.DATABASE_URL.match(/postgres(?:ql)?:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/) : null;
 const config = match ? {
     user: match[1],
     password: match[2],
