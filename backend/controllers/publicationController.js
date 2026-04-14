@@ -15,10 +15,10 @@ const streamUpload = (req, folder) => {
             {
                 folder: `ADTRS/${folder}`,
                 upload_preset: 'adtrs_preset',   
-                resource_type: 'raw',           // Stealth mode: treat as raw binary to bypass PDF blocks
-                access_mode: 'public',          
-                type: 'upload',                 
-                public_id: `blob-${Date.now()}` // No extension in ID
+                resource_type: 'image',         
+                format: 'pdf',
+                type: 'authenticated',          // High-security: only signed URLs can access
+                public_id: `file-${Date.now()}`
             },
             (error, result) => {
                 if (result) resolve(result);
@@ -36,12 +36,14 @@ const streamUpload = (req, folder) => {
 const createPublication = async (req, res) => {
     const { title, abstract, authors, journal_name, doi, volume, issue, pages, publication_date, keywords, external_link } = req.body;
     let pdf_url = null;
+    let public_id = null;
 
     if (req.file) {
         if (process.env.CLOUDINARY_CLOUD_NAME) {
             try {
                 const cloudResult = await streamUpload(req, 'publications');
                 pdf_url = cloudResult.secure_url;
+                public_id = cloudResult.public_id;
             } catch (err) {
                 console.error('Cloudinary Pub Stream Error:', err);
                 return res.status(500).json({ message: 'Error streaming to cloud storage' });
@@ -83,9 +85,9 @@ const createPublication = async (req, res) => {
     try {
         const newPub = await db.query(
             `INSERT INTO publications 
-            (title, abstract, authors, journal_name, doi, volume, issue, pages, publication_date, keywords, pdf_url, external_link, uploaded_by) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
-            [title, abstract, authorsArray, journal_name, doi, volume, issue, pages, pubDate, keywordsArray, pdf_url, external_link, req.user.user_id]
+            (title, abstract, authors, journal_name, doi, volume, issue, pages, publication_date, keywords, pdf_url, public_id, external_link, uploaded_by) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
+            [title, abstract, authorsArray, journal_name, doi, volume, issue, pages, pubDate, keywordsArray, pdf_url, public_id, external_link, req.user.user_id]
         );
 
         // Audit Log
@@ -100,6 +102,19 @@ const createPublication = async (req, res) => {
         console.error('Create Publication Error:', error);
         res.status(500).json({ message: 'Server error creating publication: ' + error.message });
     }
+};
+
+// Helper: Signing URLs for delivery
+const signUrlIfAvailable = (pub) => {
+    if (pub.public_id && process.env.CLOUDINARY_CLOUD_NAME) {
+        pub.pdf_url = cloudinary.url(pub.public_id, {
+            sign_url: true,
+            type: 'authenticated',
+            secure: true,
+            resource_type: 'image'
+        });
+    }
+    return pub;
 };
 
 // @desc    Get All Publications (Admin & Public)
@@ -135,7 +150,8 @@ const getPublications = async (req, res) => {
 
     try {
         const result = await db.query(queryText, queryParams);
-        res.status(200).json(result.rows);
+        const publications = result.rows.map(p => signUrlIfAvailable(p));
+        res.status(200).json(publications);
     } catch (error) {
         console.error('Fetch Publications Error:', error);
         res.status(500).json({ message: 'Server error fetching publications: ' + error.message });

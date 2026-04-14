@@ -21,10 +21,10 @@ const streamUpload = (req, folder) => {
             {
                 folder: `ADTRS/${folder}`,
                 upload_preset: 'adtrs_preset',   
-                resource_type: 'raw',           // Stealth mode: treat as raw binary to bypass PDF blocks
-                access_mode: 'public',          
-                type: 'upload',                 
-                public_id: `blob-${Date.now()}` // No extension in ID
+                resource_type: 'image',         // Using 'image' for PDFs (required for tab view)
+                format: 'pdf',
+                type: 'authenticated',          // High-security: only signed URLs can access
+                public_id: `file-${Date.now()}`
             },
             (error, result) => {
                 if (result) resolve(result);
@@ -68,6 +68,7 @@ const createThesis = async (req, res) => {
     // Frontend sends: title, abstract, keywords, supervisors (JSON), programme, year, status (optional), matric_number (optional for admin)
     const { title, abstract, keywords, supervisors, programme, year, status, matric_number } = req.body;
     let pdf_url = '';
+    let public_id = null;
     let fileHash = null;
 
     if (req.file) {
@@ -77,7 +78,8 @@ const createThesis = async (req, res) => {
             try {
                 const cloudResult = await streamUpload(req, 'theses');
                 pdf_url = cloudResult.secure_url;
-                console.log('Thesis uploaded to Cloudinary:', pdf_url);
+                public_id = cloudResult.public_id;
+                console.log('Thesis uploaded Authenticated to Cloudinary:', public_id);
             } catch (err) {
                 console.error('Cloudinary Stream Error:', err);
                 return res.status(500).json({ message: 'Error streaming to cloud storage' });
@@ -200,8 +202,8 @@ const createThesis = async (req, res) => {
 
         // 1. Insert Thesis
         const newThesis = await db.query(
-            'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
-            [title, abstract, keywordsArray, author_id, author_name_val, author_matric_val, supervisorsArray, dbProgramme, degree, year, pdf_url, fileHash, thesisStatus]
+            'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, public_id, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
+            [title, abstract, keywordsArray, author_id, author_name_val, author_matric_val, supervisorsArray, dbProgramme, degree, year, pdf_url, public_id, fileHash, thesisStatus]
         );
 
         const thesisId = newThesis.rows[0].thesis_id;
@@ -218,7 +220,7 @@ const createThesis = async (req, res) => {
             await notifyAdmins(`New Thesis Submitted: "${title}" by ${author_name_val} (${matric_number})`);
         }
 
-        res.status(201).json(newThesis.rows[0]);
+        res.status(201).json(signUrlIfAvailable(newThesis.rows[0]));
     } catch (error) {
         console.error('CRITICAL THESIS UPLOAD ERROR:', error);
         
@@ -231,13 +233,27 @@ const createThesis = async (req, res) => {
     }
 };
 
+// Helper: Signing URLs for delivery
+const signUrlIfAvailable = (thesis) => {
+    if (thesis.public_id && process.env.CLOUDINARY_CLOUD_NAME) {
+        thesis.pdf_url = cloudinary.url(thesis.public_id, {
+            sign_url: true,
+            type: 'authenticated',
+            secure: true,
+            resource_type: 'image'
+        });
+    }
+    return thesis;
+};
+
 // @desc    Get user's theses
 // @route   GET /api/theses/my-theses
 // @access  Private
 const getMyTheses = async (req, res) => {
     try {
-        const theses = await db.query('SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC', [req.user.user_id]);
-        res.status(200).json(theses.rows);
+        const result = await db.query('SELECT * FROM theses WHERE author_id = $1 ORDER BY created_at DESC', [req.user.user_id]);
+        const theses = result.rows.map(t => signUrlIfAvailable(t));
+        res.status(200).json(theses);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -299,7 +315,8 @@ const getAllTheses = async (req, res) => {
 
     try {
         const result = await db.query(queryText, queryParams);
-        res.status(200).json(result.rows);
+        const theses = result.rows.map(t => signUrlIfAvailable(t));
+        res.status(200).json(theses);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error: ' + error.message });
@@ -422,6 +439,7 @@ const updateThesis = async (req, res) => {
     const { id } = req.params;
     const { title, abstract, keywords, supervisors, programme, year } = req.body;
     let pdf_url = null;
+    let public_id = null;
     let fileHash = null;
 
     if (req.file) {
@@ -431,6 +449,7 @@ const updateThesis = async (req, res) => {
             try {
                 const cloudResult = await streamUpload(req, 'theses');
                 pdf_url = cloudResult.secure_url;
+                public_id = cloudResult.public_id;
             } catch (err) {
                 console.error('Cloudinary Update Stream Error:', err);
                 return res.status(500).json({ message: 'Error updating cloud storage' });
@@ -494,10 +513,11 @@ const updateThesis = async (req, res) => {
 
         let paramCount = 7;
         if (pdf_url) {
-            query += `, pdf_url = $${paramCount}, file_hash = $${paramCount + 1}`;
+            query += `, pdf_url = $${paramCount}, public_id = $${paramCount + 1}, file_hash = $${paramCount + 2}`;
             params.push(pdf_url);
+            params.push(public_id);
             params.push(fileHash);
-            paramCount += 2;
+            paramCount += 3;
         }
 
         query += ` WHERE thesis_id = $${paramCount} RETURNING *`;
@@ -511,7 +531,7 @@ const updateThesis = async (req, res) => {
             [req.user.user_id, 'THESIS_EDIT', id, ip]
         );
 
-        res.status(200).json(updatedThesis.rows[0]);
+        res.status(200).json(signUrlIfAvailable(updatedThesis.rows[0]));
 
     } catch (error) {
         console.error(error);
@@ -558,7 +578,7 @@ const updateThesisStatus = async (req, res) => {
             );
         }
 
-        res.status(200).json(thesis);
+        res.status(200).json(signUrlIfAvailable(thesis));
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -574,7 +594,7 @@ const getPublicTheses = async (req, res) => {
         const params = [];
         let query = `
             SELECT thesis_id, title, abstract, author_name, 
-                   programme, degree, graduation_year, keywords, pdf_url, supervisors
+                   programme, degree, graduation_year, keywords, pdf_url, public_id, supervisors
             FROM theses 
             WHERE status = 'Approved'
         `;
@@ -595,7 +615,8 @@ const getPublicTheses = async (req, res) => {
         query += ` ORDER BY created_at DESC`;
 
         const result = await db.query(query, params);
-        res.status(200).json(result.rows);
+        const theses = result.rows.map(t => signUrlIfAvailable(t));
+        res.status(200).json(theses);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error fetching public theses' });
@@ -610,7 +631,7 @@ const getPublicThesisById = async (req, res) => {
         const { id } = req.params;
         const result = await db.query(`
             SELECT thesis_id, title, abstract, author_name, 
-                   programme, degree, graduation_year, keywords, pdf_url, created_at, supervisors
+                   programme, degree, graduation_year, keywords, pdf_url, public_id, created_at, supervisors
             FROM theses 
             WHERE thesis_id = $1 AND status = 'Approved'
         `, [id]);
@@ -619,7 +640,7 @@ const getPublicThesisById = async (req, res) => {
             return res.status(404).json({ message: 'Thesis not found or not public' });
         }
 
-        res.status(200).json(result.rows[0]);
+        res.status(200).json(signUrlIfAvailable(result.rows[0]));
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
