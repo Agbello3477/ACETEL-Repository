@@ -23,7 +23,9 @@ if (process.env.CLOUDINARY_CLOUD_NAME) {
                 else if (req.baseUrl.includes('publications') || req.originalUrl.includes('publications')) sub = 'publications';
                 return `ADTRS/${sub}`;
             },
-            resource_type: 'auto',
+            resource_type: 'raw', // Changed to 'raw' for better reliability with PDFs on Free Tier
+            type: 'upload',       // Explicitly set as a public upload
+            access_mode: 'public', // Force public access
             format: async (req, file) => 'pdf',
             public_id: (req, file) => `file-${Date.now()}`
         },
