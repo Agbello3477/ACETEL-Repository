@@ -1,6 +1,34 @@
 const db = require('../config/db');
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
+
+// Helper: Stream Upload to Cloudinary
+const streamUpload = (req, folder) => {
+    return new Promise((resolve, reject) => {
+        if (!process.env.CLOUDINARY_CLOUD_NAME) {
+            return reject(new Error('Cloudinary not configured'));
+        }
+
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: `ADTRS/${folder}`,
+                resource_type: 'raw',
+                access_mode: 'public',
+                type: 'upload',
+                format: 'pdf',
+                public_id: `file-${Date.now()}`
+            },
+            (error, result) => {
+                if (result) resolve(result);
+                else reject(error);
+            }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+    });
+};
 
 // @desc    Upload new publication
 // @route   POST /api/publications
@@ -10,10 +38,23 @@ const createPublication = async (req, res) => {
     let pdf_url = null;
 
     if (req.file) {
-        if (req.file.path.startsWith('http')) {
-            pdf_url = req.file.path;
+        if (process.env.CLOUDINARY_CLOUD_NAME) {
+            try {
+                const cloudResult = await streamUpload(req, 'publications');
+                pdf_url = cloudResult.secure_url;
+            } catch (err) {
+                console.error('Cloudinary Pub Stream Error:', err);
+                return res.status(500).json({ message: 'Error streaming to cloud storage' });
+            }
         } else {
-            pdf_url = path.relative(process.cwd(), req.file.path);
+            const filename = `pub-${Date.now()}.pdf`;
+            const localPath = path.join(process.cwd(), 'uploads', 'publications', filename);
+            try {
+                fs.writeFileSync(localPath, req.file.buffer);
+                pdf_url = `uploads/publications/${filename}`;
+            } catch (err) {
+                return res.status(500).json({ message: 'Error saving file locally' });
+            }
         }
     }
 

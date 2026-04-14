@@ -2,25 +2,37 @@ const db = require('../config/db');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
 
-// Helper to calculate file hash
-const getFileHash = (filePath) => {
-    // Skip hashing for Cloudinary URLs
-    if (filePath && (filePath.startsWith('http://') || filePath.startsWith('https://'))) {
-        return Promise.resolve(null);
-    }
+// Helper to calculate file hash from buffer
+const getBufferHash = (buffer) => {
+    return crypto.createHash('sha256').update(buffer).digest('hex');
+};
+
+// Helper: Stream Upload to Cloudinary
+const streamUpload = (req, folder) => {
     return new Promise((resolve, reject) => {
-        const hash = crypto.createHash('sha256');
-        const absolutePath = path.resolve(filePath);
-        if (!fs.existsSync(absolutePath)) {
-            // Log but don't fail for missing files during hashing (especially if cloud-bound)
-            console.warn(`File hash skipped: Missing local file at ${absolutePath}`);
-            return resolve(null);
+        if (!process.env.CLOUDINARY_CLOUD_NAME) {
+            return reject(new Error('Cloudinary not configured'));
         }
-        const stream = fs.createReadStream(absolutePath);
-        stream.on('data', (data) => hash.update(data));
-        stream.on('end', () => resolve(hash.digest('hex')));
-        stream.on('error', reject);
+
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: `ADTRS/${folder}`,
+                resource_type: 'raw',           // Force raw for PDFs
+                access_mode: 'public',          // Force public access mode
+                type: 'upload',                 // Ensure it is a public upload
+                format: 'pdf',
+                public_id: `file-${Date.now()}`
+            },
+            (error, result) => {
+                if (result) resolve(result);
+                else reject(error);
+            }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
     });
 };
 
@@ -59,18 +71,28 @@ const createThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        // Handle Cloudinary (full URL) vs Local (path)
-        if (req.file.path.startsWith('http')) {
-            pdf_url = req.file.path;
+        fileHash = getBufferHash(req.file.buffer);
+
+        if (process.env.CLOUDINARY_CLOUD_NAME) {
+            try {
+                const cloudResult = await streamUpload(req, 'theses');
+                pdf_url = cloudResult.secure_url;
+                console.log('Thesis uploaded to Cloudinary:', pdf_url);
+            } catch (err) {
+                console.error('Cloudinary Stream Error:', err);
+                return res.status(500).json({ message: 'Error streaming to cloud storage' });
+            }
         } else {
-            pdf_url = path.relative(process.cwd(), req.file.path);
-        }
-        
-        try {
-            fileHash = await getFileHash(req.file.path);
-        } catch (err) {
-            console.error('Hashing error:', err);
-            return res.status(500).json({ message: 'Error processing file' });
+            // Fallback: Save to local disk manually since we used memoryStorage
+            const filename = `thesis-${Date.now()}.pdf`;
+            const localPath = path.join(process.cwd(), 'uploads', 'theses', filename);
+            try {
+                fs.writeFileSync(localPath, req.file.buffer);
+                pdf_url = `uploads/theses/${filename}`;
+            } catch (err) {
+                console.error('Local Write Error:', err);
+                return res.status(500).json({ message: 'Error saving file locally' });
+            }
         }
     } else {
         return res.status(400).json({ message: 'Please upload a PDF file' });
@@ -403,16 +425,25 @@ const updateThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        if (req.file.path.startsWith('http')) {
-            pdf_url = req.file.path;
+        fileHash = getBufferHash(req.file.buffer);
+
+        if (process.env.CLOUDINARY_CLOUD_NAME) {
+            try {
+                const cloudResult = await streamUpload(req, 'theses');
+                pdf_url = cloudResult.secure_url;
+            } catch (err) {
+                console.error('Cloudinary Update Stream Error:', err);
+                return res.status(500).json({ message: 'Error updating cloud storage' });
+            }
         } else {
-            pdf_url = path.relative(process.cwd(), req.file.path);
-        }
-        try {
-            fileHash = await getFileHash(req.file.path);
-        } catch (err) {
-            console.error('Hashing error:', err);
-            return res.status(500).json({ message: 'Error processing file' });
+            const filename = `thesis-update-${Date.now()}.pdf`;
+            const localPath = path.join(process.cwd(), 'uploads', 'theses', filename);
+            try {
+                fs.writeFileSync(localPath, req.file.buffer);
+                pdf_url = `uploads/theses/${filename}`;
+            } catch (err) {
+                return res.status(500).json({ message: 'Error updating file locally' });
+            }
         }
     }
 
