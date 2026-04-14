@@ -2,7 +2,7 @@ const db = require('../config/db');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinaryConfig');
 const streamifier = require('streamifier');
 
 // Helper to calculate file hash from buffer

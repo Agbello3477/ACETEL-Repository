@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const fs = require('fs');
 const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinaryConfig');
 const streamifier = require('streamifier');
 
 // Helper: Stream Upload to Cloudinary

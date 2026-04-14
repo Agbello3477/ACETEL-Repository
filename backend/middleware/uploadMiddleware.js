@@ -1,17 +1,10 @@
 const multer = require('multer');
 const path = require('path');
 
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinaryConfig');
 
-// Configure Cloudinary (Global for use in controllers if needed, but middleware will just use memory)
-if (process.env.CLOUDINARY_CLOUD_NAME) {
-    cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET
-    });
-    console.log('Upload Middleware: Cloudinary SDK Configured');
-}
+// Configure Cloudinary (Middleware uses the central config now)
+console.log('Upload Middleware: Cloudinary Connected');
 
 // Set storage engine to memory
 // This holds the file in RAM temporarily so the controller can stream it to Cloudinary
