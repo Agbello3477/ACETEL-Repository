@@ -15,11 +15,10 @@ const streamUpload = (req, folder) => {
             {
                 folder: `ADTRS/${folder}`,
                 upload_preset: 'adtrs_preset',   
-                resource_type: 'image',         // Using 'image' for PDFs (required for public delivery)
-                format: 'pdf',                  // Explicitly specifying PDF format
+                resource_type: 'raw',           // Stealth mode: treat as raw binary to bypass PDF blocks
                 access_mode: 'public',          
                 type: 'upload',                 
-                public_id: `file-${Date.now()}`
+                public_id: `blob-${Date.now()}` // No extension in ID
             },
             (error, result) => {
                 if (result) resolve(result);
