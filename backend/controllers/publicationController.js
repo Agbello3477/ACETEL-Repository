@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const fs = require('fs');
+const path = require('path');
 
 // @desc    Upload new publication
 // @route   POST /api/publications
@@ -9,7 +10,7 @@ const createPublication = async (req, res) => {
     let pdf_url = null;
 
     if (req.file) {
-        pdf_url = req.file.path;
+        pdf_url = path.relative(process.cwd(), req.file.path);
     }
 
     if (!title || !journal_name) {

@@ -53,7 +53,8 @@ const createThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        pdf_url = req.file.path;
+        // Normalize path to be relative to process root for DB storage
+        pdf_url = path.relative(process.cwd(), req.file.path);
         try {
             fileHash = await getFileHash(req.file.path);
         } catch (err) {

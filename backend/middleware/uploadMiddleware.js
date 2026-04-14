@@ -3,7 +3,17 @@ const path = require('path');
 
 // Set storage engine
 const storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: function (req, file, cb) {
+        let subFolder = '';
+        if (req.baseUrl.includes('theses') || req.originalUrl.includes('theses')) {
+            subFolder = 'theses';
+        } else if (req.baseUrl.includes('publications') || req.originalUrl.includes('publications')) {
+            subFolder = 'publications';
+        }
+        
+        const destinationPath = path.join(process.cwd(), 'uploads', subFolder);
+        cb(null, destinationPath);
+    },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     },

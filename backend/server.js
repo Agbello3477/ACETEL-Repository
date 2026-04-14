@@ -18,6 +18,20 @@ const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLower
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Ensure Upload Directories Exist
+const uploadPaths = [
+    path.join(process.cwd(), 'uploads'),
+    path.join(process.cwd(), 'uploads', 'theses'),
+    path.join(process.cwd(), 'uploads', 'publications')
+];
+
+uploadPaths.forEach(p => {
+    if (!fs.existsSync(p)) {
+        fs.mkdirSync(p, { recursive: true });
+        console.log('Created missing directory:', p);
+    }
+});
+
 const rateLimit = require('express-rate-limit');
 
 app.use(cors());
@@ -45,18 +59,22 @@ app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/publications', require('./routes/publicationRoutes'));
 
-// Make uploads folder static
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// Make uploads folder static - Using absolute path from process root
+const absoluteUploadPath = path.join(process.cwd(), 'uploads');
+app.use('/uploads', express.static(absoluteUploadPath));
 
 // 404 handler for uploads to prevent SPA catch-all from masking missing files
 app.use('/uploads', (req, res) => {
-    res.status(404).json({ message: 'File not found on server. Please check if the upload exists.' });
+    res.status(404).json({ 
+        message: 'File not found on server. Please check if the upload exists.',
+        debug_info: `Checked path: ${path.join(absoluteUploadPath, req.url)}`
+    });
 });
 
-// Diagnostics Route (Dev/Debug only or keep simple for admin)
+// Diagnostics Route
 app.get('/api/debug/files', async (req, res) => {
     const fs = require('fs');
-    const rootUploads = path.join(__dirname, '..', 'uploads');
+    const rootUploads = path.join(process.cwd(), 'uploads');
     
     const getContents = (dir) => {
         try {
@@ -65,10 +83,16 @@ app.get('/api/debug/files', async (req, res) => {
     };
 
     res.json({
+        cwd: process.cwd(),
+        dirname: __dirname,
         root: rootUploads,
         exists: fs.existsSync(rootUploads),
-        theses: getContents(path.join(rootUploads, 'theses')),
-        publications: getContents(path.join(rootUploads, 'publications'))
+        is_production: isProduction,
+        disk_structure: {
+            root: getContents(rootUploads),
+            theses: getContents(path.join(rootUploads, 'theses')),
+            publications: getContents(path.join(rootUploads, 'publications'))
+        }
     });
 });
 
