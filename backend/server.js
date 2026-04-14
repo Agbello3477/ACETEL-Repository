@@ -101,18 +101,19 @@ app.get('/api/debug/cloudinary-test', async (req, res) => {
     const cloudinary = require('cloudinary').v2;
     try {
         const streamifier = require('streamifier');
-        // A simple text buffer to avoid parser errors
-        const dummyBuffer = Buffer.from('Hello Cloudinary - This is a diagnostic test for ACETEL ADTRS.');
+        // A minimal but valid 1-page PDF
+        const dummyBuffer = Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>\nendobj\n4 0 obj\n<< /Length 44 >>\nstream\nBT /F1 12 Tf 72 720 Td (Diagnostic PDF Test) Tj ET\nendstream\nendobj\ntrailer\n<< /Size 5 /Root 1 0 R >>\n%%EOF');
         
         const uploadResponse = await new Promise((resolve, reject) => {
             const stream = cloudinary.uploader.upload_stream(
                 {
-                    folder: 'ADTRS/debug',
+                    folder: 'ADTRS/fresh-test',     // A fresh folder to bypass possible folder blocks
                     upload_preset: 'adtrs_preset',
-                    resource_type: 'raw',
+                    resource_type: 'image',         // Use 'image' (for viewing in tab)
+                    format: 'pdf',
                     access_mode: 'public',
                     type: 'upload',
-                    public_id: `debug-text-${Date.now()}`
+                    public_id: `view-test-${Date.now()}`
                 },
                 (error, result) => {
                     if (result) resolve(result);
