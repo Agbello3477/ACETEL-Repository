@@ -172,8 +172,18 @@ const createThesis = async (req, res) => {
     else if (programme === 'Cybersecurity') dbProgramme = 'Cyber Security';
     else if (programme === 'MIS') dbProgramme = 'Management Information System';
 
-    // Determine status: 'Submitted' (default) or 'Draft'
-    const thesisStatus = status === 'Draft' ? 'Draft' : 'Submitted';
+    // Determine status: Preserve 'Approved' if admin/staff, otherwise default to 'Submitted'
+    let thesisStatus = 'Submitted';
+    if (status) {
+        if (['Approved', 'Locked', 'Submitted', 'Draft'].includes(status)) {
+            thesisStatus = status;
+        }
+    }
+    
+    // If user is a student, they can only submit as 'Submitted' or 'Draft'
+    if (req.user.role === 'Student' && !['Draft', 'Submitted'].includes(thesisStatus)) {
+        thesisStatus = 'Submitted';
+    }
 
     let author_name_val = '';
     let author_matric_val = '';
@@ -182,29 +192,36 @@ const createThesis = async (req, res) => {
         if (req.body.student_name) author_name_val = req.body.student_name;
         else {
             const u = await db.query('SELECT full_name, matric_number FROM users WHERE user_id = $1', [author_id]);
-            author_name_val = u.rows[0].full_name;
-            author_matric_val = u.rows[0].matric_number;
+            if (u.rows.length > 0) {
+                author_name_val = u.rows[0].full_name;
+                author_matric_val = u.rows[0].matric_number;
+            }
         }
     } else {
         // Unregistered
-        author_name_val = req.body.student_name;
-        author_matric_val = matric_number;
+        author_name_val = req.body.student_name || 'Unknown Student';
+        author_matric_val = matric_number || null;
     }
 
+    // Clean up empty strings to NULL for DB
+    const finalMatric = (author_matric_val && author_matric_val.trim() !== '') ? author_matric_val : null;
+    const finalAuthorId = author_id || null;
+    const finalAuthorName = author_name_val || null;
+
     try {
-        // Prevent Duplicate Matric Number Uploads
-        if (author_matric_val) {
-            const existingMatch = await db.query('SELECT thesis_id FROM theses WHERE matric_number = $1', [author_matric_val]);
+        // Prevent Duplicate Matric Number Uploads (Only if not Draft)
+        if (finalMatric && thesisStatus !== 'Draft') {
+            const existingMatch = await db.query('SELECT thesis_id FROM theses WHERE matric_number = $1 AND status != \'Draft\'', [finalMatric]);
             if (existingMatch.rows.length > 0) {
-                return res.status(400).json({ message: `Upload Rejected: A thesis with Matric No. ${author_matric_val} already exists in the system.` });
+                return res.status(400).json({ message: `Upload Rejected: A thesis with Matric No. ${finalMatric} already exists in the system.` });
             }
         }
 
         // 1. Insert Thesis
-        const graduationYearInt = parseInt(year, 10);
+        const graduationYearInt = parseInt(year, 10) || new Date().getFullYear();
         const newThesis = await db.query(
             'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, public_id, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
-            [title, abstract, keywordsArray, author_id, author_name_val, author_matric_val, supervisorsArray, dbProgramme, degree, graduationYearInt, pdf_url, public_id, fileHash, thesisStatus]
+            [title, abstract, keywordsArray, finalAuthorId, finalAuthorName, finalMatric, supervisorsArray, dbProgramme, degree, graduationYearInt, pdf_url, public_id, fileHash, thesisStatus]
         );
 
         const thesisId = newThesis.rows[0].thesis_id;
