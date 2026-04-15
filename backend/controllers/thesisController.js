@@ -254,24 +254,24 @@ const createThesis = async (req, res) => {
     } catch (error) {
         console.error('CRITICAL THESIS UPLOAD ERROR:', error);
         
-        // LOG TO DB (Trap the error so we can read it directly)
-        try {
-            await db.query(
-                'INSERT INTO server_error_logs (error_message, error_detail, error_stack, context) VALUES ($1, $2, $3, $4)',
-                [error.message, error.detail || 'No detail', error.stack, 'Thesis Upload']
-            );
-        } catch (logErr) {
-            console.error('Failed to log error to DB:', logErr);
-        }
-
-        // Return detailed error to help troubleshoot constraint violations
+        // Return exhaustive details to identifying the failing field
         res.status(500).json({ 
             message: 'Thesis upload failed on database', 
             error: error.message,
             detail: error.detail,
             code: error.code,
             stack: error.stack,
-            hint: 'Check if all required fields (Year, Programme) are in correct format.'
+            attempted_data: {
+                title, 
+                author_id: finalAuthorId,
+                author_name: finalAuthorName,
+                matric: finalMatric,
+                programme: dbProgramme,
+                degree,
+                year: graduationYearInt,
+                status: thesisStatus
+            },
+            hint: 'Check if all required fields are in the correct format. The attempted_data above shows what the server tried to save.'
         });
     }
 };
