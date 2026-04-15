@@ -212,7 +212,7 @@ const createThesis = async (req, res) => {
 
     // Clean up empty strings to NULL for DB
     const finalMatric = (author_matric_val && author_matric_val.trim() !== '') ? author_matric_val : null;
-    const finalAuthorId = author_id || null;
+    const finalAuthorId = author_id ? parseInt(author_id, 10) : null;
     const finalAuthorName = author_name_val || null;
 
     try {
@@ -258,7 +258,9 @@ const createThesis = async (req, res) => {
         res.status(500).json({ 
             message: 'Thesis upload failed on database', 
             error: error.message,
-            detail: error.detail, // This will reveal if a column is missing or type is wrong
+            detail: error.detail,
+            code: error.code,
+            stack: error.stack,
             hint: 'Check if all required fields (Year, Programme) are in correct format.'
         });
     }

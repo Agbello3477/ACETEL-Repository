@@ -12,13 +12,13 @@ const config = match ? {
     host: match[3],
     port: match[4],
     database: decodeURIComponent(match[5]),
-    connectionTimeoutMillis: 5000,
-    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+    idleTimeoutMillis: 60000,
     max: 10
 } : {
     connectionString: process.env.DATABASE_URL,
-    connectionTimeoutMillis: 5000,
-    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+    idleTimeoutMillis: 60000,
     max: 10
 };
 
