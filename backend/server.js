@@ -5,12 +5,15 @@ const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 
 const fs = require('fs');
-const envPath = path.join(__dirname, '.env');
+// Align .env loading with db.js (Root level)
+const envPath = path.join(__dirname, '..', '.env');
 if (fs.existsSync(envPath)) {
     dotenv.config({ path: envPath });
-    console.log('Dotenv loading from:', envPath);
+    console.log('Dotenv loading from root:', envPath);
 } else {
-    console.log('No .env file found; assuming environment variables are provided by the platform (e.g., Render).');
+    // Fallback to backend/.env if root not found
+    dotenv.config();
+    console.log('Using default dotenv loading.');
 }
 
 const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() === 'production';
@@ -18,7 +21,7 @@ const isProduction = process.env.NODE_ENV && process.env.NODE_ENV.trim().toLower
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure Upload Directories Exist
+// Ensure Upload Directories Exist (Hardened with Try-Catch)
 const uploadPaths = [
     path.join(process.cwd(), 'uploads'),
     path.join(process.cwd(), 'uploads', 'theses'),
@@ -26,9 +29,13 @@ const uploadPaths = [
 ];
 
 uploadPaths.forEach(p => {
-    if (!fs.existsSync(p)) {
-        fs.mkdirSync(p, { recursive: true });
-        console.log('Created missing directory:', p);
+    try {
+        if (!fs.existsSync(p)) {
+            fs.mkdirSync(p, { recursive: true });
+            console.log('Created missing directory:', p);
+        }
+    } catch (dirErr) {
+        console.warn(`Warning: Could not create directory ${p}. This is usually fine on ephemeral cloud environments like Render if you are using Cloudinary.`, dirErr.message);
     }
 });
 
@@ -37,18 +44,30 @@ const rateLimit = require('express-rate-limit');
 app.use(cors());
 app.use(express.json());
 
+// Ping / Heartbeat Endpoint (Defined FIRST for reliability)
+app.get('/api/ping', (req, res) => {
+    res.json({ 
+        status: 'alive', 
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || 'development'
+    });
+});
+
 // Request Logger
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    console.log('Body:', req.body);
+    // Only log body for small non-file requests to prevent console lag
+    if (req.body && !req.body.pdf) {
+        // console.log('Body:', req.body);
+    }
     next();
 });
 
-// Rate Limiting
+// Rate Limiting (Relaxed for testing and resiliency)
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
+    windowMs: 5 * 60 * 1000, // Reduced to 5 minutes
+    max: 1000, // Increased to 1000 requests to prevent blocking legitimate users during troubleshooting
+    message: { message: 'Too many requests, please try again later.' }
 });
 app.use(limiter);
 

@@ -60,17 +60,23 @@ const SubmitThesisForm = ({ onComplete }) => {
                 body: data
             });
 
-            const result = await response.json();
-
             if (response.ok) {
+                const result = await response.json();
                 setMessage({ type: 'success', text: 'Thesis uploaded successfully! Refreshing dashboard...' });
                 setTimeout(() => onComplete(), 2000);
             } else {
-                setMessage({ type: 'error', text: result.message || 'Upload failed' });
+                let errorMsg = 'Upload failed';
+                try {
+                    const result = await response.json();
+                    errorMsg = result.message || `Upload failed (Status: ${response.status})`;
+                } catch (e) {
+                    errorMsg = `Server error (Status: ${response.status})`;
+                }
+                setMessage({ type: 'error', text: errorMsg });
             }
         } catch (err) {
-            setMessage({ type: 'error', text: 'Server connection error. Please try again.' });
-            console.error(err);
+            setMessage({ type: 'error', text: `Connection lost. The server may be restarting or your request was blocked. (Network Error)` });
+            console.error('Fetch Error:', err);
         } finally {
             setLoading(false);
         }
