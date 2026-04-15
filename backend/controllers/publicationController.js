@@ -2,9 +2,10 @@ const db = require('../config/db');
 const fs = require('fs');
 const path = require('path');
 const cloudinary = require('../config/cloudinaryConfig');
-const streamifier = require('streamifier');
+const cloudinary = require('../config/cloudinaryConfig');
+// streamifier no longer needed as we use fs.createReadStream from Disk
 
-// Helper: Stream Upload to Cloudinary
+// Helper: Stream Upload to Cloudinary (Zero-RAM)
 const streamUpload = (req, folder) => {
     return new Promise((resolve, reject) => {
         if (!process.env.CLOUDINARY_CLOUD_NAME) {
@@ -21,12 +22,21 @@ const streamUpload = (req, folder) => {
                 public_id: `file-${Date.now()}`
             },
             (error, result) => {
+                // Cleanup temp file after attempt
+                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
+                
                 if (result) resolve(result);
                 else reject(error);
             }
         );
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
+        if (req.file && req.file.path) {
+            fs.createReadStream(req.file.path).pipe(stream);
+        } else {
+            reject(new Error("No file path found for streaming"));
+        }
     });
 };
 
@@ -46,15 +56,24 @@ const createPublication = async (req, res) => {
                 public_id = cloudResult.public_id;
             } catch (err) {
                 console.error('Cloudinary Pub Stream Error:', err);
+                // Cleanup temp file even on error
+                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
                 return res.status(500).json({ message: 'Error streaming to cloud storage' });
             }
         } else {
+            // Local fallback (file is already on disk in temp folder, move it)
             const filename = `pub-${Date.now()}.pdf`;
-            const localPath = path.join(process.cwd(), 'uploads', 'publications', filename);
+            const destPath = path.join(process.cwd(), 'uploads', 'publications', filename);
+            const destDir = path.dirname(destPath);
+            if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+
             try {
-                fs.writeFileSync(localPath, req.file.buffer);
+                fs.renameSync(req.file.path, destPath);
                 pdf_url = `uploads/publications/${filename}`;
             } catch (err) {
+                console.error('Local Move Error:', err);
                 return res.status(500).json({ message: 'Error saving file locally' });
             }
         }

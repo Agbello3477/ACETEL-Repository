@@ -3,14 +3,21 @@ const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
 const cloudinary = require('../config/cloudinaryConfig');
-const streamifier = require('streamifier');
+const cloudinary = require('../config/cloudinaryConfig');
+// streamifier no longer needed as we use fs.createReadStream from Disk
 
-// Helper to calculate file hash from buffer
-const getBufferHash = (buffer) => {
-    return crypto.createHash('sha256').update(buffer).digest('hex');
+// Helper to calculate file hash from disk file (Zero-RAM)
+const getFileHash = (filePath) => {
+    return new Promise((resolve, reject) => {
+        const hash = crypto.createHash('sha256');
+        const stream = fs.createReadStream(filePath);
+        stream.on('data', data => hash.update(data));
+        stream.on('end', () => resolve(hash.digest('hex')));
+        stream.on('error', err => reject(err));
+    });
 };
 
-// Helper: Stream Upload to Cloudinary
+// Helper: Stream Upload to Cloudinary (Zero-RAM)
 const streamUpload = (req, folder) => {
     return new Promise((resolve, reject) => {
         if (!process.env.CLOUDINARY_CLOUD_NAME) {
@@ -27,12 +34,21 @@ const streamUpload = (req, folder) => {
                 public_id: `file-${Date.now()}`
             },
             (error, result) => {
+                // Cleanup temp file after attempt
+                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
+                
                 if (result) resolve(result);
                 else reject(error);
             }
         );
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
+        if (req.file && req.file.path) {
+            fs.createReadStream(req.file.path).pipe(stream);
+        } else {
+            reject(new Error("No file path found for streaming"));
+        }
     });
 };
 
@@ -72,7 +88,11 @@ const createThesis = async (req, res) => {
     let fileHash = null;
 
     if (req.file) {
-        fileHash = getBufferHash(req.file.buffer);
+        try {
+            fileHash = await getFileHash(req.file.path);
+        } catch (hErr) {
+            console.error('Hash calculation fail:', hErr);
+        }
 
         if (process.env.CLOUDINARY_CLOUD_NAME) {
             try {
@@ -82,17 +102,24 @@ const createThesis = async (req, res) => {
                 console.log('Thesis uploaded Authenticated to Cloudinary:', public_id);
             } catch (err) {
                 console.error('Cloudinary Stream Error:', err);
+                // Cleanup temp file even on error
+                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
                 return res.status(500).json({ message: 'Error streaming to cloud storage' });
             }
         } else {
-            // Fallback: Save to local disk manually since we used memoryStorage
+            // Local fallback (file is already on disk in temp folder, move it)
             const filename = `thesis-${Date.now()}.pdf`;
-            const localPath = path.join(process.cwd(), 'uploads', 'theses', filename);
+            const destPath = path.join(process.cwd(), 'uploads', 'theses', filename);
+            const destDir = path.dirname(destPath);
+            if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+            
             try {
-                fs.writeFileSync(localPath, req.file.buffer);
+                fs.renameSync(req.file.path, destPath);
                 pdf_url = `uploads/theses/${filename}`;
             } catch (err) {
-                console.error('Local Write Error:', err);
+                console.error('Local Move Error:', err);
                 return res.status(500).json({ message: 'Error saving file locally' });
             }
         }

@@ -6,9 +6,19 @@ const cloudinary = require('../config/cloudinaryConfig');
 // Configure Cloudinary (Middleware uses the central config now)
 console.log('Upload Middleware: Cloudinary Connected');
 
-// Set storage engine to memory
-// This holds the file in RAM temporarily so the controller can stream it to Cloudinary
-const storage = multer.memoryStorage();
+// Set storage engine to Disk (Safer for memory/RAM on large PDFs)
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, '..', 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
 
 // Check file type
 function checkFileType(file, cb) {
