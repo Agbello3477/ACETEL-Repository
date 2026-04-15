@@ -2,7 +2,6 @@ const db = require('../config/db');
 const fs = require('fs');
 const path = require('path');
 const cloudinary = require('../config/cloudinaryConfig');
-const cloudinary = require('../config/cloudinaryConfig');
 // streamifier no longer needed as we use fs.createReadStream from Disk
 
 // Helper: Stream Upload to Cloudinary (Zero-RAM)
