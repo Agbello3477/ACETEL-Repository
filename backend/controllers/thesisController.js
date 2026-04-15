@@ -163,8 +163,15 @@ const createThesis = async (req, res) => {
         }
     }
 
-    // Map values to DB Schema
-    const keywordsArray = keywords ? keywords.split(',').map(k => k.trim()) : [];
+    // Map values to DB Schema (Ensure arrays are strictly objects that node-postgres recognizes)
+    let keywordsArray = [];
+    if (keywords) {
+        if (Array.isArray(keywords)) {
+            keywordsArray = keywords;
+        } else if (typeof keywords === 'string') {
+            keywordsArray = keywords.split(',').map(k => k.trim()).filter(Boolean);
+        }
+    }
 
     // Programme mapping
     let dbProgramme = programme;
@@ -226,12 +233,17 @@ const createThesis = async (req, res) => {
 
         const thesisId = newThesis.rows[0].thesis_id;
 
-        // 2. Insert Audit Log
-        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-        await db.query(
-            'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
-            [req.user.user_id, 'THESIS_UPLOAD', thesisId, ip]
-        );
+        // 2. Insert Audit Log (Decoupled: failure here will not block the 201 response)
+        try {
+            const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+            await db.query(
+                'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+                [req.user.user_id, 'THESIS_UPLOAD', thesisId, ip]
+            );
+        } catch (auditError) {
+            console.error('Non-critical Audit Log Error:', auditError);
+            // We do NOT return or throw here, so the upload is still considered a success
+        }
 
         // 3. Notify Admins
         if (thesisStatus === 'Submitted') {
