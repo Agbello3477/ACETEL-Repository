@@ -7,17 +7,14 @@ const cloudinary = require('../config/cloudinaryConfig');
 // Configure Cloudinary (Middleware uses the central config now)
 console.log('Upload Middleware: Cloudinary Connected');
 
-// Set storage engine to Disk (Safer for memory/RAM on large PDFs)
+// Set storage engine to /tmp (The only guaranteed writable folder on Render/Cloud)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadDir = path.join(__dirname, '..', 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
+        const uploadDir = '/tmp';
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, 'adtrs-' + Date.now() + path.extname(file.originalname));
     }
 });
 

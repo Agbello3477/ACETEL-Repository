@@ -103,23 +103,21 @@ const createThesis = async (req, res) => {
                 console.error('Cloudinary Stream Error:', err);
                 // Cleanup temp file even on error
                 if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-                    fs.unlinkSync(req.file.path);
+                    try { fs.unlinkSync(req.file.path); } catch (e) {}
                 }
-                return res.status(500).json({ message: 'Error streaming to cloud storage' });
+                return res.status(500).json({ message: 'Error streaming to cloud storage', error: err.message });
             }
         } else {
-            // Local fallback (file is already on disk in temp folder, move it)
+            // Local fallback (file is already in /tmp, we just rename it slightly)
             const filename = `thesis-${Date.now()}.pdf`;
-            const destPath = path.join(process.cwd(), 'uploads', 'theses', filename);
-            const destDir = path.dirname(destPath);
-            if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+            const destPath = path.join('/tmp', filename); // Stay in /tmp for safety on cloud
             
             try {
                 fs.renameSync(req.file.path, destPath);
-                pdf_url = `uploads/theses/${filename}`;
+                pdf_url = `/tmp/${filename}`;
             } catch (err) {
                 console.error('Local Move Error:', err);
-                return res.status(500).json({ message: 'Error saving file locally' });
+                return res.status(500).json({ message: 'Error saving file locally', error: err.message });
             }
         }
     } else {
