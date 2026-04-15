@@ -254,6 +254,16 @@ const createThesis = async (req, res) => {
     } catch (error) {
         console.error('CRITICAL THESIS UPLOAD ERROR:', error);
         
+        // LOG TO DB (Trap the error so we can read it directly)
+        try {
+            await db.query(
+                'INSERT INTO server_error_logs (error_message, error_detail, error_stack, context) VALUES ($1, $2, $3, $4)',
+                [error.message, error.detail || 'No detail', error.stack, 'Thesis Upload']
+            );
+        } catch (logErr) {
+            console.error('Failed to log error to DB:', logErr);
+        }
+
         // Return detailed error to help troubleshoot constraint violations
         res.status(500).json({ 
             message: 'Thesis upload failed on database', 
