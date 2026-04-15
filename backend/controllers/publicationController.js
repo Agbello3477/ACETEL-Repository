@@ -100,7 +100,12 @@ const createPublication = async (req, res) => {
         res.status(201).json(newPub.rows[0]);
     } catch (error) {
         console.error('Create Publication Error:', error);
-        res.status(500).json({ message: 'Server error creating publication: ' + error.message });
+        res.status(500).json({ 
+            message: 'Publication upload failed on database', 
+            error: error.message,
+            detail: error.detail,
+            hint: 'Check if dates and required fields are in the correct format.'
+        });
     }
 };
 

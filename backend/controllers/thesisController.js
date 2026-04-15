@@ -201,9 +201,10 @@ const createThesis = async (req, res) => {
         }
 
         // 1. Insert Thesis
+        const graduationYearInt = parseInt(year, 10);
         const newThesis = await db.query(
             'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, public_id, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
-            [title, abstract, keywordsArray, author_id, author_name_val, author_matric_val, supervisorsArray, dbProgramme, degree, year, pdf_url, public_id, fileHash, thesisStatus]
+            [title, abstract, keywordsArray, author_id, author_name_val, author_matric_val, supervisorsArray, dbProgramme, degree, graduationYearInt, pdf_url, public_id, fileHash, thesisStatus]
         );
 
         const thesisId = newThesis.rows[0].thesis_id;
@@ -224,11 +225,12 @@ const createThesis = async (req, res) => {
     } catch (error) {
         console.error('CRITICAL THESIS UPLOAD ERROR:', error);
         
-        // Return detailed error if in dev or helpful message
+        // Return detailed error to help troubleshoot constraint violations
         res.status(500).json({ 
-            message: 'Thesis upload failed on server', 
-            details: error.message,
-            hint: 'Please ensure the PDF is valid and all required fields are filled correctly.'
+            message: 'Thesis upload failed on database', 
+            error: error.message,
+            detail: error.detail, // This will reveal if a column is missing or type is wrong
+            hint: 'Check if all required fields (Year, Programme) are in correct format.'
         });
     }
 };
