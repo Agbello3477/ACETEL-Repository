@@ -213,17 +213,9 @@ const createThesis = async (req, res) => {
     const finalAuthorId = author_id ? parseInt(author_id, 10) : null;
     const finalAuthorName = author_name_val || null;
 
+    const graduationYearInt = parseInt(year, 10) || new Date().getFullYear();
     try {
         // Prevent Duplicate Matric Number Uploads (Only if not Draft)
-        if (finalMatric && thesisStatus !== 'Draft') {
-            const existingMatch = await db.query('SELECT thesis_id FROM theses WHERE matric_number = $1 AND status != \'Draft\'', [finalMatric]);
-            if (existingMatch.rows.length > 0) {
-                return res.status(400).json({ message: `Upload Rejected: A thesis with Matric No. ${finalMatric} already exists in the system.` });
-            }
-        }
-
-        // 1. Insert Thesis
-        const graduationYearInt = parseInt(year, 10) || new Date().getFullYear();
         const newThesis = await db.query(
             'INSERT INTO theses (title, abstract, keywords, author_id, author_name, matric_number, supervisors, programme, degree, graduation_year, pdf_url, public_id, file_hash, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
             [title, abstract, keywordsArray, finalAuthorId, finalAuthorName, finalMatric, supervisorsArray, dbProgramme, degree, graduationYearInt, pdf_url, public_id, fileHash, thesisStatus]
