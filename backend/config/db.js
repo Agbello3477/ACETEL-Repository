@@ -12,14 +12,14 @@ const config = match ? {
     host: match[3],
     port: match[4],
     database: decodeURIComponent(match[5]),
-    connectionTimeoutMillis: 10000,
-    idleTimeoutMillis: 60000,
-    max: 10
+    connectionTimeoutMillis: 5000, // Reduced from 10s to fail/release faster
+    idleTimeoutMillis: 30000,      // Reduced from 60s
+    max: 20                        // Increased from 10 to 20
 } : {
     connectionString: process.env.DATABASE_URL,
-    connectionTimeoutMillis: 10000,
-    idleTimeoutMillis: 60000,
-    max: 10
+    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 30000,
+    max: 20
 };
 
 console.log("Explicit DB Config Used:", { ...config, password: '***' });

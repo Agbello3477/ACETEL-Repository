@@ -16,41 +16,7 @@ const getFileHash = (filePath) => {
     });
 };
 
-// Helper: Stream Upload to Cloudinary (Zero-RAM)
-const streamUpload = (req, folder) => {
-    return new Promise((resolve, reject) => {
-        if (!process.env.CLOUDINARY_CLOUD_NAME) {
-            return reject(new Error('Cloudinary not configured'));
-        }
-
-        const stream = cloudinary.uploader.upload_stream(
-            {
-                folder: `ADTRS/${folder}`,
-                upload_preset: 'adtrs_preset',   
-                resource_type: 'image',         // Using 'image' for PDFs (required for tab view)
-                format: 'pdf',
-                type: 'authenticated',          // High-security: only signed URLs can access
-                public_id: `file-${Date.now()}`
-            },
-            (error, result) => {
-                // Cleanup temp file after attempt
-                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-                    fs.unlinkSync(req.file.path);
-                }
-                
-                if (result) resolve(result);
-                else reject(error);
-            }
-        );
-
-        if (req.file && req.file.path) {
-            fs.createReadStream(req.file.path).pipe(stream);
-        } else {
-            reject(new Error("No file path found for streaming"));
-        }
-    });
-};
-
+// No longer using custom stream helper as we now use SDK's atomic upload from /tmp disk
 // Helper: Create Notification
 const notifyUser = async (userId, message, type = 'info') => {
     if (!userId) return;
@@ -95,17 +61,25 @@ const createThesis = async (req, res) => {
 
         if (process.env.CLOUDINARY_CLOUD_NAME) {
             try {
-                const cloudResult = await streamUpload(req, 'theses');
+                // Atomic SDK Upload (More robust than manual streaming for production)
+                const cloudResult = await cloudinary.uploader.upload(req.file.path, {
+                    folder: 'ADTRS/theses',
+                    resource_type: 'image',
+                    format: 'pdf',
+                    type: 'authenticated'
+                });
+
                 pdf_url = cloudResult.secure_url;
                 public_id = cloudResult.public_id;
-                console.log('Thesis uploaded Authenticated to Cloudinary:', public_id);
+                console.log('Thesis uploaded Atomics:', public_id);
+
+                // Immediate cleanup of successfully processed file
+                try { if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path); } catch (e) {}
             } catch (err) {
-                console.error('Cloudinary Stream Error:', err);
-                // Cleanup temp file even on error
-                if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-                    try { fs.unlinkSync(req.file.path); } catch (e) {}
-                }
-                return res.status(500).json({ message: 'Error streaming to cloud storage', error: err.message });
+                console.error('Cloudinary Atomic Error:', err);
+                // Cleanup on error
+                try { if (req.file && req.file.path && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path); } catch (e) {}
+                return res.status(500).json({ message: 'Error uploading to cloud storage', error: err.message });
             }
         } else {
             // Local fallback (file is already in /tmp, we just rename it slightly)
