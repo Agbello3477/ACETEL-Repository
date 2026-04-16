@@ -117,8 +117,20 @@ if (isProduction) {
 }
 
 // Global Error Handler (The Safety Net for Silent 500s)
-app.use((err, req, res, next) => {
+app.use(async (err, req, res, next) => {
     console.error('SERVER CRASH CAPTURED:', err);
+    
+    // Final Attempt to log to DB
+    try {
+        const db = require('./config/db');
+        await db.query(
+            'INSERT INTO server_error_logs (error_message, error_detail, error_stack, context) VALUES ($1, $2, $3, $4)',
+            [err.message, 'GLOBAL_CRASH', err.stack, `URL: ${req.url}`]
+        );
+    } catch (dbErr) {
+        console.error('Final DB Logging Fail:', dbErr);
+    }
+
     res.status(500).json({
         status: 'Error',
         message: 'A critical server error occurred.',
