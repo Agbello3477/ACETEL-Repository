@@ -107,7 +107,8 @@ const signUrlIfAvailable = (pub) => {
         pub.pdf_url = cloudinary.url(pub.public_id, {
             secure: true,
             resource_type: 'image',
-            format: 'pdf'
+            format: 'pdf',
+            flags: 'attachment:false'
         });
     }
     return pub;

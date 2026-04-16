@@ -270,7 +270,8 @@ const signUrlIfAvailable = (thesis) => {
         thesis.pdf_url = cloudinary.url(thesis.public_id, {
             secure: true,
             resource_type: 'image',
-            format: 'pdf'
+            format: 'pdf',
+            flags: 'attachment:false'
         });
     }
     return thesis;
