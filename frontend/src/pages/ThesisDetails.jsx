@@ -173,6 +173,17 @@ const ThesisDetails = () => {
                              <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">Official Document Preview</span>
                         </div>
                         <div className="flex items-center space-x-4">
+                             {/* Diagnostic Direct Link to bypass iframe issues */}
+                             {thesis.pdf_url && (
+                                <a 
+                                    href={thesis.pdf_url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-[10px] font-black text-sky-400 bg-sky-400/10 hover:bg-sky-400/20 px-3 py-1.5 rounded transition-colors"
+                                >
+                                    OPEN IN NEW TAB
+                                </a>
+                             )}
                              <div className="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">PROTECTED VIEW</div>
                         </div>
                     </div>
