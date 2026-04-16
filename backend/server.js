@@ -114,11 +114,19 @@ if (isProduction) {
             res.sendFile(path.join(staticPath, 'index.html'));
         });
     }
-} else {
-    app.get('/', (req, res) => {
-        res.send('ADTRS API is running in Development mode. (Use NODE_ENV=production to serve website)');
-    });
 }
+
+// Global Error Handler (The Safety Net for Silent 500s)
+app.use((err, req, res, next) => {
+    console.error('SERVER CRASH CAPTURED:', err);
+    res.status(500).json({
+        status: 'Error',
+        message: 'A critical server error occurred.',
+        error: err.message,
+        stack: err.stack,
+        path: req.url
+    });
+});
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT} (0.0.0.0)`);
