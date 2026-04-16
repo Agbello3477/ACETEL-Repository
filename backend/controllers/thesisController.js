@@ -61,12 +61,10 @@ const createThesis = async (req, res) => {
 
         if (process.env.CLOUDINARY_CLOUD_NAME) {
             try {
-                // Atomic SDK Upload (More robust than manual streaming for production)
                 const cloudResult = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'ADTRS/theses',
                     resource_type: 'image',
-                    format: 'pdf',
-                    type: 'authenticated'
+                    format: 'pdf'
                 });
 
                 pdf_url = cloudResult.secure_url;
@@ -270,12 +268,9 @@ const createThesis = async (req, res) => {
 const signUrlIfAvailable = (thesis) => {
     if (thesis.public_id && process.env.CLOUDINARY_CLOUD_NAME) {
         thesis.pdf_url = cloudinary.url(thesis.public_id, {
-            sign_url: true,
-            type: 'authenticated',
             secure: true,
             resource_type: 'image',
-            format: 'pdf',
-            flags: 'attachment:false'
+            format: 'pdf'
         });
     }
     return thesis;

@@ -22,8 +22,7 @@ const createPublication = async (req, res) => {
                 const cloudResult = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'ADTRS/publications',
                     resource_type: 'image',
-                    format: 'pdf',
-                    type: 'authenticated'
+                    format: 'pdf'
                 });
 
                 pdf_url = cloudResult.secure_url;
@@ -106,12 +105,9 @@ const createPublication = async (req, res) => {
 const signUrlIfAvailable = (pub) => {
     if (pub.public_id && process.env.CLOUDINARY_CLOUD_NAME) {
         pub.pdf_url = cloudinary.url(pub.public_id, {
-            sign_url: true,
-            type: 'authenticated',
             secure: true,
             resource_type: 'image',
-            format: 'pdf',
-            flags: 'attachment:false'
+            format: 'pdf'
         });
     }
     return pub;
