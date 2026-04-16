@@ -273,7 +273,8 @@ const signUrlIfAvailable = (thesis) => {
             sign_url: true,
             type: 'authenticated',
             secure: true,
-            resource_type: 'image'
+            resource_type: 'image',
+            format: 'pdf'
         });
     }
     return thesis;
