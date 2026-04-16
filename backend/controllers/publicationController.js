@@ -110,7 +110,8 @@ const signUrlIfAvailable = (pub) => {
             type: 'authenticated',
             secure: true,
             resource_type: 'image',
-            format: 'pdf'
+            format: 'pdf',
+            flags: 'attachment:false'
         });
     }
     return pub;
