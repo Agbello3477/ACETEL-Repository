@@ -763,8 +763,6 @@ const streamThesisPDF = async (req, res) => {
 
 module.exports = {
     createThesis,
-    getTheses,
-    getThesisById,
     getMyTheses,
     getAllTheses,
     updateThesis,
