@@ -63,8 +63,7 @@ const createThesis = async (req, res) => {
             try {
                 const cloudResult = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'ADTRS/theses',
-                    resource_type: 'raw',
-                    type: 'authenticated'
+                    resource_type: 'raw'
                 });
 
                 pdf_url = cloudResult.secure_url;
@@ -735,51 +734,34 @@ const streamThesisPDF = async (req, res) => {
             return res.status(404).json({ message: 'Local PDF not found' });
         }
 
-        const urlAuth = cloudinary.url(thesis.public_id, { sign_url: true, type: 'authenticated', secure: true, resource_type: 'raw' });
-        const urlUploadSigned = cloudinary.url(thesis.public_id, { sign_url: true, type: 'upload', secure: true, resource_type: 'raw' });
-        const urlPlain = cloudinary.url(thesis.public_id, { secure: true, resource_type: 'raw' });
-        
-        const urlsToTry = [urlAuth, urlUploadSigned, urlPlain, thesis.pdf_url];
-        
         const axios = require('axios');
-        let cloudRes = null;
-        let lastError = null;
-        let successfulUrl = null;
-
-        for (const targetUrl of urlsToTry) {
-            if (!targetUrl) continue;
-            try {
-                const response = await axios({
-                    method: 'get',
-                    url: targetUrl,
-                    responseType: 'stream'
-                });
-                
-                if (response.status === 200) {
-                    cloudRes = response;
-                    successfulUrl = targetUrl;
-                    break;
-                }
-            } catch (err) {
-                lastError = err;
-            }
-        }
-
-        if (!cloudRes) {
-            console.error('All Cloudinary stream strategies failed.');
-            let cloudBody = 'Could not parse error stream';
-            if (lastError && lastError.response && lastError.response.data) {
+        let cloudRes;
+        
+        try {
+            cloudRes = await axios({
+                method: 'get',
+                url: thesis.pdf_url,
+                responseType: 'stream'
+            });
+        } catch (axiosError) {
+            console.error('Cloudinary Axios stream failed:', axiosError.response ? axiosError.response.status : axiosError.message);
+            
+            let cloudBody = '';
+            if (axiosError.response && axiosError.response.data) {
                 try {
-                    cloudBody = '';
-                    for await (const chunk of lastError.response.data) {
+                    // It's a stream, we need to collect it
+                    for await (const chunk of axiosError.response.data) {
                         cloudBody += chunk;
                     }
-                } catch (e) {}
+                } catch (e) {
+                    cloudBody = 'Could not parse error stream';
+                }
             }
+
             return res.status(404).json({ 
                 message: 'Cloud document unreadable',
-                diagnostic_final_url_attempted: urlsToTry[urlsToTry.length - 1],
-                diagnostic_status_code: lastError.response ? lastError.response.status : null,
+                diagnostic_url: thesis.pdf_url,
+                diagnostic_status_code: axiosError.response ? axiosError.response.status : null,
                 diagnostic_error_body: cloudBody
             });
         }

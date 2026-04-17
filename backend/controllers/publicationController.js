@@ -21,8 +21,7 @@ const createPublication = async (req, res) => {
                 // Atomic SDK Upload (More robust than manual streaming for production)
                 const cloudResult = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'ADTRS/publications',
-                    resource_type: 'raw',
-                    type: 'authenticated'
+                    resource_type: 'raw'
                 });
 
                 pdf_url = cloudResult.secure_url;
@@ -105,8 +104,6 @@ const createPublication = async (req, res) => {
 const signUrlIfAvailable = (pub) => {
     if (pub.public_id && process.env.CLOUDINARY_CLOUD_NAME) {
         pub.pdf_url = cloudinary.url(pub.public_id, {
-            sign_url: true,
-            type: 'authenticated',
             secure: true,
             resource_type: 'raw'
         });
