@@ -708,8 +708,63 @@ const deleteThesis = async (req, res) => {
     }
 };
 
+// @desc    Stream Thesis PDF Publicly (Proxy)
+// @route   GET /api/theses/public/:id/stream
+// @access  Public
+const streamThesisPDF = async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Verify thesis is approved before streaming to prevent unauthorized drafted access
+        const result = await db.query("SELECT public_id, pdf_url FROM theses WHERE thesis_id = $1 AND status = 'Approved'", [id]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Thesis not found or not approved for public viewing' });
+        }
+        
+        const thesis = result.rows[0];
+        
+        if (!thesis.public_id || !process.env.CLOUDINARY_CLOUD_NAME) {
+            // Local fallback stream
+            const fs = require('fs');
+            const path = require('path');
+            if (thesis.pdf_url && fs.existsSync(thesis.pdf_url)) {
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'inline');
+                return fs.createReadStream(thesis.pdf_url).pipe(res);
+            }
+            return res.status(404).json({ message: 'Local PDF not found' });
+        }
+
+        const signedUrl = cloudinary.url(thesis.public_id, {
+            sign_url: true,
+            type: 'authenticated',
+            secure: true,
+            resource_type: 'raw'
+        });
+
+        const https = require('https');
+        https.get(signedUrl, (cloudRes) => {
+            if (cloudRes.statusCode !== 200) {
+                console.error('Cloudinary stream failed:', cloudRes.statusCode);
+                return res.status(404).json({ message: 'Cloud document unreadable' });
+            }
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'inline');
+            cloudRes.pipe(res);
+        }).on('error', (err) => {
+            console.error('HTTPS stream error:', err);
+            res.status(500).json({ message: 'Error streaming document' });
+        });
+    } catch (error) {
+        console.error('Stream Error:', error);
+        res.status(500).json({ message: 'Streaming failed' });
+    }
+};
+
 module.exports = {
     createThesis,
+    getTheses,
+    getThesisById,
     getMyTheses,
     getAllTheses,
     updateThesis,
@@ -717,5 +772,6 @@ module.exports = {
     getPublicTheses,
     getPublicThesisById,
     exportTheses,
-    deleteThesis
+    deleteThesis,
+    streamThesisPDF
 };

@@ -174,9 +174,9 @@ const ThesisDetails = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                              {/* Diagnostic Direct Link to bypass iframe issues */}
-                             {thesis.pdf_url && (
+                             {thesis.thesis_id && (
                                 <a 
-                                    href={thesis.pdf_url} 
+                                    href={`/api/theses/public/${thesis.thesis_id}/stream`} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     className="text-[10px] font-black text-sky-400 bg-sky-400/10 hover:bg-sky-400/20 px-3 py-1.5 rounded transition-colors"
@@ -190,15 +190,12 @@ const ThesisDetails = () => {
 
                     {/* Iframe Viewport */}
                     <div className="flex-1 bg-slate-700 shadow-inner relative group overflow-hidden">
-                        {thesis.pdf_url ? (
+                        {thesis.thesis_id ? (
                             <>
                                 {/* Overlay to block context menu in some browsers */}
                                 <div className="absolute inset-0 z-10 pointer-events-none"></div> 
                                 <iframe
-                                    src={thesis.pdf_url?.startsWith('http') 
-                                        ? `${thesis.pdf_url}#toolbar=0&navpanes=0&scrollbar=1`
-                                        : `/${thesis.pdf_url?.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=1`
-                                    }
+                                    src={`/api/theses/public/${thesis.thesis_id}/stream#toolbar=0&navpanes=0&scrollbar=1`}
                                     className="w-full h-full border-none"
                                     title="Thesis Document Viewer"
                                     onLoad={() => {
