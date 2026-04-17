@@ -742,19 +742,25 @@ const streamThesisPDF = async (req, res) => {
             resource_type: 'raw'
         });
 
-        const https = require('https');
-        https.get(signedUrl, (cloudRes) => {
-            if (cloudRes.statusCode !== 200) {
-                console.error('Cloudinary stream failed:', cloudRes.statusCode);
-                return res.status(404).json({ message: 'Cloud document unreadable' });
-            }
+        const axios = require('axios');
+        try {
+            const cloudRes = await axios({
+                method: 'get',
+                url: signedUrl,
+                responseType: 'stream'
+            });
+
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', 'inline');
-            cloudRes.pipe(res);
-        }).on('error', (err) => {
-            console.error('HTTPS stream error:', err);
-            res.status(500).json({ message: 'Error streaming document' });
-        });
+            cloudRes.data.pipe(res);
+        } catch (axiosError) {
+            console.error('Cloudinary Axios stream failed:', axiosError.response ? axiosError.response.status : axiosError.message);
+            if (axiosError.response && axiosError.response.data) {
+                // Pipe Cloudinary's error stream to console to see what exactly they didn't like
+                axiosError.response.data.on('data', chunk => console.error('Cloudinary Body:', chunk.toString()));
+            }
+            return res.status(404).json({ message: 'Cloud document unreadable' });
+        }
     } catch (error) {
         console.error('Stream Error:', error);
         res.status(500).json({ message: 'Streaming failed' });
