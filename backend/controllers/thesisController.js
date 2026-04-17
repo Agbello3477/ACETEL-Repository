@@ -62,11 +62,15 @@ const createThesis = async (req, res) => {
         if (process.env.CLOUDINARY_CLOUD_NAME) {
             try {
                 const path = require('path');
-                const baseName = path.basename(req.file.path, '.pdf'); // Strip .pdf to bypass Cloudinary blockers
-                const cloudResult = await cloudinary.uploader.upload(req.file.path, {
+                const fs = require('fs');
+                
+                // Physically rename the file locally to GUARANTEE Cloudinary does not auto-append .pdf
+                const newLocalPath = req.file.path.replace(/\.pdf$/i, '.dat');
+                fs.renameSync(req.file.path, newLocalPath);
+
+                const cloudResult = await cloudinary.uploader.upload(newLocalPath, {
                     folder: 'ADTRS/theses',
-                    resource_type: 'raw',
-                    public_id: baseName + '.dat' // Spoof as generic binary data
+                    resource_type: 'raw' // Will naturally upload as .dat based on new local path
                 });
 
                 pdf_url = cloudResult.secure_url;
