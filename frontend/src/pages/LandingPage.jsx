@@ -37,7 +37,7 @@ const LandingPage = () => {
 
     // Theses State
     const [theses, setTheses] = useState([]);
-    const [thesisFilters, setThesisFilters] = useState({ q: '', programme: '', year: '' });
+    const [thesisFilters, setThesisFilters] = useState({ q: '', programme: '', year: '', degree: '' });
 
     // Publications State
     const [publications, setPublications] = useState([]);

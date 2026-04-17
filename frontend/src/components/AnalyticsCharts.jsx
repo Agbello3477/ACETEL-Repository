@@ -111,29 +111,25 @@ const AnalyticsCharts = () => {
                     <div className="h-72 w-full flex items-center justify-center">
                         {hasProgData ? (
                             <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={data.programmeData}
-                                        cx="50%"
-                                        cy="50%"
-                                        labelLine={false}
-                                        label={({ name, percent }) => {
-                                            let label = name;
-                                            if (name === 'Artificial Intelligence') label = 'AI';
-                                            if (name === 'Management Information System') label = 'MIS';
-                                            if (name === 'Cyber Security') label = 'CyberSec';
-                                            return `${label} ${(percent * 100).toFixed(0)}%`;
+                                <BarChart data={data.programmeData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                    <XAxis 
+                                        dataKey="name" 
+                                        axisLine={false} 
+                                        tickLine={false} 
+                                        tick={{ fill: '#64748b', fontSize: 10 }}
+                                        tickFormatter={(name) => {
+                                            if (name === 'Artificial Intelligence') return 'AI';
+                                            if (name === 'Management Information System') return 'MIS';
+                                            if (name === 'Cyber Security') return 'CyberSec';
+                                            return name;
                                         }}
-                                        outerRadius="80%"
-                                        fill="#8884d8"
-                                        dataKey="value"
-                                    >
-                                        {data.programmeData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
+                                    />
+                                    <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} />
                                     <Legend verticalAlign="bottom" height={36} iconType="circle" />
-                                </PieChart>
+                                    <Bar dataKey="MSc" stackId="a" fill="#10b981" radius={[0, 0, 4, 4]} barSize={40} />
+                                    <Bar dataKey="PhD" stackId="a" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+                                </BarChart>
                             </ResponsiveContainer>
                         ) : (
                             <div className="text-center text-gray-400">
