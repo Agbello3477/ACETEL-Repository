@@ -755,11 +755,25 @@ const streamThesisPDF = async (req, res) => {
             cloudRes.data.pipe(res);
         } catch (axiosError) {
             console.error('Cloudinary Axios stream failed:', axiosError.response ? axiosError.response.status : axiosError.message);
+            
+            let cloudBody = '';
             if (axiosError.response && axiosError.response.data) {
-                // Pipe Cloudinary's error stream to console to see what exactly they didn't like
-                axiosError.response.data.on('data', chunk => console.error('Cloudinary Body:', chunk.toString()));
+                try {
+                    // It's a stream, we need to collect it
+                    for await (const chunk of axiosError.response.data) {
+                        cloudBody += chunk;
+                    }
+                } catch (e) {
+                    cloudBody = 'Could not parse error stream';
+                }
             }
-            return res.status(404).json({ message: 'Cloud document unreadable' });
+
+            return res.status(404).json({ 
+                message: 'Cloud document unreadable',
+                diagnostic_url: signedUrl,
+                diagnostic_status_code: axiosError.response ? axiosError.response.status : null,
+                diagnostic_error_body: cloudBody
+            });
         }
     } catch (error) {
         console.error('Stream Error:', error);
