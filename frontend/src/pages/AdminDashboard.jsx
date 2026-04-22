@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
     // Filters
     const [thesisFilters, setThesisFilters] = useState({
-        programme: '', degree: '', status: '', year: '', startDate: '', endDate: '', q: ''
+        programme: '', status: '', year: '', startDate: '', endDate: '', q: ''
     });
     const [pubFilters, setPubFilters] = useState({
         journal: '', year: '', q: ''
@@ -496,14 +496,6 @@ const AdminDashboard = () => {
                                         </select>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Degree</label>
-                                        <select name="degree" value={thesisFilters.degree} onChange={(e) => setThesisFilters({...thesisFilters, degree: e.target.value})} className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all ring-inset">
-                                            <option value="">All Degrees</option>
-                                            <option value="MSc">MSc</option>
-                                            <option value="PhD">PhD</option>
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Curatorial Status</label>
                                         <select name="status" value={thesisFilters.status} onChange={(e) => setThesisFilters({...thesisFilters, status: e.target.value})} className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
                                             <option value="">Status (All)</option>
@@ -514,7 +506,7 @@ const AdminDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="mt-8 flex justify-end space-x-3 pt-6 border-t border-slate-100">
-                                    <button onClick={() => setThesisFilters({ programme: '', degree: '', status: '', year: '', startDate: '', endDate: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
+                                    <button onClick={() => setThesisFilters({ programme: '', status: '', year: '', startDate: '', endDate: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
                                     <button 
                                         onClick={() => {
                                             const headers = [['Title', 'Student', 'Programme', 'Status', 'Date']];
