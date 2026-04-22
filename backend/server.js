@@ -40,6 +40,7 @@ uploadPaths.forEach(p => {
 });
 
 // Automated Schema Evolution (Safe Migrations on Startup)
+/*
 (async () => {
     try {
         const db = require('./config/db');
@@ -54,6 +55,7 @@ uploadPaths.forEach(p => {
         // but it highlights exactly why an upload might fail.
     }
 })();
+*/
 
 const rateLimit = require('express-rate-limit');
 
