@@ -16,6 +16,10 @@ const getFileHash = (filePath) => {
     });
 };
 
+const getBufferHash = (buffer) => {
+    return crypto.createHash('sha256').update(buffer).digest('hex');
+};
+
 // No longer using custom stream helper as we now use SDK's atomic upload from /tmp disk
 // Helper: Create Notification
 const notifyUser = async (userId, message, type = 'info') => {

@@ -45,6 +45,7 @@ uploadPaths.forEach(p => {
         const db = require('./config/db');
         console.log('Running automated schema check...');
         await db.query('ALTER TABLE theses ADD COLUMN IF NOT EXISTS public_id TEXT');
+        await db.query('ALTER TABLE theses ADD COLUMN IF NOT EXISTS degree VARCHAR(50) DEFAULT \'MSc\'');
         await db.query('ALTER TABLE publications ADD COLUMN IF NOT EXISTS public_id TEXT');
         console.log('Database Schema Verified: public_id columns present.');
     } catch (err) {
