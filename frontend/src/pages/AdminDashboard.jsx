@@ -521,12 +521,47 @@ const AdminDashboard = () => {
                                     <button onClick={() => setThesisFilters({ programme: '', status: '', year: '', startDate: '', endDate: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
                                     <button 
                                         onClick={() => {
-                                            const headers = [['Title', 'Student', 'Programme', 'Status', 'Date']];
-                                            const data = theses.map(t => [t.title, t.author_name || t.author_account_name, t.programme, t.status, new Date(t.created_at).toLocaleDateString()]);
                                             const doc = new jsPDF('l');
-                                            doc.text("ATPRS Thesis Export", 14, 15);
-                                            autoTable(doc, { head: headers, body: data, startY: 20 });
-                                            doc.save('atprs_theses.pdf');
+                                            const headers = [['S/N', 'Title', 'Student', 'Programme', 'Degree', 'Status', 'Date']];
+                                            const data = theses.map((t, index) => [
+                                                index + 1,
+                                                t.title, 
+                                                t.author_name || t.author_account_name, 
+                                                t.programme, 
+                                                t.degree || 'MSc',
+                                                t.status, 
+                                                new Date(t.created_at).toLocaleDateString()
+                                            ]);
+
+                                            // Page Header
+                                            doc.setFontSize(18);
+                                            doc.setTextColor(40);
+                                            doc.text("ACETEL Digital Thesis Repository System (ADTRS)", 14, 15);
+                                            doc.setFontSize(11);
+                                            doc.setTextColor(100);
+                                            doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+
+                                            autoTable(doc, { 
+                                                head: headers, 
+                                                body: data, 
+                                                startY: 30,
+                                                styles: { fontSize: 8, cellPadding: 3 },
+                                                headStyles: { fillStyle: 'f', fillColor: [79, 70, 229], textColor: 255 },
+                                                didDrawPage: (data) => {
+                                                    // Watermark
+                                                    const img = new Image();
+                                                    img.src = '/assets/acetel_logo.png';
+                                                    doc.saveGraphicsState();
+                                                    doc.setGState(new doc.GState({ opacity: 0.1 }));
+                                                    // Center watermark
+                                                    const pageSize = doc.internal.pageSize;
+                                                    const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+                                                    const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                                                    doc.addImage(img, 'PNG', pageWidth / 2 - 50, pageHeight / 2 - 50, 100, 100);
+                                                    doc.restoreGraphicsState();
+                                                }
+                                            });
+                                            doc.save(`ADTRS_Theses_Export_${new Date().getTime()}.pdf`);
                                         }}
                                         className="px-6 py-3 bg-slate-100 text-slate-700 rounded-2xl text-sm font-bold hover:bg-slate-200 transition-all flex items-center"
                                     >
