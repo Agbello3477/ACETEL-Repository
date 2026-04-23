@@ -102,38 +102,45 @@ const AnalyticsCharts = () => {
                     </div>
                 </div>
 
-                {/* Pie Chart: Programme Distribution */}
+                {/* Stacked Bar Chart: Programme & Degree Distribution */}
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-bold mb-6 text-gray-800 flex items-center">
+                    <h3 className="text-lg font-bold mb-2 text-gray-800 flex items-center">
                         <span className="w-2 h-6 bg-emerald-500 rounded-full mr-3"></span>
                         Programme Distribution
                     </h3>
+                    <p className="text-xs text-gray-400 mb-6 ml-5 font-bold uppercase tracking-widest">Density Analysis: MSc vs PhD</p>
                     <div className="h-72 w-full flex items-center justify-center">
                         {hasProgData ? (
                             <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={data.programmeData}
-                                        cx="50%"
-                                        cy="50%"
-                                        labelLine={false}
-                                        label={({ name, percent }) => {
-                                            let label = name;
-                                            if (name === 'Artificial Intelligence') label = 'AI';
-                                            if (name === 'Management Information System') label = 'MIS';
-                                            if (name === 'Cyber Security') label = 'CyberSec';
-                                            return `${label} ${(percent * 100).toFixed(0)}%`;
+                                <BarChart
+                                    data={data.programmeData}
+                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                                    layout="vertical"
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
+                                    <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} />
+                                    <YAxis 
+                                        dataKey="name" 
+                                        type="category" 
+                                        axisLine={false} 
+                                        tickLine={false} 
+                                        width={80}
+                                        tick={({ x, y, payload }) => {
+                                            let label = payload.value;
+                                            if (label === 'Artificial Intelligence') label = 'AI';
+                                            if (label === 'Management Information System') label = 'MIS';
+                                            if (label === 'Cyber Security') label = 'CyberSec';
+                                            return (
+                                                <text x={x} y={y} dy={4} textAnchor="end" fill="#475569" fontSize={10} fontWeight="bold">
+                                                    {label}
+                                                </text>
+                                            );
                                         }}
-                                        outerRadius="80%"
-                                        fill="#8884d8"
-                                        dataKey="value"
-                                    >
-                                        {data.programmeData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <Legend verticalAlign="bottom" height={36} iconType="circle" />
-                                </PieChart>
+                                    />
+                                    <Legend verticalAlign="top" align="right" height={36} iconType="circle" />
+                                    <Bar dataKey="MSc" name="MSc" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} barSize={25} />
+                                    <Bar dataKey="PhD" name="PhD" stackId="a" fill="#0ea5e9" radius={[0, 4, 4, 0]} barSize={25} />
+                                </BarChart>
                             </ResponsiveContainer>
                         ) : (
                             <div className="text-center text-gray-400">

@@ -37,7 +37,7 @@ const LandingPage = () => {
 
     // Theses State
     const [theses, setTheses] = useState([]);
-    const [thesisFilters, setThesisFilters] = useState({ q: '', programme: '', year: '' });
+    const [thesisFilters, setThesisFilters] = useState({ q: '', programme: '', degree: '', year: '' });
 
     // Publications State
     const [publications, setPublications] = useState([]);
@@ -345,6 +345,14 @@ const LandingPage = () => {
                                         <option value="Artificial Intelligence">Artificial Intelligence</option>
                                         <option value="Cyber Security">Cyber Security</option>
                                         <option value="Management Information System">MIS</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-700 mb-3">Filter by Degree</h3>
+                                    <select name="degree" onChange={handleThesisFilterChange} value={thesisFilters.degree} className="w-full p-2 border rounded bg-white">
+                                        <option value="">All Degrees</option>
+                                        <option value="MSc">MSc</option>
+                                        <option value="PhD">PhD</option>
                                     </select>
                                 </div>
                                 <div>

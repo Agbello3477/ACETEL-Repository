@@ -21,17 +21,29 @@ const getDashboardOverview = async (req, res) => {
             statusMap[row.status] = parseInt(row.count);
         });
 
-        // 3. Programme Breakdown
+        // 3. Programme Breakdown (Grouped by Degree for Stacked Chart)
         const progReq = await db.query(`
-            SELECT programme, COUNT(*) 
+            SELECT programme, COALESCE(degree, 'MSc') as degree, COUNT(*) 
             FROM theses 
             WHERE status = 'Approved' 
-            GROUP BY programme
+            GROUP BY programme, COALESCE(degree, 'MSc')
         `);
-        const programmeData = progReq.rows.map(row => ({
-            name: row.programme,
-            value: parseInt(row.count)
-        }));
+        
+        // Transform into Stacked Format: [{ name: 'AI', MSc: 10, PhD: 5, total: 15 }, ...]
+        const progMap = {};
+        progReq.rows.forEach(row => {
+            const prog = row.programme || 'Unknown';
+            const degree = (row.degree === 'PhD') ? 'PhD' : 'MSc'; // Standardize
+            const count = parseInt(row.count);
+
+            if (!progMap[prog]) {
+                progMap[prog] = { name: prog, MSc: 0, PhD: 0, total: 0 };
+            }
+            progMap[prog][degree] += count;
+            progMap[prog].total += count;
+        });
+
+        const programmeData = Object.values(progMap).sort((a,b) => b.total - a.total);
 
         // 4. Yearly Trend
         const yearReq = await db.query(`

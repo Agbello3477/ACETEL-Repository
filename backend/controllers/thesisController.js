@@ -16,6 +16,10 @@ const getFileHash = (filePath) => {
     });
 };
 
+const getBufferHash = (buffer) => {
+    return crypto.createHash('sha256').update(buffer).digest('hex');
+};
+
 // No longer using custom stream helper as we now use SDK's atomic upload from /tmp disk
 // Helper: Create Notification
 const notifyUser = async (userId, message, type = 'info') => {
@@ -301,7 +305,7 @@ const getMyTheses = async (req, res) => {
 // @route   GET /api/theses
 // @access  Private (Admin)
 const getAllTheses = async (req, res) => {
-    const { programme, year, status, q, startDate, endDate } = req.query;
+    const { programme, degree, year, status, q, startDate, endDate } = req.query;
 
     let queryText = 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1';
     const queryParams = [];
@@ -321,6 +325,12 @@ const getAllTheses = async (req, res) => {
 
         queryText += ` AND t.programme = $${paramCount}`;
         queryParams.push(dbProg);
+        paramCount++;
+    }
+
+    if (degree) {
+        queryText += ` AND t.degree = $${paramCount}`;
+        queryParams.push(degree);
         paramCount++;
     }
 
@@ -364,7 +374,7 @@ const getAllTheses = async (req, res) => {
 // @route   GET /api/theses/export
 // @access  Private (Admin)
 const exportTheses = async (req, res) => {
-    const { programme, year, status, q, startDate, endDate } = req.query;
+    const { programme, degree, year, status, q, startDate, endDate } = req.query;
 
     let queryText = 'SELECT t.*, u.full_name as author_account_name, u.matric_number as author_account_matric FROM theses t LEFT JOIN users u ON t.author_id = u.user_id WHERE 1=1';
     const queryParams = [];
@@ -385,6 +395,12 @@ const exportTheses = async (req, res) => {
 
         queryText += ` AND t.programme = $${paramCount}`;
         queryParams.push(dbProg);
+        paramCount++;
+    }
+
+    if (degree) {
+        queryText += ` AND t.degree = $${paramCount}`;
+        queryParams.push(degree);
         paramCount++;
     }
 
@@ -627,7 +643,7 @@ const updateThesisStatus = async (req, res) => {
 // @access  Public
 const getPublicTheses = async (req, res) => {
     try {
-        const { q, programme, year } = req.query;
+        const { q, programme, degree, year } = req.query;
         const params = [];
         let query = `
             SELECT thesis_id, title, abstract, author_name, 
@@ -643,6 +659,10 @@ const getPublicTheses = async (req, res) => {
         if (programme && programme.trim() !== '') {
             params.push(programme.trim());
             query += ` AND programme = $${params.length}`;
+        }
+        if (degree && degree.trim() !== '') {
+            params.push(degree.trim());
+            query += ` AND degree = $${params.length}`;
         }
         if (year && year.trim() !== '') {
             params.push(year.trim());
