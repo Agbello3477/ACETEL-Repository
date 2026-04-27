@@ -12,8 +12,14 @@ import autoTable from 'jspdf-autotable';
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('theses'); // 'theses', 'publications', 'logs', 'users'
+    const [activeTab, setActiveTab] = useState(() => {
+        return localStorage.getItem('adminActiveTab') || 'theses';
+    });
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('adminActiveTab', activeTab);
+    }, [activeTab]);
 
     // Data State
     const [theses, setTheses] = useState([]);
