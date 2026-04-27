@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import AdminDashboard from './pages/AdminDashboard';
 import LandingPage from './pages/LandingPage';
 import ThesisDetails from './pages/ThesisDetails';
+import PublicationDetails from './pages/PublicationDetails';
 
 const AdminRoute = ({ children }) => {
   const { user } = useAuth();
@@ -29,6 +30,7 @@ function App() {
           } />
           
           <Route path="/thesis/:id" element={<ThesisDetails />} />
+          <Route path="/publication/:id" element={<PublicationDetails />} />
           <Route path="/" element={<LandingPage />} />
           
           <Route path="*" element={<Navigate to="/" replace />} />

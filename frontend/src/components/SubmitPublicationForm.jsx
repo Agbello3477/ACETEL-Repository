@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
-const SubmitPublicationForm = ({ onComplete }) => {
+const SubmitPublicationForm = ({ onComplete, existingData }) => {
     const [formData, setFormData] = useState({
-        title: '',
-        abstract: '',
-        authors: '',
-        journal_name: '',
-        doi: '',
-        volume: '',
-        issue: '',
-        pages: '',
-        publication_date: new Date().toISOString().split('T')[0],
-        keywords: '',
-        external_link: ''
+        title: existingData?.title || '',
+        abstract: existingData?.abstract || '',
+        authors: Array.isArray(existingData?.authors) ? existingData.authors.join(', ') : (existingData?.authors || ''),
+        journal_name: existingData?.journal_name || '',
+        doi: existingData?.doi || '',
+        volume: existingData?.volume || '',
+        issue: existingData?.issue || '',
+        pages: existingData?.pages || '',
+        publication_date: existingData?.publication_date ? new Date(existingData.publication_date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        keywords: Array.isArray(existingData?.keywords) ? existingData.keywords.join(', ') : (existingData?.keywords || ''),
+        external_link: existingData?.external_link || ''
     });
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -32,7 +32,6 @@ const SubmitPublicationForm = ({ onComplete }) => {
         setMessage({ type: '', text: '' });
 
         const data = new FormData();
-        // Authors as array
         const authorsArray = formData.authors.split(',').map(a => a.trim()).filter(Boolean);
 
         data.append('title', formData.title);
@@ -53,8 +52,11 @@ const SubmitPublicationForm = ({ onComplete }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/publications', {
-                method: 'POST',
+            const url = existingData ? `/api/publications/${existingData.publication_id}` : '/api/publications';
+            const method = existingData ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method: method,
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: data
             });
@@ -62,7 +64,7 @@ const SubmitPublicationForm = ({ onComplete }) => {
             const result = await response.json();
 
             if (response.ok) {
-                setMessage({ type: 'success', text: 'Publication record created successfully!' });
+                setMessage({ type: 'success', text: existingData ? 'Publication record updated successfully!' : 'Publication record created successfully!' });
                 setTimeout(() => onComplete(), 2000);
             } else {
                 setMessage({ type: 'error', text: result.message || 'Submission failed' });
@@ -85,8 +87,12 @@ const SubmitPublicationForm = ({ onComplete }) => {
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14" /></svg>
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black text-slate-800 tracking-tight leading-none mb-1">Publish Center</h2>
-                        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Submit Academic Journal / Article</p>
+                        <h2 className="text-2xl font-black text-slate-800 tracking-tight leading-none mb-1">
+                            {existingData ? 'Edit Publication' : 'Publish Center'}
+                        </h2>
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
+                            {existingData ? `Modifying: ${existingData.title}` : 'Submit Academic Journal / Article'}
+                        </p>
                     </div>
                 </div>
 
@@ -114,17 +120,17 @@ const SubmitPublicationForm = ({ onComplete }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                             <div className="space-y-1.5 md:col-span-2">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Publication Title</label>
-                                <input name="title" type="text" placeholder="The title of the paper or article" onChange={handleChange} required 
+                                <input name="title" type="text" placeholder="The title of the paper or article" value={formData.title} onChange={handleChange} required 
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Authors (Comma Separated)</label>
-                                <input name="authors" type="text" placeholder="Dr. Adamu, Prof. Musa, etc." onChange={handleChange} required 
+                                <input name="authors" type="text" placeholder="Dr. Adamu, Prof. Musa, etc." value={formData.authors} onChange={handleChange} required 
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Journal / Conference Name</label>
-                                <input name="journal_name" type="text" placeholder="e.g. IEEE Access" onChange={handleChange} required 
+                                <input name="journal_name" type="text" placeholder="e.g. IEEE Access" value={formData.journal_name} onChange={handleChange} required 
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none" />
                             </div>
                         </div>
@@ -138,28 +144,28 @@ const SubmitPublicationForm = ({ onComplete }) => {
                         <div className="space-y-6">
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Abstract Highlights</label>
-                                <textarea name="abstract" rows="4" placeholder="Brief summary of the publication..." onChange={handleChange} required 
+                                <textarea name="abstract" rows="4" placeholder="Brief summary of the publication..." value={formData.abstract} onChange={handleChange} required 
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-medium leading-relaxed text-slate-600 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none resize-none"></textarea>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">DOI / URL</label>
-                                    <input name="doi" type="text" placeholder="e.g. 10.1109/..." onChange={handleChange} 
+                                    <input name="doi" type="text" placeholder="e.g. 10.1109/..." value={formData.doi} onChange={handleChange} 
                                         className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-700 outline-none" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Volume</label>
-                                    <input name="volume" type="text" onChange={handleChange} 
+                                    <input name="volume" type="text" value={formData.volume} onChange={handleChange} 
                                         className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-700 outline-none" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Issue</label>
-                                    <input name="issue" type="text" onChange={handleChange} 
+                                    <input name="issue" type="text" value={formData.issue} onChange={handleChange} 
                                         className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-700 outline-none" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Pages</label>
-                                    <input name="pages" type="text" placeholder="e.g. 120-145" onChange={handleChange} 
+                                    <input name="pages" type="text" placeholder="e.g. 120-145" value={formData.pages} onChange={handleChange} 
                                         className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-700 outline-none" />
                                 </div>
                             </div>
@@ -179,7 +185,7 @@ const SubmitPublicationForm = ({ onComplete }) => {
                                 <span className="text-[10px] font-bold text-slate-400">PDF ONLY</span>
                              </div>
                              <div className="relative group">
-                                 <input type="file" accept="application/pdf" onChange={handleFileChange} required 
+                                 <input type="file" accept="application/pdf" onChange={handleFileChange} required={!existingData} 
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
                                  <div className={`w-full border-2 border-dashed rounded-2xl p-4 flex items-center justify-center space-x-3 transition-all ${file ? 'bg-emerald-50 border-emerald-300 text-emerald-600' : 'bg-slate-50 border-slate-200 text-slate-400 group-hover:border-emerald-300 group-hover:bg-emerald-50/50'}`}>
                                     {file ? (
@@ -214,7 +220,7 @@ const SubmitPublicationForm = ({ onComplete }) => {
                                 </div>
                             ) : (
                                 <div className="flex items-center">
-                                    <span>Publish Article</span>
+                                    <span>{existingData ? 'Update Record' : 'Publish Article'}</span>
                                     <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                 </div>
                             )}

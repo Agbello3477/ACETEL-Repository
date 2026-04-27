@@ -18,6 +18,7 @@ const AdminDashboard = () => {
     // Data State
     const [theses, setTheses] = useState([]);
     const [publications, setPublications] = useState([]);
+    const [editingPub, setEditingPub] = useState(null);
     const [users, setUsers] = useState([]);
     const [activityLogs, setActivityLogs] = useState([]);
     const [notifications, setNotifications] = useState([]);
@@ -160,6 +161,23 @@ const AdminDashboard = () => {
             } else {
                 const err = await response.json();
                 alert(`Error: ${err.message || 'Failed to delete thesis'}`);
+            }
+        } catch (err) { console.error(err); }
+    };
+
+    const deletePublication = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this publication record?')) return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/publications/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                fetchPublications();
+            } else {
+                const err = await response.json();
+                alert(`Error: ${err.message || 'Failed to delete publication'}`);
             }
         } catch (err) { console.error(err); }
     };
@@ -726,14 +744,24 @@ const AdminDashboard = () => {
                                                         {p.doi && <div className="text-[10px] font-bold text-emerald-500 mt-1 uppercase tracking-widest">{p.doi}</div>}
                                                     </td>
                                                     <td className="px-8 py-7 text-right space-x-2 whitespace-nowrap">
+                                                        <button 
+                                                            onClick={() => {
+                                                                setEditingPub(p);
+                                                                setActiveTab('upload-pub');
+                                                            }}
+                                                            className="p-2.5 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white transition-all inline-block text-[10px] font-black uppercase tracking-widest"
+                                                        >
+                                                            EDIT
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => deletePublication(p.publication_id)}
+                                                            className="p-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-all inline-block text-[10px] font-black uppercase tracking-widest"
+                                                        >
+                                                            DELETE
+                                                        </button>
                                                         {p.pdf_url && (
-                                                            <a href={p.pdf_url?.startsWith('http') ? p.pdf_url : `/${p.pdf_url}`} target="_blank" className="p-2.5 rounded-xl bg-slate-800 text-white hover:bg-black transition-all inline-block text-xs font-bold uppercase tracking-widest">
+                                                            <a href={p.pdf_url?.startsWith('http') ? p.pdf_url : `/${p.pdf_url}`} target="_blank" className="p-2.5 rounded-xl bg-slate-800 text-white hover:bg-black transition-all inline-block text-[10px] font-black uppercase tracking-widest">
                                                                 PDF
-                                                            </a>
-                                                        )}
-                                                        {p.external_link && (
-                                                            <a href={p.external_link} target="_blank" rel="noreferrer" className="p-2.5 rounded-xl bg-emerald-100 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all inline-block text-xs font-bold uppercase tracking-widest">
-                                                                External
                                                             </a>
                                                         )}
                                                     </td>
@@ -761,7 +789,14 @@ const AdminDashboard = () => {
                     {/* View: Publish Center (Publications) */}
                     {activeTab === 'upload-pub' && (
                         <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-                             <SubmitPublicationForm onComplete={() => setActiveTab('publications')} />
+                             <SubmitPublicationForm 
+                                existingData={editingPub} 
+                                onComplete={() => {
+                                    setEditingPub(null);
+                                    setActiveTab('publications');
+                                    fetchPublications();
+                                }} 
+                             />
                         </div>
                     )}
 

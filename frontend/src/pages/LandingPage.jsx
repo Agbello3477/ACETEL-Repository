@@ -423,10 +423,22 @@ const LandingPage = () => {
                                                     <p className="text-gray-600 text-sm mb-2">{pub.journal_name} {pub.publication_date ? `(${new Date(pub.publication_date).getFullYear()})` : ''}</p>
                                                     {pub.abstract && <p className="text-gray-600 text-sm mb-4 line-clamp-3">{pub.abstract}</p>}
                                                     <div className="flex flex-wrap gap-2 mb-4">
-                                                        {pub.doi && <span className="bg-indigo-50 text-indigo-700 text-xs px-2 py-1 rounded">DOI: {pub.doi}</span>}
-                                                        {(pub.pdf_url || pub.external_link) && (
-                                                            <a href={pub.external_link || (pub.pdf_url?.startsWith('http') ? pub.pdf_url : `/${pub.pdf_url}`)} target="_blank" rel="noreferrer" className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded hover:underline">Access Publication</a>
+                                                        {pub.doi && (
+                                                            <a 
+                                                                href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`} 
+                                                                target="_blank" 
+                                                                rel="noreferrer"
+                                                                className="bg-indigo-50 text-indigo-700 text-xs px-2 py-1 rounded hover:bg-indigo-100 transition-colors"
+                                                            >
+                                                                DOI: {pub.doi}
+                                                            </a>
                                                         )}
+                                                        <Link 
+                                                            to={`/publication/${pub.publication_id}`} 
+                                                            className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded hover:bg-green-100 transition-colors font-bold uppercase tracking-wider"
+                                                        >
+                                                            Access Publication
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>

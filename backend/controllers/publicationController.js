@@ -159,6 +159,160 @@ const getPublications = async (req, res) => {
     }
 };
 
+// @desc    Get Single Publication (Public)
+// @route   GET /api/publications/public/:id
+// @access  Public
+const getPublicPublicationById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await db.query('SELECT * FROM publications WHERE publication_id = $1', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Publication not found' });
+        }
+        res.status(200).json(signUrlIfAvailable(result.rows[0]));
+    } catch (error) {
+        console.error('Fetch Single Publication Error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Stream Publication PDF (Public)
+// @route   GET /api/publications/public/:id/stream
+// @access  Public
+const getPublicPublicationStream = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await db.query('SELECT pdf_url, public_id FROM publications WHERE publication_id = $1', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Publication not found' });
+        }
+        
+        const pub = result.rows[0];
+        if (!pub.pdf_url) {
+            return res.status(404).json({ message: 'PDF not available for this publication' });
+        }
+
+        // Standardize Signed URL
+        const signedPub = signUrlIfAvailable(pub);
+        const targetUrl = signedPub.pdf_url;
+
+        if (!pub.public_id || !process.env.CLOUDINARY_CLOUD_NAME) {
+            // Local fallback
+            if (fs.existsSync(targetUrl)) {
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'inline');
+                return fs.createReadStream(targetUrl).pipe(res);
+            }
+            return res.status(404).json({ message: 'Local PDF not found' });
+        }
+
+        const axios = require('axios');
+        const cloudRes = await axios({
+            method: 'get',
+            url: targetUrl,
+            responseType: 'stream'
+        });
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline');
+        cloudRes.data.pipe(res);
+        
+    } catch (error) {
+        console.error('Publication Stream Error:', error);
+        res.status(500).json({ message: 'Streaming failed' });
+    }
+};
+
+// @desc    Update Publication
+// @route   PUT /api/publications/:id
+// @access  Private (Admin)
+const updatePublication = async (req, res) => {
+    const { id } = req.params;
+    const { title, abstract, authors, journal_name, doi, volume, issue, pages, publication_date, keywords, external_link } = req.body;
+    let pdf_url = null;
+    let public_id = null;
+
+    if (req.file) {
+        if (process.env.CLOUDINARY_CLOUD_NAME) {
+            try {
+                const newLocalPath = req.file.path.replace(/\.pdf$/i, '.dat');
+                fs.renameSync(req.file.path, newLocalPath);
+                const cloudResult = await cloudinary.uploader.upload(newLocalPath, {
+                    folder: 'ADTRS/publications',
+                    resource_type: 'raw'
+                });
+                pdf_url = cloudResult.secure_url;
+                public_id = cloudResult.public_id;
+                try { if (fs.existsSync(newLocalPath)) fs.unlinkSync(newLocalPath); } catch (e) {}
+            } catch (err) {
+                console.error('Cloudinary Update Error:', err);
+                return res.status(500).json({ message: 'Error updating cloud storage' });
+            }
+        }
+    }
+
+    try {
+        const pubRes = await db.query('SELECT * FROM publications WHERE publication_id = $1', [id]);
+        if (pubRes.rows.length === 0) return res.status(404).json({ message: 'Publication not found' });
+        const pub = pubRes.rows[0];
+
+        // Parse Authors and Keywords
+        let authorsArray = pub.authors;
+        if (authors) {
+            try {
+                authorsArray = typeof authors === 'string' && authors.trim().startsWith('[') ? JSON.parse(authors) : authors.split(',').map(a => a.trim());
+            } catch (e) { authorsArray = authors.split(',').map(a => a.trim()); }
+        }
+
+        const keywordsArray = keywords ? keywords.split(',').map(k => k.trim()) : pub.keywords;
+        const pubDate = publication_date ? new Date(publication_date) : pub.publication_date;
+
+        let query = `
+            UPDATE publications 
+            SET title = $1, abstract = $2, authors = $3, journal_name = $4, 
+                doi = $5, volume = $6, issue = $7, pages = $8, 
+                publication_date = $9, keywords = $10, external_link = $11, updated_at = CURRENT_TIMESTAMP
+        `;
+        const params = [
+            title || pub.title,
+            abstract || pub.abstract,
+            authorsArray,
+            journal_name || pub.journal_name,
+            doi || pub.doi,
+            volume || pub.volume,
+            issue || pub.issue,
+            pages || pub.pages,
+            pubDate,
+            keywordsArray,
+            external_link || pub.external_link
+        ];
+
+        let paramCount = 12;
+        if (pdf_url) {
+            query += `, pdf_url = $${paramCount}, public_id = $${paramCount + 1}`;
+            params.push(pdf_url, public_id);
+            paramCount += 2;
+        }
+
+        query += ` WHERE publication_id = $${paramCount} RETURNING *`;
+        params.push(id);
+
+        const updatedPub = await db.query(query, params);
+        
+        // Audit Log
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        await db.query(
+            'INSERT INTO audit_logs (user_id, action, target_id, ip_address) VALUES ($1, $2, $3, $4)',
+            [req.user.user_id, 'PUBLICATION_EDIT', id, ip]
+        );
+
+        res.status(200).json(updatedPub.rows[0]);
+    } catch (error) {
+        console.error('Update Publication Error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // @desc    Delete Publication
 // @route   DELETE /api/publications/:id
 // @access  Private (Admin)
@@ -264,6 +418,9 @@ const exportPublications = async (req, res) => {
 module.exports = {
     createPublication,
     getPublications,
+    getPublicPublicationById,
+    getPublicPublicationStream,
+    updatePublication,
     deletePublication,
     exportPublications
 };
