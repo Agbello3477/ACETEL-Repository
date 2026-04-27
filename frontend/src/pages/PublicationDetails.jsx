@@ -193,7 +193,12 @@ const PublicationDetails = () => {
                     {/* Iframe Viewport */}
                     <div className="flex-1 bg-slate-700 shadow-inner relative group overflow-hidden">
                         {pub.publication_id && pub.pdf_url ? (
-                            <iframe
+                            <>
+                                {/* Overlay Watermark */}
+                                <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center opacity-[0.03] rotate-[-15deg]">
+                                    <img src="/assets/acetel_logo.png" alt="Watermark" className="w-[500px] h-auto select-none" />
+                                </div>
+                                <iframe
                                 src={`/api/publications/public/${pub.publication_id}/stream#toolbar=0&navpanes=0&scrollbar=1`}
                                 className="w-full h-full border-none"
                                 title="Publication Document Viewer"

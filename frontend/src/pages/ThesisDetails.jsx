@@ -192,7 +192,11 @@ const ThesisDetails = () => {
                     <div className="flex-1 bg-slate-700 shadow-inner relative group overflow-hidden">
                         {thesis.thesis_id ? (
                             <>
-                                {/* Overlay to block context menu in some browsers */}
+                                {/* Overlay Watermark */}
+                                <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center opacity-[0.03] rotate-[-15deg]">
+                                    <img src="/assets/acetel_logo.png" alt="Watermark" className="w-[500px] h-auto select-none" />
+                                </div>
+                                {/* Block interaction overlay */}
                                 <div className="absolute inset-0 z-10 pointer-events-none"></div> 
                                 <iframe
                                     src={`/api/theses/public/${thesis.thesis_id}/stream#toolbar=0&navpanes=0&scrollbar=1`}

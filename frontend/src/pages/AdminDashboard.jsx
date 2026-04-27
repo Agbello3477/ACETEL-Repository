@@ -589,8 +589,8 @@ const AdminDashboard = () => {
                                         }}
                                         className="px-6 py-3 bg-slate-100 text-slate-700 rounded-2xl text-sm font-bold hover:bg-slate-200 transition-all flex items-center"
                                     >
-                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                                        Export PDF
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2-8H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-5-5z" /></svg>
+                                        Get PDF
                                     </button>
                                 </div>
                             </div>
@@ -690,9 +690,50 @@ const AdminDashboard = () => {
                                     <h2 className="text-2xl font-black text-slate-800 tracking-tight">Academic Publications</h2>
                                     <p className="text-slate-500 text-sm font-medium">Manage faculty research, journals, and conference papers.</p>
                                 </div>
-                                <button onClick={() => navigate('/admin/submit-publication')} className="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center shadow-xl shadow-emerald-100 hover:shadow-emerald-300 hover:bg-emerald-700 transition-all active:scale-95 self-start">
-                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                                    Add New Work
+                                <button 
+                                    onClick={() => {
+                                        const doc = new jsPDF('l');
+                                        const headers = [['S/N', 'Title', 'Authors', 'Journal', 'DOI', 'Date']];
+                                        const data = publications.map((p, index) => [
+                                            index + 1,
+                                            p.title,
+                                            Array.isArray(p.authors) ? p.authors.join(', ') : p.authors,
+                                            p.journal_name,
+                                            p.doi || 'N/A',
+                                            p.publication_date ? new Date(p.publication_date).toLocaleDateString() : 'N/A'
+                                        ]);
+
+                                        doc.setFontSize(18);
+                                        doc.setTextColor(40);
+                                        doc.text("ACETEL Digital Publication Repository", 14, 15);
+                                        doc.setFontSize(11);
+                                        doc.setTextColor(100);
+                                        doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+
+                                        autoTable(doc, { 
+                                            head: headers, 
+                                            body: data, 
+                                            startY: 30,
+                                            styles: { fontSize: 8, cellPadding: 3 },
+                                            headStyles: { fillStyle: 'f', fillColor: [37, 99, 235], textColor: 255 },
+                                            didDrawPage: (data) => {
+                                                const img = new Image();
+                                                img.src = '/assets/acetel_logo.png';
+                                                doc.saveGraphicsState();
+                                                doc.setGState(new doc.GState({ opacity: 0.1 }));
+                                                const pageSize = doc.internal.pageSize;
+                                                const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+                                                const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                                                doc.addImage(img, 'PNG', pageWidth / 2 - 50, pageHeight / 2 - 50, 100, 100);
+                                                doc.restoreGraphicsState();
+                                            }
+                                        });
+                                        doc.save(`ADTRS_Publications_Export_${new Date().getTime()}.pdf`);
+                                    }}
+                                    className="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center shadow-xl shadow-emerald-100 hover:shadow-emerald-300 hover:bg-emerald-700 transition-all active:scale-95 self-start"
+                                >
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2-8H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-5-5z" /></svg>
+                                    Get PDF
                                 </button>
                             </div>
 
@@ -717,6 +758,53 @@ const AdminDashboard = () => {
                                 </div>
                                 <div className="mt-8 flex justify-end space-x-3 pt-6 border-t border-slate-100">
                                     <button onClick={() => setPubFilters({ journal: '', year: '', q: '' })} className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Reset</button>
+                                    <button 
+                                        onClick={() => {
+                                            const doc = new jsPDF('l');
+                                            const headers = [['S/N', 'Title', 'Authors', 'Journal', 'DOI', 'Date']];
+                                            const data = publications.map((p, index) => [
+                                                index + 1,
+                                                p.title,
+                                                Array.isArray(p.authors) ? p.authors.join(', ') : p.authors,
+                                                p.journal_name,
+                                                p.doi || 'N/A',
+                                                p.publication_date ? new Date(p.publication_date).toLocaleDateString() : 'N/A'
+                                            ]);
+
+                                            // Page Header
+                                            doc.setFontSize(18);
+                                            doc.setTextColor(40);
+                                            doc.text("ACETEL Digital Publication Repository", 14, 15);
+                                            doc.setFontSize(11);
+                                            doc.setTextColor(100);
+                                            doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+
+                                            autoTable(doc, { 
+                                                head: headers, 
+                                                body: data, 
+                                                startY: 30,
+                                                styles: { fontSize: 8, cellPadding: 3 },
+                                                headStyles: { fillStyle: 'f', fillColor: [37, 99, 235], textColor: 255 },
+                                                didDrawPage: (data) => {
+                                                    // Watermark
+                                                    const img = new Image();
+                                                    img.src = '/assets/acetel_logo.png';
+                                                    doc.saveGraphicsState();
+                                                    doc.setGState(new doc.GState({ opacity: 0.1 }));
+                                                    const pageSize = doc.internal.pageSize;
+                                                    const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+                                                    const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                                                    doc.addImage(img, 'PNG', pageWidth / 2 - 50, pageHeight / 2 - 50, 100, 100);
+                                                    doc.restoreGraphicsState();
+                                                }
+                                            });
+                                            doc.save(`ADTRS_Publications_Export_${new Date().getTime()}.pdf`);
+                                        }}
+                                        className="px-6 py-3 bg-slate-100 text-slate-700 rounded-2xl text-sm font-bold hover:bg-slate-200 transition-all flex items-center"
+                                    >
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2-8H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-5-5z" /></svg>
+                                        Get PDF
+                                    </button>
                                 </div>
                             </div>
 
