@@ -199,15 +199,16 @@ const PublicationDetails = () => {
                                     <img src="/assets/acetel_logo.png" alt="Watermark" className="w-[500px] h-auto select-none" />
                                 </div>
                                 <iframe
-                                src={`/api/publications/public/${pub.publication_id}/stream#toolbar=0&navpanes=0&scrollbar=1`}
-                                className="w-full h-full border-none"
-                                title="Publication Document Viewer"
-                                onContextMenu={(e) => e.preventDefault()}
-                            >
-                                <p className="text-white p-10 text-center">
-                                    Your browser does not support embedded PDFs.
-                                </p>
-                            </iframe>
+                                    src={`/api/publications/public/${pub.publication_id}/stream#toolbar=0&navpanes=0&scrollbar=1`}
+                                    className="w-full h-full border-none"
+                                    title="Publication Document Viewer"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                >
+                                    <p className="text-white p-10 text-center">
+                                        Your browser does not support embedded PDFs.
+                                    </p>
+                                </iframe>
+                            </>
                         ) : (
                             <div className="h-full flex flex-col items-center justify-center text-center p-10">
                                 <div className="w-24 h-24 bg-white/5 border border-white/10 rounded-[2.5rem] flex items-center justify-center mb-6 text-white/20">
